@@ -23,17 +23,15 @@ light_blue = 0x00ffff
 # userを探して列番号を返す
 def search_user(user, server):
 	wks = sh.worksheet(server)
-	col = 3
-	cell_name = wks.cell(1, col).value
-	while cell_name is not None:
-		if cell_name == user:
-			return col
-		
-		col = col+1
-		cell_name = wks.cell(1, col).value
+	user_list = wks.row_values(1)
+	col = len(user_list) + 1
 
-	# userが見つからなかったので登録する
-	wks.update_cell(1, col, user)
+	if user in user_list:
+		col = user_list.index(user) + 1
+	else:
+		# userが見つからなかったので登録する
+		wks.update_cell(1, col, user)
+
 	return col
 
 
