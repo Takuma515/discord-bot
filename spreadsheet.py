@@ -1,5 +1,7 @@
 import discord
 import gspread
+import os
+import json
 from oauth2client.service_account import ServiceAccountCredentials
 import math
 
@@ -10,7 +12,8 @@ scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 
 # スプレッドシートにアクセス
-credentials = ServiceAccountCredentials.from_json_keyfile_name(json_file, scope)
+key = os.environ['API_KEY']
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(key), scope)
 gc = gspread.authorize(credentials)
 sh = gc.open(file_name)
 
