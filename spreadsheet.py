@@ -173,7 +173,7 @@ def track_records(server, track, row):
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
 	records = []
-	for i in range(2, len(time_list)):
+	for i in range(1, len(time_list)):
 		if time_list[i] == '':
 			continue
 		records.append([time_list[i], users[i]])
@@ -182,8 +182,18 @@ def track_records(server, track, row):
 	records.sort()
 	for i in range(len(records)):
 		time, user = records[i]
+		user_name = user.split('#')[0]
 		diff = calc_time_diff(time, wr_time)
-		embed.add_field(name=user.split('#')[0], value='> ' + format_time(time)  + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
+
+		if i==0:
+			user_name = f'🥇 {user_name}'
+		elif i==1:
+			user_name = f'🥈 {user_name}'
+		elif i==2:
+			user_name = f'🥉 {user_name}'
+		else:
+			user_name = f'{i+1}. {user_name}'
+		embed.add_field(name=user_name, value='> ' + format_time(time)  + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
 
 	return embed
 
