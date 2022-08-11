@@ -6,7 +6,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 import math
 
 # 設定
-json_file = 'nita-spread-510ceb792773.json'
 file_name = 'NITA'
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
