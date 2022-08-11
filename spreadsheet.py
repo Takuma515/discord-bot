@@ -56,10 +56,11 @@ def get_thumbnail_url(row):
 		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/course/thumbnail/{track_id1}-{track_id2}.jpg'
 	else:
 		# 新コース
-		row = row - 50
-		track_id1 = row // 4 + 1
-		track_id2 = row + 1 - (track_id1 - 1) * 4
-		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol01/vol01_cup0{track_id1}_cover0{track_id2}.jpg'
+		vol = (row - 50) // 8 + 1
+		cup = ((row - 2) % 8) // 4 + 1
+		cover = (row - 2) % 4 + 1
+
+		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol0{vol}/vol0{vol}_cup0{cup}_cover0{cover}.jpg'
 
 
 

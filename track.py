@@ -1,97 +1,109 @@
 def search(name):
     name = str.lower(name)
-    MKS_list = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
-    WP_list = {'wp', 'ウォーターパーク','うぉーたーぱーく','うぉたぱ', 'ウォタパ'}
-    SSC_list = {'ssc', 'スイーツキャニオン', 'すいーつきゃにおん', 'スイキャニ', 'すいきゃに'}
-    TR_list = {'tr', 'ドッスン遺跡', 'どっすんいせき', 'ドッスンいせき', 'ドッスンイセキ', 'ドッスン', 'どっすん', 'いせき', '遺跡', 'イセキ'}
+    MKS = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
+    WP = {'wp', 'ウォーターパーク','うぉーたーぱーく','うぉたぱ', 'ウォタパ'}
+    SSC = {'ssc', 'スイーツキャニオン', 'すいーつきゃにおん', 'スイキャニ', 'すいきゃに'}
+    TR = {'tr', 'ドッスン遺跡', 'どっすんいせき', 'ドッスンいせき', 'ドッスンイセキ', 'ドッスン', 'どっすん', 'いせき', '遺跡', 'イセキ'}
 
-    MC_list = {'mc', 'マリオサーキット', 'マリサ', 'まりおさーきっと', 'まりさ', '新マリサ', 'しんまりさ', 'シンマリサ', '新まりさ'}
-    TH_list = {'th', 'キノピオハーバー', 'きのぴおはーばー', 'はーばー', 'ハーバー'}
-    TM_list = {'tm', 'ねじれマンション', 'ねじれまんしょん', 'ねじまん', 'ねじマン', 'ネジマン', 'まんしょん', 'マンション', 'ねじれ', 'ネジレ', 'ねじ', 'ネジ'}
-    SGF_list = {'sgf', 'へいほーこうざん', 'ヘイホー鉱山', 'ヘイホーこうざん', 'へいほー鉱山', 'へいこう', 'ヘイコウ', 'へい鉱', 'ヘイ鉱', 'ヘイこう'}
+    MC = {'mc', 'マリオサーキット', 'マリサ', 'まりおさーきっと', 'まりさ', '新マリサ', 'しんまりさ', 'シンマリサ', '新まりさ'}
+    TH = {'th', 'キノピオハーバー', 'きのぴおはーばー', 'はーばー', 'ハーバー'}
+    TM = {'tm', 'ねじれマンション', 'ねじれまんしょん', 'ねじまん', 'ねじマン', 'ネジマン', 'まんしょん', 'マンション', 'ねじれ', 'ネジレ', 'ねじ', 'ネジ'}
+    SGF = {'sgf', 'へいほーこうざん', 'ヘイホー鉱山', 'ヘイホーこうざん', 'へいほー鉱山', 'へいこう', 'ヘイコウ', 'へい鉱', 'ヘイ鉱', 'ヘイこう'}
 
-    SA_list = {'sa', 'サンシャイン空港', 'サンシャインくうこう', 'さんしゃいんくうこう', '空港', 'くうこう'}
-    DS_list = {'ds', 'ドルフィンみさき', 'ドルフィン岬', 'どるふぃんみさき', 'どるふぃん岬', 'どるみ', 'ドルミ', 'どるふぃん', 'ドルフィン'}
-    Ed_list = {'ed', 'エレドリ', 'エレド', 'エレクトロドリーム', 'えれどり', 'えれど', 'えれくとろどりーむ'}
-    MW_list = {'mw', 'ワリオスノーマウンテン', 'わりおすのーまうんてん', 'ワリスノ', 'わりすの', '雪山', 'ゆきやまうんてん', 'すの', 'スノ'}
+    SA = {'sa', 'サンシャイン空港', 'サンシャインくうこう', 'さんしゃいんくうこう', '空港', 'くうこう'}
+    DS = {'ds', 'ドルフィンみさき', 'ドルフィン岬', 'どるふぃんみさき', 'どるふぃん岬', 'どるみ', 'ドルミ', 'どるふぃん', 'ドルフィン'}
+    Ed = {'ed', 'エレドリ', 'エレド', 'エレクトロドリーム', 'えれどり', 'えれど', 'えれくとろどりーむ'}
+    MW = {'mw', 'ワリオスノーマウンテン', 'わりおすのーまうんてん', 'ワリスノ', 'わりすの', '雪山', 'ゆきやまうんてん', 'すの', 'スノ'}
 
-    CC_list = {'cc', 'スカイガーデン', 'スカガ', 'スカが', 'すかが',  'すかいがーでん'}
-    BDD_list = {'bdd', 'ホネホネさばく', 'ホネホネ砂漠', 'ほねほねさばく', 'ほねほね砂漠', '骨骨砂漠', '骨骨さばく', 'ホネホネサバク', 'ほねさば', '骨サバ', 'ホネサバ', '骨', 'ほね', 'ホネ', 'ほねほね', '骨骨', 'ホネホネ'}
-    BC_list = {'bc', 'クッパキャッスル', 'くっぱきゃっする', 'くっきゃぱっする', 'クッキャパッスル', 'くぱきゃ', 'クパキャ'}
-    RR_list = {'rr', '新虹', '新にじ', 'しんにじ', 'レインボーロード', 'シンニジ', 'れいんぼーろーど'}
+    CC = {'cc', 'スカイガーデン', 'スカガ', 'スカが', 'すかが',  'すかいがーでん'}
+    BDD = {'bdd', 'ホネホネさばく', 'ホネホネ砂漠', 'ほねほねさばく', 'ほねほね砂漠', '骨骨砂漠', '骨骨さばく', 'ホネホネサバク', 'ほねさば', '骨サバ', 'ホネサバ', '骨', 'ほね', 'ホネ', 'ほねほね', '骨骨', 'ホネホネ'}
+    BC = {'bc', 'クッパキャッスル', 'くっぱきゃっする', 'くっきゃぱっする', 'クッキャパッスル', 'くぱきゃ', 'クパキャ'}
+    RR = {'rr', '新虹', '新にじ', 'しんにじ', 'レインボーロード', 'シンニジ', 'れいんぼーろーど'}
 
-    rMMM_list = {'rmmm', 'mmm', 'モモカン', 'もーもーカントリー', 'モーモーカントリー', 'ももかん', 'もーもーかんとりー', '牛', 'うし'}
-    rMC_list = {'rmc', 'gba', 'ぐば', 'グバ', 'gbaまりさ', 'gbaマリサ', 'gbaマリオサーキット', 'gbaまりおさーきっと', 'ジービーエー', 'じーびーえー'}
-    rCCB_list = {'rccb', 'ccb', 'プクプクビーチ', 'プクプク', 'プクビ', 'ぷくぷくびーち', 'ぷくぷく', 'ぷくび', 'びーち', 'ビーチ'}
-    rTT_list = {'rtt', 'tt', 'キノピオハイウェイ', '高速道路', '高速', 'こうそくどうろ', 'こうそく', 'はいうぇい', 'ハイウェイ', 'きのぴおはいうぇい'}
+    rMMM = {'rmmm', 'mmm', 'モモカン', 'もーもーカントリー', 'モーモーカントリー', 'ももかん', 'もーもーかんとりー', '牛', 'うし'}
+    rMC = {'rmc', 'gba', 'ぐば', 'グバ', 'gbaまりさ', 'gbaマリサ', 'gbaマリオサーキット', 'gbaまりおさーきっと', 'ジービーエー', 'じーびーえー'}
+    rCCB = {'rccb', 'ccb', 'プクプクビーチ', 'プクプク', 'プクビ', 'ぷくぷくびーち', 'ぷくぷく', 'ぷくび', 'びーち', 'ビーチ'}
+    rTT = {'rtt', 'tt', 'キノピオハイウェイ', '高速道路', '高速', 'こうそくどうろ', 'こうそく', 'はいうぇい', 'ハイウェイ', 'きのぴおはいうぇい'}
 
-    rDDD_list = {'rddd', 'カラカラ', 'カラサバ', 'からさば', 'からから', 'カラカラ砂漠', 'からからさばく', 'カラカラさばく', 'カラカラサバク'}
-    rDP3_list = {'rdp3', 'dp3', 'ドーナツへいや', 'どーなつへいや', 'ドーナツ平野', 'どーなつ平野', 'ドーナツヘイヤ', '平野', 'へいや'}
-    rRRy_list = {'rrry', 'ピーチサーキット', 'ぴーちさーきっと', 'ピチさ', 'ピチサ', 'ぴちさ'}
-    rDKJ_list = {'rdkj', 'dkj', 'dk', 'じゃんぐる', 'ジャングル'}
+    rDDD = {'rddd', 'カラカラ', 'カラサバ', 'からさば', 'からから', 'カラカラ砂漠', 'からからさばく', 'カラカラさばく', 'カラカラサバク'}
+    rDP3 = {'rdp3', 'dp3', 'ドーナツへいや', 'どーなつへいや', 'ドーナツ平野', 'どーなつ平野', 'ドーナツヘイヤ', '平野', 'へいや'}
+    rRRy = {'rrry', 'ピーチサーキット', 'ぴーちさーきっと', 'ピチさ', 'ピチサ', 'ぴちさ'}
+    rDKJ = {'rdkj', 'dkj', 'dk', 'じゃんぐる', 'ジャングル'}
 
-    rWS_list = {'rws', 'ws', 'ワリオスタジアム', 'ワリスタ', 'わりすた', 'わりおすたじあむ'}
-    rSL_list = {'rsl', 'sl', 'しゃべらん', 'シャベラン', 'シャーベットランド', 'しゃーべっとらんど', 'シャーベット', 'しゃーべっと'}
-    rMP_list = {'rmp', 'mp', 'ミュージックパーク', 'ミューパ', 'ミューぱ', 'みゅーじっくぱーく', 'みゅーぱ'}
-    rYV_list = {'ryv', 'yv', 'ヨシバ', 'よっしーバレー', 'よっしーばれー', 'ヨッシーバレー', 'よしば', 'バレー', 'ばれー'}
+    rWS = {'rws', 'ws', 'ワリオスタジアム', 'ワリスタ', 'わりすた', 'わりおすたじあむ'}
+    rSL = {'rsl', 'sl', 'しゃべらん', 'シャベラン', 'シャーベットランド', 'しゃーべっとらんど', 'シャーベット', 'しゃーべっと'}
+    rMP = {'rmp', 'mp', 'ミュージックパーク', 'ミューパ', 'ミューぱ', 'みゅーじっくぱーく', 'みゅーぱ'}
+    rYV = {'ryv', 'yv', 'ヨシバ', 'よっしーバレー', 'よっしーばれー', 'ヨッシーバレー', 'よしば', 'バレー', 'ばれー'}
     
-    rTTC_list = {'rttc', 'ttc', 'チクタクロック', 'チクタク', 'ティックトック', 'チックタック', 'ちっくたっく', 'ちくたくろっく', 'ちくたく'}
-    rPPS_list = {'rpps', 'pps', 'パクスラ', 'パックンスライダー', 'ぱくすら', 'ぱっくんすらいだー', 'パックン', 'ぱっくん'}
-    rGV_list = {'rgv', 'gv', 'ぐらぐら', 'グラグラ', 'グラグラ火山', 'ぐらぐら火山', 'グラグラカザン', 'ぐらぐらかざん', '火山', 'かざん'}
-    rRRd_list = {'rrrd', '64虹', '６４虹', '64にじ', '６４にじ', 'ろくよん', 'ロクヨン'}
+    rTTC = {'rttc', 'ttc', 'チクタクロック', 'チクタク', 'ティックトック', 'チックタック', 'ちっくたっく', 'ちくたくろっく', 'ちくたく'}
+    rPPS = {'rpps', 'pps', 'パクスラ', 'パックンスライダー', 'ぱくすら', 'ぱっくんすらいだー', 'パックン', 'ぱっくん'}
+    rGV = {'rgv', 'gv', 'ぐらぐら', 'グラグラ', 'グラグラ火山', 'ぐらぐら火山', 'グラグラカザン', 'ぐらぐらかざん', '火山', 'かざん'}
+    rRRd = {'rrrd', '64虹', '６４虹', '64にじ', '６４にじ', 'ろくよん', 'ロクヨン'}
 
-    dYC_list = {'dyc', 'yc', 'ヨシサ', 'ヨッシーサーキット', 'よしさ', 'よっしーさーきっと'}
-    dEA_list = {'dea', 'ea', 'エキサイトバイク', '役馬', 'エキバ', 'えきば', 'えきさいとばいく'}
-    dDD_list = {'ddd', 'dd', 'ドラロ', 'どらろ', 'ドラゴンロード', 'どらごんろーど'}
-    dMC_list = {'dmc', 'ミュートシティ', 'ミュート', 'みゅーと', 'みゅーとしてぃ'}
+    dYC = {'dyc', 'yc', 'ヨシサ', 'ヨッシーサーキット', 'よしさ', 'よっしーさーきっと'}
+    dEA = {'dea', 'ea', 'エキサイトバイク', '役馬', 'エキバ', 'えきば', 'えきさいとばいく'}
+    dDD = {'ddd', 'dd', 'ドラロ', 'どらろ', 'ドラゴンロード', 'どらごんろーど'}
+    dMC = {'dmc', 'ミュートシティ', 'ミュート', 'みゅーと', 'みゅーとしてぃ'}
 
-    dWGM_list = {'dwgm', 'wgm', 'ワリオこうざん', 'ワリオ鉱山', 'わりおこうざん', 'わりこう', 'ワリこう', 'ワリ鉱', 'わり鉱'}
-    dRR_list = {'drr', 'sfc', 'sfcにじ', 'sfc虹', 'えすえふしー', 'エスエフシー', 'sfcレインボーロード'}
-    dIIO_list = {'diio', 'iio', 'ツルツルツイスター', 'つるつるついすたー', 'ツツツ', 'つつつ', 'ツイスター', 'ついすたー', 'ツルツル', 'つるつる'}
-    dHC_list = {'dhc', 'hc', 'ハイラルサーキット', 'はいらる', 'はいらるさーきっと', 'ハイラル'}
+    dWGM = {'dwgm', 'wgm', 'ワリオこうざん', 'ワリオ鉱山', 'わりおこうざん', 'わりこう', 'ワリこう', 'ワリ鉱', 'わり鉱'}
+    dRR = {'drr', 'sfc', 'sfcにじ', 'sfc虹', 'えすえふしー', 'エスエフシー', 'sfcレインボーロード'}
+    dIIO = {'diio', 'iio', 'ツルツルツイスター', 'つるつるついすたー', 'ツツツ', 'つつつ', 'ツイスター', 'ついすたー', 'ツルツル', 'つるつる'}
+    dHC = {'dhc', 'hc', 'ハイラルサーキット', 'はいらる', 'はいらるさーきっと', 'ハイラル'}
     
-    dBP_list = {'dbp', 'bp', 'ベビィパーク', 'ベビーパーク', 'べびぃぱーく', 'べびーぱーく', 'べびぱ', 'ベビパ'}
-    dCL_list = {'dcl', 'cl', 'チーズランド', 'ちーずらんど', 'ちーず', 'チーズ'}
-    dWW_list = {'dww', 'ww', 'ネイチャーロード', 'ねいちゃーろーど', 'ネイチャー', 'ねいちゃー', 'なちゅれ', 'ナチュレ'}
-    dAC_list = {'dac', 'ac', 'どうぶつの森', 'どうもり', '動物の森', 'どう森', 'ぶつ森', 'ぶつもり', 'ドウモリ', 'ブツモリ'}
+    dBP = {'dbp', 'bp', 'ベビィパーク', 'ベビーパーク', 'べびぃぱーく', 'べびーぱーく', 'べびぱ', 'ベビパ'}
+    dCL = {'dcl', 'cl', 'チーズランド', 'ちーずらんど', 'ちーず', 'チーズ'}
+    dWW = {'dww', 'ww', 'ネイチャーロード', 'ねいちゃーろーど', 'ネイチャー', 'ねいちゃー', 'なちゅれ', 'ナチュレ'}
+    dAC = {'dac', 'ac', 'どうぶつの森', 'どうもり', '動物の森', 'どう森', 'ぶつ森', 'ぶつもり', 'ドウモリ', 'ブツモリ'}
 
-    dNBC_list = {'dnbc', 'nbc', 'ネオクッパシティ', 'ねおくっぱしてぃ', 'ネオぱ', 'ネオパ', 'ねおぱ', 'ねおくっぱ', 'ネオクッパ'}
-    dRiR_list = {'drir', 'rir', 'リボンロード', 'リボン', 'りぼんろーど', 'りぼん'}
-    dSBS_list = {'dsbs', 'sbs', 'リンリンメトロ', 'りんりんめとろ', 'りんめと', 'リンメト', 'リンリン', 'りんりん', 'リン', 'りん'}
-    dBB_list = {'dbb', 'bb', 'ビッグブルー', 'びっぐぶるー'}
+    dNBC = {'dnbc', 'nbc', 'ネオクッパシティ', 'ねおくっぱしてぃ', 'ネオぱ', 'ネオパ', 'ねおぱ', 'ねおくっぱ', 'ネオクッパ'}
+    dRiR = {'drir', 'rir', 'リボンロード', 'リボン', 'りぼんろーど', 'りぼん'}
+    dSBS = {'dsbs', 'sbs', 'リンリンメトロ', 'りんりんめとろ', 'りんめと', 'リンメト', 'リンリン', 'りんりん', 'リン', 'りん'}
+    dBB = {'dbb', 'bb', 'ビッグブルー', 'びっぐぶるー'}
 
-    # 新コース
-    bPP_list = {'bpp', 'pp', 'paris', 'ぱり', 'パリ', 'パリプロムナード', 'ぱりぷろむなーど'}
-    bTC_list = {'btc', 'tc', 'キノピオサーキット', 'キノサ', 'きのぴおさーきっと', 'きのさ'}
-    bCMo_list = {'bcmo', 'cmo', 'bchm', 'chm', 'bcm64', 'cm64', 'チョコマウンテン', 'チョコ', 'チョコマ', 'ちょこまうんてん', 'ちょこま', 'ちょこ', 'チョコ山', 'チョコやま'}
-    bCMa_list = {'bcma', 'cma', 'com', 'bcom', 'bcmw', 'cmw', 'ココナッツモール', 'ココモ', 'ココナッツ', 'ここなっつもーる', 'ここも', 'ココナッツ', 'ここなっつ', 'ナッツ', 'なっつ'}
+    # 追加コース
+    bPP = {'bpp', 'pp', 'paris', 'ぱり', 'パリ', 'パリプロムナード', 'ぱりぷろむなーど'}
+    bTC = {'btc', 'tc', 'キノピオサーキット', 'キノサ', 'きのぴおさーきっと', 'きのさ'}
+    bCMo = {'bcmo', 'cmo', 'bchm', 'chm', 'bcm64', 'cm64', 'チョコマウンテン', 'チョコ', 'チョコマ', 'ちょこまうんてん', 'ちょこま', 'ちょこ', 'チョコ山', 'チョコやま'}
+    bCMa = {'bcma', 'cma', 'com', 'bcom', 'bcmw', 'cmw', 'ココナッツモール', 'ココモ', 'ココナッツ', 'ここなっつもーる', 'ここも', 'ココナッツ', 'ここなっつ', 'ナッツ', 'なっつ'}
 
-    bTB_list = {'btb', 'tb', 'tokyo', 'トーキョースクランブル', 'スクランブル', 'すくらんぶる', 'とーきょーすくらんぶる', 'トウキョウ', 'トーキョー', 'とうきょう', 'とーきょー', '東京'}
-    bSR_list = {'bsr', 'sr', 'キノコリッジウェイ', 'リッジ', 'キコリ', 'きこり', 'りっじ', 'きのこりっじうぇい', 'りっじうぇい', 'リッジウェイ'}
-    bSG_list = {'bsg', 'sg', 'gbaスカイガーデン',  'gbaすかいがーでん', 'gbaスカガ', 'gbaすかが', 'グバスカ', 'ぐばすか', 'グバガ', 'ぐばが'}
-    bNH_list = {'bnh', 'nh', 'ninja', 'ニンニンドージョー', 'にんにんどーじょー', 'ニンニン', 'にんにん', 'にんじょー', 'ニンジョー', 'ドージョー', 'どうじょう'}
+    bTB = {'btb', 'tb', 'tokyo', 'トーキョースクランブル', 'スクランブル', 'すくらんぶる', 'とーきょーすくらんぶる', 'トウキョウ', 'トーキョー', 'とうきょう', 'とーきょー', '東京'}
+    bSR = {'bsr', 'sr', 'キノコリッジウェイ', 'リッジ', 'キコリ', 'きこり', 'りっじ', 'きのこりっじうぇい', 'りっじうぇい', 'リッジウェイ'}
+    bSG = {'bsg', 'sg', 'gbaスカイガーデン',  'gbaすかいがーでん', 'gbaスカガ', 'gbaすかが', 'グバスカ', 'ぐばすか', 'グバガ', 'ぐばが'}
+    bNH = {'bnh', 'nh', 'ninja', 'ニンニンドージョー', 'にんにんどーじょー', 'ニンニン', 'にんにん', 'にんじょー', 'ニンジョー', 'ドージョー', 'どうじょう'}
 
+    bNYM = {'bnym', 'nym', 'ニューヨークドリーム', 'ニューヨーク', 'ニューヨーク', 'ニュードリ', 'にゅーどり'}
+    bMC3 = {'bmc3', 'mc3', 'sfcマリサ', 'sfcまりさ', 'マリサ3', 'まりさ3'}
+    bKD = {'bkd', 'kd', '64カラカラさばく', '64カラサバ', '64からさば'}
+    bWP = {'bwp', 'ワルイージピンボール', 'ワルピン'}
+
+    bSS = {'bss', 'ss', 'シドニーサンシャイン', 'シドニー'}
+    bSL = {'bsl', 'スノーランド', 'スノラン'}
+    bMG = {'bmg', 'mg', 'キノコキャニオン', 'キノキャ二', 'きのキャニ'}
+    bSHS = {'bshs', 'shs', 'アイスビルディング', 'アイス'}
+
+
+    tracks = [ \
+        [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
+        [['Mario Circuit', MC], ['Toad Harbor', TH], ['Twisted Mansion', TM], ['Shy Guy Falls', SGF]], \
+        [['Sunshine Airport', SA], ['Dolphin Shoals', DS], ['Electrodrome', Ed], ['Mount Wario', MW]], \
+        [['Cloudtop Cruise', CC], ['Bone-Dry Dunes', BDD], ["Bowser's Castle", BC], ['Rainbow Road', RR]], \
+        [['Wii Moo Moo Meadows', rMMM], ['GBA Mario Circuit', rMC], ['DS Cheep Cheep Beach', rCCB], ["N64 Toad's Turnpike", rTT]], \
+        [['GCN Dry Dry Desert', rDDD], ['SNES Donut Plains 3', rDP3], ['N64 Royal Raceway', rRRy], ['3DS DK Jungle', rDKJ]], \
+        [['DS Wario Stadium', rWS], ['GCN Sherbet Land', rSL], ['3DS Music Park', rMP], ['N64 Yoshi Valley', rYV]], \
+        [['DS Tick-Tock Clock', rTTC], ['3DS Piranha Plant Slide', rPPS], ['Wii Grumble Volcano', rGV], ['N64 Rainbow Road', rRRd]], \
+        [['GCN Yoshi Circuit', dYC], ['Excitebike Arena', dEA], ['Dragon Driftway', dDD], ['Mute City', dMC]], \
+        [["Wii Wario's Gold Mine", dWGM], ['SNES Rainbow Road', dRR], ['Ice Ice Outpost', dIIO], ['Hyrule Circuit', dHC]], \
+        [['GCN Baby Park', dBP], ['GBA Cheese Land', dCL], ['Wild Woods', dWW], ['Animal Crossing', dAC]], \
+        [['3DS Neo Bowser City', dNBC], ['GBA Ribbon Road', dRiR], ['Super Bell Subway', dSBS], ['Big Blue', dBB]], \
+        [['Tour Paris Promenade', bPP], ['3DS Toad Circuit', bTC], ['N64 Choco Mountain', bCMo], ['Wii Coconut Mall', bCMa]], \
+        [['Tour Tokyo Blur', bTB], ['DS Shroom Ridge', bSR], ['GBA Sky Garden', bSG], ['Tour Ninja Hideaway', bNH]], \
+        [['Tour New York Minute', bNYM], ['SNES Mario Circuit 3', bMC3], ['N64 Kalimari Desert', bKD], ['DS Waluigi Pinball', bWP]], \
+        [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]]]
     
-    tracks_list = [ \
-        [['Mario Kart Stadium', MKS_list], ['Water Park', WP_list], ['Sweet Sweet Canyon', SSC_list], ['Thwomp Ruins', TR_list]], \
-        [['Mario Circuit', MC_list], ['Toad Harbor', TH_list], ['Twisted Mansion', TM_list], ['Shy Guy Falls', SGF_list]], \
-        [['Sunshine Airport', SA_list], ['Dolphin Shoals', DS_list], ['Electrodrome', Ed_list], ['Mount Wario', MW_list]], \
-        [['Cloudtop Cruise', CC_list], ['Bone-Dry Dunes', BDD_list], ["Bowser's Castle", BC_list], ['Rainbow Road', RR_list]], \
-        [['Wii Moo Moo Meadows', rMMM_list], ['GBA Mario Circuit', rMC_list], ['DS Cheep Cheep Beach', rCCB_list], ["N64 Toad's Turnpike", rTT_list]], \
-        [['GCN Dry Dry Desert', rDDD_list], ['SNES Donut Plains 3', rDP3_list], ['N64 Royal Raceway', rRRy_list], ['3DS DK Jungle', rDKJ_list]], \
-        [['DS Wario Stadium', rWS_list], ['GCN Sherbet Land', rSL_list], ['3DS Music Park', rMP_list], ['N64 Yoshi Valley', rYV_list]], \
-        [['DS Tick-Tock Clock', rTTC_list], ['3DS Piranha Plant Slide', rPPS_list], ['Wii Grumble Volcano', rGV_list], ['N64 Rainbow Road', rRRd_list]], \
-        [['GCN Yoshi Circuit', dYC_list], ['Excitebike Arena', dEA_list], ['Dragon Driftway', dDD_list], ['Mute City', dMC_list]], \
-        [["Wii Wario's Gold Mine", dWGM_list], ['SNES Rainbow Road', dRR_list], ['Ice Ice Outpost', dIIO_list], ['Hyrule Circuit', dHC_list]], \
-        [['GCN Baby Park', dBP_list], ['GBA Cheese Land', dCL_list], ['Wild Woods', dWW_list], ['Animal Crossing', dAC_list]], \
-        [['3DS Neo Bowser City', dNBC_list], ['GBA Ribbon Road', dRiR_list], ['Super Bell Subway', dSBS_list], ['Big Blue', dBB_list]], \
-        [['Tour Paris Promenade', bPP_list], ['3DS Toad Circuit', bTC_list], ['N64 Choco Mountain', bCMo_list], ['Wii Coconut Mall', bCMa_list]], \
-        [['Tour Tokyo Blur', bTB_list], ['DS Shroom Ridge', bSR_list], ['GBA Sky Garden', bSG_list], ['Tour Ninja Hideaway', bNH_list]]]
-    
-    for i in range(14):
+    for i in range(16):
         for j in range(4):
-            if name in tracks_list[i][j][1]:
+            if name in tracks[i][j][1]:
                 n = i*4 + j
-                return [tracks_list[i][j][0], n]
+                return [tracks[i][j][0], n]
     
     return None
