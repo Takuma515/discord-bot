@@ -1,7 +1,6 @@
 import discord
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import matplotlib.pyplot as plt
 import math
 
 # 設定
@@ -155,11 +154,6 @@ def show_all_records(user, server):
 		
 		embed_list[-1].add_field(name=tracks[i], value='> ' + format_time(records[i]) + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
 		cnt = cnt + 1
-
-	# グラフ
-	# left = [1, 2, 3, 4, 5]
-	# plt.bar(left, sub_list, align="center")
-	# plt.show()
 
 	return embed_list
 
