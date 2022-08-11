@@ -68,7 +68,7 @@ def set_record(user, time, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
 	prev_time = wks.cell(row, col).value
-	wr_time = wks.cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, 2).value
 	diff = calc_time_diff(time, wr_time)
 
 	embed = discord.Embed(
@@ -102,7 +102,7 @@ def show_record(user, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
 	time = wks.cell(row, col).value
-	wr_time = wks.cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, 2).value
 
 	embed = discord.Embed(
 		title = track,
@@ -127,7 +127,7 @@ def show_all_records(user, server):
 	col = search_user(user, server)
 	user_name = user.split('#')[0]
 	tracks = wks.col_values(1)
-	wr = wks.col_values(2)
+	wr_times = sh.worksheet('WR List').col_values(2)
 	records = wks.col_values(col)
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
@@ -148,7 +148,7 @@ def show_all_records(user, server):
         		color = green
     		))
 
-		diff = calc_time_diff(records[i], wr[i])
+		diff = calc_time_diff(records[i], wr_times[i])
 		if diff <= 5:
 			sub_idx = math.floor(diff)
 			sub_list[sub_idx] = sub_list[sub_idx] + 1
@@ -163,7 +163,7 @@ def track_records(server, track, row):
 	wks = sh.worksheet(server)
 	users = wks.row_values(1)
 	time_list = wks.row_values(row)
-	wr_time = wks.cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, 2).value
 
 	embed = discord.Embed(
 		title = track,
