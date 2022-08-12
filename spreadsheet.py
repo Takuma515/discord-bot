@@ -131,12 +131,12 @@ def show_all_records(user, server):
 	records = wks.col_values(col)
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
-			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/ \
+							2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         	color = green
     	)]
 	
 	cnt = 0
-	sub_list = [0]*5
 	for i in range(1, len(records)):
 		if records[i] == '':
 			continue
@@ -144,15 +144,12 @@ def show_all_records(user, server):
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records",
-				description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+				description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/ \
+								2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         		color = green
     		))
 
 		diff = calc_time_diff(records[i], wr_times[i])
-		if diff <= 5:
-			sub_idx = math.floor(diff)
-			sub_list[sub_idx] = sub_list[sub_idx] + 1
-		
 		embed_list[-1].add_field(name=tracks[i], value='> ' + format_time(records[i]) + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
 		cnt = cnt + 1
 
