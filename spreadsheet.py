@@ -131,8 +131,8 @@ def show_all_records(user, server):
 	records = wks.col_values(col)
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
-			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/ \
-							2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
+							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         	color = green
     	)]
 	
@@ -144,8 +144,8 @@ def show_all_records(user, server):
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records",
-				description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/ \
-								2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+				description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
+								'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         		color = green
     		))
 
