@@ -104,3 +104,15 @@ def delete_record(ctx, args):
     server = ctx.message.guild.name
 
     return spreadsheet.delete_record(user, server, track_info[0], track_info[1]+2)
+
+
+# 解説動画URLを送信
+def send_video(ctx, args):
+    if len(args) != 1:
+        return "error"
+    
+    track_info = track.search(args[0])
+    if track_info is None:
+        return "No Track"
+
+    return spreadsheet.video_url(track_info[1]+2)

@@ -209,3 +209,7 @@ def delete_record(user, server, track, row):
 	embed.set_footer(text='Deleted')
 
 	return embed
+
+
+def video_url(row):
+	return sh.worksheet('WR List').cell(row, 3).value

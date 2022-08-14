@@ -1,3 +1,5 @@
+from ast import alias
+from email import message
 import os
 import function
 from discord.ext import commands
@@ -19,15 +21,22 @@ async def record(ctx, *args):
         await ctx.send(embed=embed)
 
 
+# コースの記録の表示
+@bot.command(aliases=['t', 'T'])
+async def track(ctx, *args):
+    await ctx.send(embed=function.track_records(ctx, args))
+
+
 # 記録の削除
 @bot.command(aliases=['d', 'D'])
 async def delete(ctx, *args):
     await ctx.send(embed=function.delete_record(ctx, args))
 
-# コースの記録の表示
-@bot.command(aliases=['t', 'T'])
-async def track(ctx, *args):
-    await ctx.send(embed=function.track_records(ctx, args))
+
+# 解説動画URLを送信
+@bot.command(aliases=['v', 'V'])
+async def video(ctx, *args):
+    await ctx.send(function.send_video(ctx, args))
 
 
 # 起動時に動作する処理
