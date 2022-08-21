@@ -3,14 +3,11 @@ import gspread
 import os
 import json
 from oauth2client.service_account import ServiceAccountCredentials
-import math
 
-# 設定
+# スプレッドシートの設定とアクセス
 file_name = 'NITA'
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-
-# スプレッドシートにアクセス
 key = os.environ['API_KEY']
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(key), scope)
 gc = gspread.authorize(credentials)
@@ -18,12 +15,17 @@ sh = gc.open(file_name)
 
 # 色の設定
 green = 0x00ff00
-light_blue = 0x00ffff 
+light_blue = 0x00ffff
+
+USER_ROW = 1
+TRACK_COL = 1
+WR_COL = 2
+VIDEO_COL = 3
 
 # userを探して列番号を返す
 def search_user(user, server):
 	wks = sh.worksheet(server)
-	user_list = wks.row_values(1)
+	user_list = wks.row_values(USER_ROW)
 	col = len(user_list) + 1
 
 	if user in user_list:
@@ -68,7 +70,7 @@ def set_record(user, time, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
 	prev_time = wks.cell(row, col).value
-	wr_time = sh.worksheet('WR List').cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 	diff = calc_time_diff(time, wr_time)
 
 	embed = discord.Embed(
@@ -102,7 +104,7 @@ def show_record(user, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
 	time = wks.cell(row, col).value
-	wr_time = sh.worksheet('WR List').cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 
 	embed = discord.Embed(
 		title = track,
@@ -126,8 +128,8 @@ def show_all_records(user, server):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
 	user_name = user.split('#')[0]
-	tracks = wks.col_values(1)
-	wr_times = sh.worksheet('WR List').col_values(2)
+	tracks = wks.col_values(TRACK_COL)
+	wr_times = sh.worksheet('WR List').col_values(WR_COL)
 	records = wks.col_values(col)
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
@@ -158,9 +160,9 @@ def show_all_records(user, server):
 
 def track_records(server, track, row):
 	wks = sh.worksheet(server)
-	users = wks.row_values(1)
+	users = wks.row_values(USER_ROW)
 	time_list = wks.row_values(row)
-	wr_time = sh.worksheet('WR List').cell(row, 2).value
+	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 
 	embed = discord.Embed(
 		title = track,
@@ -212,4 +214,4 @@ def delete_record(user, server, track, row):
 
 
 def video_url(row):
-	return sh.worksheet('WR List').cell(row, 3).value
+	return sh.worksheet('WR List').cell(row, VIDEO_COL).value
