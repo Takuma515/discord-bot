@@ -1,5 +1,3 @@
-from ast import alias
-from email import message
 import os
 import function
 from discord.ext import commands
@@ -42,21 +40,12 @@ async def video(ctx, *args):
 # 起動時に動作する処理
 @bot.event
 async def on_ready():
-    # 起動したらターミナルにログイン通知が表示される
     print('ログインしました')
 
-# メッセージ受信時に動作する処理
+
 @bot.event
-async def on_message(message):
-    await bot.process_commands(message)
-
-    # メッセージ送信者がBotだった場合は無視する
-    if message.author.bot:
-        return
-    # 「/neko」と発言したら「にゃーん」が返る処理
-    if message.content == '/neko':
-        await message.channel.send("にゃーん")
-
+async def on_guild_join(ctx):
+    print(ctx)
 
 
 # Botの起動とDiscordサーバーへの接続
