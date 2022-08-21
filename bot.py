@@ -44,8 +44,8 @@ async def on_ready():
 
 
 @bot.event
-async def on_guild_join(ctx):
-    print(ctx)
+async def on_guild_join(guild):
+    print(f'join {guild}')
 
 
 # Botの起動とDiscordサーバーへの接続
