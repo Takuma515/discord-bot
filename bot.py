@@ -43,10 +43,23 @@ async def on_ready():
     print('ログインしました')
 
 
+# サーバーに追加されたとき
 @bot.event
 async def on_guild_join(guild):
-    print(f'join {guild}')
+    print(f'join "{guild}"')
 
+
+# コマンドのエラー
+@bot.event
+async def on_command_error(ctx, error):
+    err_msg = "error"
+    if isinstance(error, commands.errors.CommandNotFound):
+        err_msg = "`コマンドが存在しません`"
+    elif isinstance(error, commands.errors.CommandInvokeError):
+        err_msg = "このbotを使用するにはチームを登録する必要があります。\
+            botの作成者 (taku#3173) までご連絡ください"
+    
+    await ctx.send(err_msg)
 
 # Botの起動とDiscordサーバーへの接続
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
