@@ -1,6 +1,5 @@
 import os
 import function
-import discord
 from discord.ext import commands
 
 
