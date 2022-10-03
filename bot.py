@@ -1,9 +1,13 @@
 import os
 import function
+import discord
 from discord.ext import commands
 
+
 # 接続に必要なオブジェクトを生成
-bot = commands.Bot(command_prefix='_')
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='_', intents=intents)
 
 # 記録の登録
 @bot.command(aliases=['s','S'])
@@ -52,7 +56,7 @@ async def on_guild_join(guild):
 # コマンドのエラー
 @bot.event
 async def on_command_error(ctx, error):
-    print(error)
+    print(f'{error} ({ctx.guild})')
     err_msg = "error"
     if isinstance(error, commands.errors.CommandNotFound):
         err_msg = "コマンドが存在しません"
