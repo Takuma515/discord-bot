@@ -1,10 +1,13 @@
 import os
 import function
+import discord
 from discord.ext import commands
 
 
 # 接続に必要なオブジェクトを生成
-bot = commands.Bot(command_prefix='_')
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='_', intents=intents)
 
 # 記録の登録
 @bot.command(aliases=['s','S'])
