@@ -38,7 +38,7 @@ async def delete(ctx, *args):
 # 解説動画URLを送信
 @bot.command(aliases=['v', 'V'])
 async def video(ctx, *args):
-    await ctx.send(function.send_video(ctx, args))
+    await ctx.send(function.send_video_url(ctx, args))
 
 
 # 起動時に動作する処理

@@ -107,12 +107,12 @@ def delete_record(ctx, args):
 
 
 # 解説動画URLを送信
-def send_video(ctx, args):
+def send_video_url(args):
     if len(args) != 1:
-        return "error"
+        return "Error"
     
     track_info = track.search(args[0])
     if track_info is None:
-        return "No Track"
+        return "No track"
 
     return spreadsheet.video_url(track_info[1]+2)
