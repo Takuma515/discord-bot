@@ -157,8 +157,12 @@ def show_all_records(user, server):
 		avg_diff += float(diff)
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt = cnt + 1
-	avg_diff = '{:.3f}'.format(avg_diff / cnt)
-	embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
+	
+	# コースが未登録の場合
+	if cnt != 0:
+		avg_diff = '{:.3f}'.format(avg_diff / cnt)
+		embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
+	
 	return embed_list
 
 
@@ -200,8 +204,9 @@ def track_records(server, track, row):
 
 		embed.add_field(name=user_name, value=f'> {format_time(time)} (WR +{diff})', inline=False)
 	
-	avg_diff = '{:.3f}'.format(avg_diff / len(records))
-	embed.add_field(name='Average Diff', value=f'{avg_diff}s')
+	if len(records) != 0:
+		avg_diff = '{:.3f}'.format(avg_diff / len(records))
+		embed.add_field(name='Average Diff', value=f'{avg_diff}s')
 	return embed
 
 
