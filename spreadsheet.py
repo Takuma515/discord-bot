@@ -20,7 +20,8 @@ light_blue = 0x00ffff
 USER_ROW = 1
 TRACK_COL = 1
 WR_COL = 2
-VIDEO_COL = 3
+WRER_COL = 3
+VIDEO_COL = 4
 
 # userを探して列番号を返す
 def search_user(user, server):
@@ -41,7 +42,7 @@ def search_user(user, server):
 def calc_time_diff(t1, t2):
 	t1_sec = float(t1[0])*60 + float(t1[1])*10 + float(t1[2]) + float(t1[3:]) / 1000
 	t2_sec = float(t2[0])*60 + float(t2[1])*10 + float(t2[2]) + float(t2[3:]) / 1000
-	return  t1_sec - t2_sec
+	return '{:.3f}'.format(t1_sec - t2_sec)
 
 
 # タイムのフォーマット
@@ -79,19 +80,19 @@ def set_record(user, time, server, track, row):
     )
 
 	embed.set_thumbnail(url=get_thumbnail_url(row))
-	embed.add_field(name='time', value=format_time(time) + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
+	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
 	# 記録が未登録の場合
 	if prev_time is None:
 		wks.update_cell(row, col, time)
-		embed.add_field(name='your record', value='-', inline=False)
+		embed.add_field(name='your record', value='-')
 		embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
 		return embed
 
 	diff = calc_time_diff(time, prev_time)
-	embed.add_field(name='your record', value=format_time(prev_time), inline=False)
+	embed.add_field(name='your record', value=f'> {format_time(prev_time)}', inline=False)
 
-	if diff < 0:
+	if time < prev_time:
 		wks.update_cell(row, col, time)
 		embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
 	else:
@@ -105,6 +106,7 @@ def show_record(user, server, track, row):
 	col = search_user(user, server)
 	time = wks.cell(row, col).value
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
+	wrecorder = sh.worksheet('WR List').cell(row, WRER_COL).value
 
 	embed = discord.Embed(
 		title = track,
@@ -115,11 +117,11 @@ def show_record(user, server, track, row):
 
 	if time is None:
 		embed.add_field(name='time', value='-', inline=False)
-		embed.add_field(name='WR', value=format_time(wr_time), inline=False)
 	else:
 		diff = calc_time_diff(time, wr_time)
-		embed.add_field(name='time', value=format_time(time) + ' (WR +' + '{:.3f}'.format(diff) + ')')
-
+		embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})')
+	
+	embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
 	return embed
 
 
@@ -152,7 +154,7 @@ def show_all_records(user, server):
     		))
 
 		diff = calc_time_diff(records[i], wr_times[i])
-		embed_list[-1].add_field(name=tracks[i], value='> ' + format_time(records[i]) + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
+		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt = cnt + 1
 
 	return embed_list
@@ -192,7 +194,8 @@ def track_records(server, track, row):
 			user_name = f'🥉 {user_name}'
 		else:
 			user_name = f'{i+1}. {user_name}'
-		embed.add_field(name=user_name, value='> ' + format_time(time)  + ' (WR +' + '{:.3f}'.format(diff) + ')', inline=False)
+
+		embed.add_field(name=user_name, value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
 	return embed
 
