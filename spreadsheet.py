@@ -100,7 +100,6 @@ def set_record(user, time, server, track, row):
 	return embed
 
 
-
 def show_record(user, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
@@ -133,6 +132,7 @@ def show_all_records(user, server):
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = sh.worksheet('WR List').col_values(WR_COL)
 	records = wks.col_values(col)
+	avg_diff = 0
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
 			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
@@ -154,9 +154,11 @@ def show_all_records(user, server):
     		))
 
 		diff = calc_time_diff(records[i], wr_times[i])
+		avg_diff += float(diff)
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt = cnt + 1
-
+	avg_diff = '{:.3f}'.format(avg_diff / cnt)
+	embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
 	return embed_list
 
 
@@ -179,12 +181,13 @@ def track_records(server, track, row):
 			continue
 		records.append([time_list[i], users[i]])
 
-	
+	avg_diff = 0
 	records.sort()
 	for i in range(len(records)):
 		time, user = records[i]
 		user_name = user.split('#')[0]
 		diff = calc_time_diff(time, wr_time)
+		avg_diff += float(diff)
 
 		if i==0:
 			user_name = f'🥇 {user_name}'
@@ -196,7 +199,9 @@ def track_records(server, track, row):
 			user_name = f'{i+1}. {user_name}'
 
 		embed.add_field(name=user_name, value=f'> {format_time(time)} (WR +{diff})', inline=False)
-
+	
+	avg_diff = '{:.3f}'.format(avg_diff / len(records))
+	embed.add_field(name='Average Diff', value=f'{avg_diff}s')
 	return embed
 
 
