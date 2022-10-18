@@ -19,9 +19,9 @@ light_blue = 0x00ffff
 
 USER_ROW = 1
 TRACK_COL = 1
-WR_COL = 2
-WRER_COL = 3
-VIDEO_COL = 4
+PLAYER_COL = 2
+WR_COL = 4
+VIDEO_COL = 5
 
 # userを探して列番号を返す
 def search_user(user, server):
@@ -105,7 +105,7 @@ def show_record(user, server, track, row):
 	col = search_user(user, server)
 	time = wks.cell(row, col).value
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
-	wrecorder = sh.worksheet('WR List').cell(row, WRER_COL).value
+	wrecorder = sh.worksheet('WR List').cell(row, PLAYER_COL).value
 
 	embed = discord.Embed(
 		title = track,
