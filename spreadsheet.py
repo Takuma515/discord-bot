@@ -89,8 +89,8 @@ def set_record(user, time, server, track, row):
 		embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
 		return embed
 
-	diff = calc_time_diff(time, prev_time)
-	embed.add_field(name='your record', value=f'> {format_time(prev_time)}', inline=False)
+	diff = calc_time_diff(prev_time, wr_time)
+	embed.add_field(name='your record', value=f'> {format_time(prev_time)} (WR +{diff})', inline=False)
 
 	if time < prev_time:
 		wks.update_cell(row, col, time)
@@ -144,7 +144,8 @@ def show_all_records(user, server):
 	for i in range(1, len(records)):
 		if records[i] == '':
 			continue
-
+		
+		# embedのfield数は最大25個
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records",
@@ -158,7 +159,15 @@ def show_all_records(user, server):
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt = cnt + 1
 	
-	# コースが未登録の場合
+	if cnt == 25 or cnt == 50:
+		embed_list.append(discord.Embed(
+			title = f"{user_name}'s records",
+			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
+							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+        	color = green
+    	))
+
+	# コースが未登録の場合を弾く
 	if cnt != 0:
 		avg_diff = '{:.3f}'.format(avg_diff / cnt)
 		embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
