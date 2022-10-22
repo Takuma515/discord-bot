@@ -49,18 +49,19 @@ def show_record(ctx, args):
 
     user = str(ctx.author)
     server = ctx.message.guild.name
+    embed_list = [embed_err]
     
     if len(args) == 0:
         embed_list = spreadsheet.show_all_records(user, server)
     elif len(args) == 1:
+        sub_list = ['1', '2', '3', '4', '5']
         track_info = track.search(args[0])
 
-        if track_info is None:
-            return [embed_err]
-        
-        embed_list = [spreadsheet.show_record(user, server, track_info[0], track_info[1]+2)]
-    else:
-        embed_list = [embed_err]
+        if args[0] in sub_list:
+            sub_time = args[0] + '.000'
+            embed_list = spreadsheet.show_sub_records(user, server, sub_time)
+        elif track_info is not None:
+            embed_list = [spreadsheet.show_record(user, server, track_info[0], track_info[1]+2)]
 
     return embed_list
 

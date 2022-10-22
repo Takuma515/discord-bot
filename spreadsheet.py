@@ -38,10 +38,15 @@ def search_user(user, server):
 	return col
 
 
+# タイムを秒に変換
+def convert_time_into_seconds(time):
+	return float(time[0])*60 + float(time[1])*10 + float(time[2]) + float(time[3:]) / 1000
+
+
 # タイム差を計算
-def calc_time_diff(t1, t2):
-	t1_sec = float(t1[0])*60 + float(t1[1])*10 + float(t1[2]) + float(t1[3:]) / 1000
-	t2_sec = float(t2[0])*60 + float(t2[1])*10 + float(t2[2]) + float(t2[3:]) / 1000
+def calc_time_diff(time1, time2):
+	t1_sec = convert_time_into_seconds(time1)
+	t2_sec = convert_time_into_seconds(time2)
 	return '{:.3f}'.format(t1_sec - t2_sec)
 
 
@@ -62,17 +67,15 @@ def get_thumbnail_url(row):
 		vol = (row - 50) // 8 + 1
 		cup = ((row - 2) % 8) // 4 + 1
 		cover = (row - 2) % 4 + 1
-
 		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol0{vol}/vol0{vol}_cup0{cup}_cover0{cover}.jpg'
-
 
 
 def set_record(user, time, server, track, row):
 	wks = sh.worksheet(server)
 	col = search_user(user, server)
-	prev_time = wks.cell(row, col).value
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 	diff = calc_time_diff(time, wr_time)
+	prev_time = wks.cell(row, col).value
 
 	embed = discord.Embed(
 		title = track,
@@ -124,6 +127,42 @@ def show_record(user, server, track, row):
 	return embed
 
 
+def show_sub_records(user, server, sub_time):
+	wks = sh.worksheet(server)
+	col = search_user(user, server)
+	user_name = user.split('#')[0]
+	tracks = wks.col_values(TRACK_COL)
+	wr_times = sh.worksheet('WR List').col_values(WR_COL)
+	times = wks.col_values(col)
+	
+	embed_list = [discord.Embed(
+			title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
+        	color = green
+    	)]
+
+	records = []
+	for i in range(1, len(times)):
+		if times[i] == '':
+			continue
+		diff = calc_time_diff(times[i], wr_times[i])
+		if diff <= sub_time:
+			records.append([diff, times[i], tracks[i]])
+	
+	records.sort()
+	cnt = 0
+	for i in range(1, len(records)):
+		diff, time, track = records[i]
+		# embedのfield数は最大25個
+		if cnt == 25 or cnt == 50:
+			embed_list.append(discord.Embed(
+				title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
+        	color = green
+    		))
+		
+		embed_list[-1].add_field(name=track, value=f'> {format_time(time)} (WR +{diff})', inline=False)
+
+	return embed_list
+
 
 def show_all_records(user, server):
 	wks = sh.worksheet(server)
@@ -131,7 +170,8 @@ def show_all_records(user, server):
 	user_name = user.split('#')[0]
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = sh.worksheet('WR List').col_values(WR_COL)
-	records = wks.col_values(col)
+	records = wks.col_values(col)	# 空文字列の削除 
+	
 	avg_diff = 0
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
@@ -144,13 +184,11 @@ def show_all_records(user, server):
 	for i in range(1, len(records)):
 		if records[i] == '':
 			continue
-		
+
 		# embedのfield数は最大25個
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records",
-				description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
-								'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         		color = green
     		))
 
@@ -162,8 +200,6 @@ def show_all_records(user, server):
 	if cnt == 25 or cnt == 50:
 		embed_list.append(discord.Embed(
 			title = f"{user_name}'s records",
-			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
-							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
         	color = green
     	))
 
@@ -178,21 +214,20 @@ def show_all_records(user, server):
 def track_records(server, track, row):
 	wks = sh.worksheet(server)
 	users = wks.row_values(USER_ROW)
-	time_list = wks.row_values(row)
+	times = wks.col_values(row)
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 
 	embed = discord.Embed(
 		title = track,
         color = green,
     )
-
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
 	records = []
-	for i in range(1, len(time_list)):
-		if time_list[i] == '':
+	for i in range(1, len(times)):
+		if times[i] == '':
 			continue
-		records.append([time_list[i], users[i]])
+		records.append([times[i], users[i]])
 
 	avg_diff = 0
 	records.sort()
