@@ -214,12 +214,11 @@ def show_all_records(user, server):
 def track_records(server, track, row):
 	wks = sh.worksheet(server)
 	users = wks.row_values(USER_ROW)
-	times = wks.col_values(row)
+	times = wks.row_values(row)
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
-
 	embed = discord.Embed(
 		title = track,
-        color = green,
+        color = green
     )
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 

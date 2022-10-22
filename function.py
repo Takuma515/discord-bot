@@ -82,7 +82,6 @@ def track_records(ctx, args):
         return embed_err
 
     server = ctx.message.guild.name
-
     return spreadsheet.track_records(server, track_info[0], track_info[1]+2)
 
 
