@@ -150,7 +150,7 @@ def show_sub_records(user, server, sub_time):
 	
 	records.sort()
 	cnt = 0
-	for i in range(1, len(records)):
+	for i in range(len(records)):
 		diff, time, track = records[i]
 		# embedのfield数は最大25個
 		if cnt == 25 or cnt == 50:
@@ -170,7 +170,7 @@ def show_all_records(user, server):
 	user_name = user.split('#')[0]
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = sh.worksheet('WR List').col_values(WR_COL)
-	records = wks.col_values(col)	# 空文字列の削除 
+	records = wks.col_values(col)
 	
 	avg_diff = 0
 	embed_list = [discord.Embed(
