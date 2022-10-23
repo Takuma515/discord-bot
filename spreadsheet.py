@@ -149,11 +149,10 @@ def show_sub_records(user, server, sub_time):
 			records.append([diff, times[i], tracks[i]])
 	
 	records.sort()
-	cnt = 0
 	for i in range(len(records)):
 		diff, time, track = records[i]
 		# embedのfield数は最大25個
-		if cnt == 25 or cnt == 50:
+		if i == 25 or i == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
         	color = green
