@@ -158,7 +158,7 @@ def show_sub_records(user, server, sub_time):
         	color = green
     		))
 		
-		embed_list[-1].add_field(name=track, value=f'> {format_time(time)} (WR +{diff})', inline=False)
+		embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
 	return embed_list
 
