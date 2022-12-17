@@ -89,7 +89,7 @@ def set_record(user, time, server, track, row):
 	if prev_time is None:
 		wks.update_cell(row, col, time)
 		embed.add_field(name='your record', value='-')
-		embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
+		embed.set_footer(text='Updated')
 		return embed
 
 	diff = calc_time_diff(prev_time, wr_time)
@@ -97,9 +97,9 @@ def set_record(user, time, server, track, row):
 
 	if time < prev_time:
 		wks.update_cell(row, col, time)
-		embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
-	else:
-		embed.set_footer(text='Not Updated', icon_url='http://drive.google.com/uc?export=view&id=1b6ch6PsbuUimPZVzNOhTh3cxrli71YJC')
+		# embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
+		embed.set_footer(text='Update✔︎')
+
 	return embed
 
 
@@ -151,6 +151,7 @@ def show_sub_records(user, server, sub_time):
 	records.sort()
 	for i in range(len(records)):
 		diff, time, track = records[i]
+		
 		# embedのfield数は最大25個
 		if i == 25 or i == 50:
 			embed_list.append(discord.Embed(
