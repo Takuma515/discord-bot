@@ -81,6 +81,15 @@ def search(name):
     bMG = {'bmg', 'mg', 'キノコキャニオン', 'キノキャニ', 'きのキャニ', 'きのきゃに'}
     bSHS = {'bshs', 'shs', 'アイスビルディング', 'アイス', 'あいす'}
 
+    bLL = {'bll', 'll', 'ロンドンアベニュー', 'ロンドン'}
+    bBL = {'bbl', 'bl', 'テレサレイク', 'テレサ', 'レイク'}
+    bRRM = {'brrm', 'rrm', 'ロックロックマウンテン', 'ロック', 'ロクマ'}
+    bMT = {'bmt', 'mt','メイプルツリーハウス', 'メイプル'}
+
+    bBB = {'bbb', 'ベルリンシュトラーセ', 'ベルリン'}
+    bPG = {'bpg', 'pg', 'ピーチガーデン', 'ピチガ'}
+    bMM = {'bmm', 'mm', 'メリーメリーマウンテン', 'メリマ', 'メリー'}
+    bRR7 = {'brr7', 'brr', 'rr7', '3dsレインボーロード', '3ds虹', '3dsにじ'}
 
     tracks = [ \
         [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
@@ -98,9 +107,11 @@ def search(name):
         [['Tour Paris Promenade', bPP], ['3DS Toad Circuit', bTC], ['N64 Choco Mountain', bCMo], ['Wii Coconut Mall', bCMa]], \
         [['Tour Tokyo Blur', bTB], ['DS Shroom Ridge', bSR], ['GBA Sky Garden', bSG], ['Tour Ninja Hideaway', bNH]], \
         [['Tour New York Minute', bNYM], ['SNES Mario Circuit 3', bMC3], ['N64 Kalimari Desert', bKD], ['DS Waluigi Pinball', bWP]], \
-        [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]]]
+        [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]], \
+        [['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT]], \
+        [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]]]
     
-    for i in range(16):
+    for i in range(18):
         for j in range(4):
             if name in tracks[i][j][1]:
                 n = i*4 + j
