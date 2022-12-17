@@ -115,6 +115,8 @@ def search(name):
         for j in range(4):
             if name in tracks[i][j][1]:
                 n = i*4 + j
+
+                # コース名, 番号(0~71)を返す 
                 return [tracks[i][j][0], n]
     
     return None
