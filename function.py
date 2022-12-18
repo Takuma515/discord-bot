@@ -24,15 +24,15 @@ def set_record(ctx, args):
     if args[1][0] == '0':
         return embed_err
 
-    user = str(ctx.author)
+
     time = args[1]
-    server = ctx.message.guild.name
-    track_info = track.search(args[0])
+    server = ctx.guild.name
+    track_info = track.search(args[0]) # [track_name, track_number]
 
     if track_info is None:
         return embed_err
     
-    embed = spreadsheet.set_record(user, time, server, track_info[0], track_info[1]+2)
+    embed = spreadsheet.set_record(ctx.author, time, server, track_info[0], track_info[1])
 
     return embed
 
@@ -47,21 +47,20 @@ def show_record(ctx, args):
         color = err_color
     )
 
-    user = str(ctx.author)
-    server = ctx.message.guild.name
+    server = ctx.guild.name
     embed_list = [embed_err]
     
     if len(args) == 0:
-        embed_list = spreadsheet.show_all_records(user, server)
+        embed_list = spreadsheet.show_all_records(ctx.author, server)
     elif len(args) == 1:
         sub_list = ['1', '2', '3', '4', '5']
-        track_info = track.search(args[0])
+        track_info = track.search(args[0]) # [track, track_number]
 
         if args[0] in sub_list:
             sub_time = args[0] + '.000'
-            embed_list = spreadsheet.show_sub_records(user, server, sub_time)
+            embed_list = spreadsheet.show_sub_records(ctx.author, server, sub_time)
         elif track_info is not None:
-            embed_list = [spreadsheet.show_record(user, server, track_info[0], track_info[1]+2)]
+            embed_list = [spreadsheet.show_record(ctx.author, server, track_info[0], track_info[1])]
 
     return embed_list
 
@@ -77,12 +76,12 @@ def track_records(ctx, args):
     if len(args) != 1:
         return embed_err
     
-    track_info = track.search(args[0])
+    track_info = track.search(args[0]) # [track_name, track_number]
     if track_info is None:
         return embed_err
 
-    server = ctx.message.guild.name
-    return spreadsheet.track_records(server, track_info[0], track_info[1]+2)
+    server = ctx.guild.name
+    return spreadsheet.track_records(server, track_info[0], track_info[1])
 
 
 # 記録の削除
@@ -96,23 +95,22 @@ def delete_record(ctx, args):
     if len(args) != 1:
         return embed_err
     
-    track_info = track.search(args[0])
+    track_info = track.search(args[0]) # [track_name, track_number]
     if track_info is None:
         return embed_err
     
-    user = str(ctx.author)
-    server = ctx.message.guild.name
+    server = ctx.guild.name
 
-    return spreadsheet.delete_record(user, server, track_info[0], track_info[1]+2)
+    return spreadsheet.delete_record(ctx.author, server, track_info[0], track_info[1])
 
 
 # 解説動画URLを送信
 def send_video_url(args):
     if len(args) != 1:
-        return "Error"
+        return "Input error"
     
-    track_info = track.search(args[0])
+    track_info = track.search(args[0]) # [track_name, track_number]
     if track_info is None:
         return "No track"
 
-    return spreadsheet.video_url(track_info[1]+2)
+    return spreadsheet.video_url(track_info[1])

@@ -6,8 +6,10 @@ from discord.ext import commands
 
 # 接続に必要なオブジェクトを生成
 intents = discord.Intents.default()
+intents.members = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='_', intents=intents)
+
 
 # 記録の登録
 @bot.command(aliases=['s','S'])

@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # スプレッドシートの設定とアクセス
 file_name = 'NITA'
 scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
+		 'https://www.googleapis.com/auth/drive']
 key = os.environ['API_KEY']
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(key), scope)
 gc = gspread.authorize(credentials)
@@ -18,22 +18,28 @@ green = 0x00ff00
 light_blue = 0x00ffff
 
 USER_ROW = 1
+ID_ROW = 2
 TRACK_COL = 1
 PLAYER_COL = 2
 WR_COL = 4
 VIDEO_COL = 5
 
-# userを探して列番号を返す
-def search_user(user, server):
+# userをIDで探して列番号を返す
+def search_user(author, server):
 	wks = sh.worksheet(server)
-	user_list = wks.row_values(USER_ROW)
-	col = len(user_list) + 1
+	id_list = wks.row_values(ID_ROW)
+	col = len(id_list) + 1
+	id = str(author.id)
+	user_name = str(author)
 
-	if user in user_list:
-		col = user_list.index(user) + 1
+	if id in id_list:
+		col = id_list.index(id) + 1
 	else:
 		# userが見つからなかったので登録する
-		wks.update_cell(1, col, user)
+		wks.update_cell(ID_ROW, col, id)
+		
+	# ユーザ名の更新
+	wks.update_cell(USER_ROW, col, user_name)
 
 	return col
 
@@ -57,30 +63,30 @@ def format_time(time):
 
 # サムネイルのURLを取得
 def get_thumbnail_url(row):
-	if row < 50:
+	if row < 51:
 		# 旧コース
-		track_id1 = (row-2) // 4 + 1
-		track_id2 = (row-1) - (track_id1-1) * 4
+		track_id1 = (row-3) // 4 + 1
+		track_id2 = (row-2) - (track_id1-1) * 4
 		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/course/thumbnail/{track_id1}-{track_id2}.jpg'
 	else:
 		# 新コース
-		vol = (row - 50) // 8 + 1
-		cup = ((row - 2) % 8) // 4 + 1
-		cover = (row - 2) % 4 + 1
+		vol = (row - 51) // 8 + 1
+		cup = ((row - 3) % 8) // 4 + 1
+		cover = (row - 3) % 4 + 1
 		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol0{vol}/vol0{vol}_cup0{cup}_cover0{cover}.jpg'
 
 
-def set_record(user, time, server, track, row):
+def set_record(author, time, server, track, row):
 	wks = sh.worksheet(server)
-	col = search_user(user, server)
+	col = search_user(author, server)
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 	diff = calc_time_diff(time, wr_time)
 	prev_time = wks.cell(row, col).value
 
 	embed = discord.Embed(
 		title = track,
-        color = green,
-    )
+		color = green,
+	)
 
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})', inline=False)
@@ -89,7 +95,7 @@ def set_record(user, time, server, track, row):
 	if prev_time is None:
 		wks.update_cell(row, col, time)
 		embed.add_field(name='your record', value='-')
-		embed.set_footer(text='Updated')
+		embed.set_footer(text='☑️ Update')
 		return embed
 
 	diff = calc_time_diff(prev_time, wr_time)
@@ -97,23 +103,22 @@ def set_record(user, time, server, track, row):
 
 	if time < prev_time:
 		wks.update_cell(row, col, time)
-		# embed.set_footer(text='Updated', icon_url='http://drive.google.com/uc?export=view&id=1XX9DcXltWeQkPB0GNWqXSt6wIND6tAK6')
-		embed.set_footer(text='Update✔︎')
+		embed.set_footer(text='☑️ Update')
 
 	return embed
 
 
-def show_record(user, server, track, row):
+def show_record(author, server, track, row):
 	wks = sh.worksheet(server)
-	col = search_user(user, server)
+	col = search_user(author, server)
 	time = wks.cell(row, col).value
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 	wrecorder = sh.worksheet('WR List').cell(row, PLAYER_COL).value
 
 	embed = discord.Embed(
 		title = track,
-        color = green,
-    )
+		color = green,
+	)
 
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
@@ -127,21 +132,21 @@ def show_record(user, server, track, row):
 	return embed
 
 
-def show_sub_records(user, server, sub_time):
+def show_sub_records(author, server, sub_time):
 	wks = sh.worksheet(server)
-	col = search_user(user, server)
-	user_name = user.split('#')[0]
+	col = search_user(author, server)
+	user_name = str(author).split('#')[0]
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = sh.worksheet('WR List').col_values(WR_COL)
 	times = wks.col_values(col)
 	
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
-        	color = green
-    	)]
+			color = green
+		)]
 
 	records = []
-	for i in range(1, len(times)):
+	for i in range(2, len(times)):
 		if times[i] == '':
 			continue
 		diff = calc_time_diff(times[i], wr_times[i])
@@ -151,23 +156,23 @@ def show_sub_records(user, server, sub_time):
 	records.sort()
 	for i in range(len(records)):
 		diff, time, track = records[i]
-		
+
 		# embedのfield数は最大25個
 		if i == 25 or i == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
-        	color = green
-    		))
+			color = green
+			))
 		
 		embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
 	return embed_list
 
 
-def show_all_records(user, server):
+def show_all_records(author, server):
 	wks = sh.worksheet(server)
-	col = search_user(user, server)
-	user_name = user.split('#')[0]
+	col = search_user(author, server)
+	user_name = str(author).split('#')[0]
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = sh.worksheet('WR List').col_values(WR_COL)
 	records = wks.col_values(col)
@@ -177,11 +182,11 @@ def show_all_records(user, server):
 			title = f"{user_name}'s records",
 			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
 							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
-        	color = green
-    	)]
+			color = green
+		)]
 	
 	cnt = 0
-	for i in range(1, len(records)):
+	for i in range(2, len(records)):
 		if records[i] == '':
 			continue
 
@@ -189,8 +194,8 @@ def show_all_records(user, server):
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s records",
-        		color = green
-    		))
+				color = green
+			))
 
 		diff = calc_time_diff(records[i], wr_times[i])
 		avg_diff += float(diff)
@@ -200,8 +205,8 @@ def show_all_records(user, server):
 	if cnt == 25 or cnt == 50:
 		embed_list.append(discord.Embed(
 			title = f"{user_name}'s records",
-        	color = green
-    	))
+			color = green
+		))
 
 	# コースが未登録の場合を弾く
 	if cnt != 0:
@@ -213,20 +218,20 @@ def show_all_records(user, server):
 
 def track_records(server, track, row):
 	wks = sh.worksheet(server)
-	users = wks.row_values(USER_ROW)
-	times = wks.row_values(row)
+	user_list = wks.row_values(USER_ROW)
+	time_list = wks.row_values(row)
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
 	embed = discord.Embed(
 		title = track,
-        color = green
-    )
+		color = green
+	)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
 	records = []
-	for i in range(1, len(times)):
-		if times[i] == '':
+	for i in range(1, len(time_list)):
+		if time_list[i] == '':
 			continue
-		records.append([times[i], users[i]])
+		records.append([time_list[i], user_list[i]])
 
 	avg_diff = 0
 	records.sort()
@@ -250,21 +255,22 @@ def track_records(server, track, row):
 	if len(records) != 0:
 		avg_diff = '{:.3f}'.format(avg_diff / len(records))
 		embed.add_field(name='Average Diff', value=f'{avg_diff}s')
+
 	return embed
 
 
-def delete_record(user, server, track, row):
+def delete_record(author, server, track, row):
 	wks = sh.worksheet(server)
-	col = search_user(user, server)
+	col = search_user(author, server)
 
 	embed = discord.Embed(
 		title = track,
-        color = light_blue,
-    )
+		color = light_blue,
+	)
 
 	wks.update_cell(row, col, '')
 	embed.set_thumbnail(url=get_thumbnail_url(row))
-	embed.set_footer(text='Deleted')
+	embed.set_footer(text='☑️ Delete')
 
 	return embed
 

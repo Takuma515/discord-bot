@@ -1,3 +1,5 @@
+OFFSET = 3
+
 def search(name):
     name = str.lower(name)
     MKS = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
@@ -117,6 +119,6 @@ def search(name):
                 n = i*4 + j
 
                 # コース名, 番号(0~71)を返す 
-                return [tracks[i][j][0], n]
+                return [tracks[i][j][0], n+OFFSET]
     
     return None
