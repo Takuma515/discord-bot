@@ -52,6 +52,7 @@ async def video(ctx, *args):
 @bot.event
 async def on_ready():
     print('ログインしました')
+    await update_activity()
 
 
 # サーバーに追加されたとき
