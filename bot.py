@@ -43,7 +43,7 @@ async def video(ctx, *args):
     await ctx.send(function.send_video_url(args))
 
 
-# 起動時に動作する処理
+# bot起動時に動作
 @bot.event
 async def on_ready():
     print('ログインしました')
@@ -67,6 +67,12 @@ async def on_command_error(ctx, error):
             "botの作成者 (taku#3173) までご連絡ください。"
     
     await ctx.send(err_msg)
+    
+
+# 参加中のサーバー数
+async def update_activity():
+    activity = discord.Activity(name=f'{len(bot.guilds)} servers', type=discord.ActivityType.watching)
+    await bot.change_presence(activity=activity)
 
 # Botの起動とDiscordサーバーへの接続
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
