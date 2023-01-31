@@ -11,6 +11,11 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='_', intents=intents)
 
 
+async def update_activity():
+    activity = discord.Activity(name=f'{len(bot.guilds)} servers', type=discord.ActivityType.watching)
+    await bot.change_presence(activity=activity)
+    
+
 # 記録の登録
 @bot.command(aliases=['s','S'])
 async def set(ctx, *args):
@@ -67,12 +72,7 @@ async def on_command_error(ctx, error):
             "botの作成者 (taku#3173) までご連絡ください。"
     
     await ctx.send(err_msg)
-    
 
-# 参加中のサーバー数
-async def update_activity():
-    activity = discord.Activity(name=f'{len(bot.guilds)} servers', type=discord.ActivityType.watching)
-    await bot.change_presence(activity=activity)
 
 # Botの起動とDiscordサーバーへの接続
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
