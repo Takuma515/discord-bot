@@ -4,9 +4,6 @@ import os
 import json
 from oauth2client.service_account import ServiceAccountCredentials
 
-import matplotlib.pyplot as plt
-from io import BytesIO
-
 # スプレッドシートの設定とアクセス
 file_name = 'NITA'
 scope = ['https://spreadsheets.google.com/feeds',
