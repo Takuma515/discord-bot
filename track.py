@@ -1,6 +1,8 @@
+from typing import Optional
+
 OFFSET = 3
 
-def search(name):
+def search(name: str) -> Optional[list]:
     name = str.lower(name)
     MKS = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
     WP = {'wp', 'ウォーターパーク','うぉーたーぱーく','うぉたぱ', 'ウォタパ'}

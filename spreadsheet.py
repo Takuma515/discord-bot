@@ -25,7 +25,7 @@ WR_COL = 4
 VIDEO_COL = 5
 
 # userをIDで探して列番号を返す
-def search_user(author, server):
+def search_user(author: discord.member.Member, server: str) -> int:
 	wks = sh.worksheet(server)
 	id_list = wks.row_values(ID_ROW)
 	col = len(id_list) + 1
@@ -45,24 +45,24 @@ def search_user(author, server):
 
 
 # タイムを秒に変換
-def convert_time_into_seconds(time):
+def convert_time_into_seconds(time: str) -> float:
 	return float(time[0])*60 + float(time[1])*10 + float(time[2]) + float(time[3:]) / 1000
 
 
 # タイム差を計算
-def calc_time_diff(time1, time2):
+def calc_time_diff(time1: str, time2: str) -> str:
 	t1_sec = convert_time_into_seconds(time1)
 	t2_sec = convert_time_into_seconds(time2)
 	return '{:.3f}'.format(t1_sec - t2_sec)
 
 
 # タイムのフォーマット
-def format_time(time):
+def format_time(time: str) -> str:
 	return time[0] + ':' + time[1] + time[2] + '.' + time[3:]
 
 
 # サムネイルのURLを取得
-def get_thumbnail_url(row):
+def get_thumbnail_url(row: int) -> str:
 	if row < 51:
 		# 旧コース
 		track_id1 = (row-3) // 4 + 1
@@ -76,7 +76,12 @@ def get_thumbnail_url(row):
 		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol0{vol}/vol0{vol}_cup0{cup}_cover0{cover}.jpg'
 
 
-def set_record(author, time, server, track, row):
+def set_record(
+    author: discord.member.Member,
+    time: str,
+    server: str,
+    track: str,
+    row: int) -> discord.Embed:
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 	wr_time = sh.worksheet('WR List').cell(row, WR_COL).value
@@ -108,7 +113,12 @@ def set_record(author, time, server, track, row):
 	return embed
 
 
-def show_record(author, server, track, row):
+def show_record(
+    author: discord.member.Member,
+    server: str,
+    track: str,
+    row: int
+    ) -> discord.Embed:
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 	time = wks.cell(row, col).value
@@ -132,7 +142,11 @@ def show_record(author, server, track, row):
 	return embed
 
 
-def show_sub_records(author, server, sub_time):
+def show_sub_records(
+    author: discord.member.Member,
+    server: str,
+    sub_time: str
+    ) -> list[discord.Embed]:
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 	user_name = str(author).split('#')[0]
@@ -169,7 +183,7 @@ def show_sub_records(author, server, sub_time):
 	return embed_list
 
 
-def show_all_records(author, server):
+def show_all_records(author: discord.member.Member, server: str) -> list[discord.Embed]:
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 	user_name = str(author).split('#')[0]
@@ -216,7 +230,7 @@ def show_all_records(author, server):
 	return embed_list
 
 
-def track_records(server, track, row):
+def track_records(server: str, track: str, row: int) -> discord.Embed:
 	wks = sh.worksheet(server)
 	user_list = wks.row_values(USER_ROW)
 	time_list = wks.row_values(row)
@@ -259,7 +273,12 @@ def track_records(server, track, row):
 	return embed
 
 
-def delete_record(author, server, track, row):
+def delete_record(
+    author: discord.member.Member,
+    server: str,
+    track: str,
+    row: int
+    ) -> discord.Embed:
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 
@@ -275,5 +294,5 @@ def delete_record(author, server, track, row):
 	return embed
 
 
-def video_url(row):
+def video_url(row: int) -> str:
 	return sh.worksheet('WR List').cell(row, VIDEO_COL).value
