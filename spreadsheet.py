@@ -4,6 +4,9 @@ import os
 import json
 from oauth2client.service_account import ServiceAccountCredentials
 
+import matplotlib.pyplot as plt
+from io import BytesIO
+
 # スプレッドシートの設定とアクセス
 file_name = 'NITA'
 scope = ['https://spreadsheets.google.com/feeds',
@@ -147,6 +150,7 @@ def show_sub_records(
     server: str,
     sub_time: str
     ) -> list[discord.Embed]:
+	
 	wks = sh.worksheet(server)
 	col = search_user(author, server)
 	user_name = str(author).split('#')[0]
@@ -163,8 +167,9 @@ def show_sub_records(
 	for i in range(2, len(times)):
 		if times[i] == '':
 			continue
-		diff = calc_time_diff(times[i], wr_times[i])
-		if diff <= sub_time:
+		diff = float(calc_time_diff(times[i], wr_times[i]))
+		sub_time_sec = float(sub_time)
+		if sub_time_sec -1 < diff <= sub_time_sec:
 			records.append([diff, times[i], tracks[i]])
 	
 	records.sort()
@@ -179,7 +184,7 @@ def show_sub_records(
 			))
 		
 		embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR +{diff})', inline=False)
-
+  
 	return embed_list
 
 
