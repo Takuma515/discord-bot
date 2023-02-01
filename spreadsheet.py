@@ -232,6 +232,31 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 	return embed_list
 
 
+def show_wr(track: str, row: int):
+	wks = sh.worksheet('RefSheet')
+	track_num = row - 3
+	embed = discord.Embed(
+		title = f'WRs of {track}',
+		color = green
+	)
+	embed.set_thumbnail(url=get_thumbnail_url(row))
+
+	recorder_col_list = ['E', 'J', 'O', 'T']
+	time_col_list = ['F', 'K', 'P', 'U']
+	recorder_col = recorder_col_list[track_num % 4]
+	time_col = time_col_list[track_num % 4]
+	start_row = 11 + (track_num // 4) * 13
+
+	# テータの取得
+	recorders = wks.range(f'{recorder_col}{start_row}:{recorder_col}{start_row+9}')
+	times = wks.range(f'{time_col}{start_row}:{time_col}{start_row+9}')
+	
+	for i in range(10):
+		embed.add_field(name=f'{i+1}. {recorders[i].value}', value=times[i].value, inline=False)
+
+	return embed
+
+
 def track_records(server: str, track: str, row: int) -> discord.Embed:
 	wks = sh.worksheet(server)
 	user_list = wks.row_values(USER_ROW)

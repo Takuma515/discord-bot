@@ -30,6 +30,12 @@ async def record(ctx, *args):
         await ctx.send(embed=embed)
 
 
+# WRの表示
+@bot.command(aliases=['WR'])
+async def wr(ctx, *args):
+    await ctx.send(embed=function.show_wr(args))
+
+
 # コースの記録の表示
 @bot.command(aliases=['t', 'T'])
 async def track(ctx, *args):
