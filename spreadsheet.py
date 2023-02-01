@@ -164,9 +164,9 @@ def show_sub_records(
 	for i in range(2, len(times)):
 		if times[i] == '':
 			continue
-		diff = float(calc_time_diff(times[i], wr_times[i]))
+		diff = calc_time_diff(times[i], wr_times[i])
 		sub_time_sec = float(sub_time)
-		if sub_time_sec -1 < diff <= sub_time_sec:
+		if sub_time_sec -1 < float(diff) <= sub_time_sec:
 			records.append([diff, times[i], tracks[i]])
 	
 	records.sort()
