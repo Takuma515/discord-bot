@@ -252,7 +252,7 @@ def show_wr(track: str, row: int):
 	times = wks.range(f'{time_col}{start_row}:{time_col}{start_row+9}')
 	
 	for i in range(10):
-		embed.add_field(name=f'{i+1}. {recorders[i].value}', value=times[i].value, inline=False)
+		embed.add_field(name=f'{i+1}. {recorders[i].value}', value=f'> {times[i].value}', inline=False)
 
 	return embed
 
