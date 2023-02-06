@@ -49,9 +49,10 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
 
     server = ctx.guild.name
     embed_list = [embed_err]
+    file = None
     
     if len(args) == 0:
-        embed_list = spreadsheet.show_all_records(ctx.author, server)
+        embed_list, file = spreadsheet.show_all_records(ctx.author, server)
     elif len(args) == 1:
         sub_list = ['1', '2', '3', '4', '5']
         track_info = track.search(args[0]) # [track, track_number]
@@ -62,7 +63,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
         elif track_info is not None:
             embed_list = [spreadsheet.show_record(ctx.author, server, track_info[0], track_info[1])]
 
-    return embed_list
+    return embed_list, file
 
 
 # WRの表示

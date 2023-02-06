@@ -25,9 +25,12 @@ async def set(ctx, *args):
 # 個人の記録の表示
 @bot.command(aliases=['r', 'R'])
 async def record(ctx, *args):
-    embed_list = function.show_record(ctx, args)
-    for embed in embed_list:
-        await ctx.send(embed=embed)
+    embed_list, file = function.show_record(ctx, args)
+    for i, embed in enumerate(embed_list):
+        if i == len(embed_list) -1:
+            await ctx.send(embed=embed, file=file)
+        else:
+            await ctx.send(embed=embed)
 
 
 # WRの表示

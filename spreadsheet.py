@@ -1,8 +1,12 @@
 import discord
-import gspread
 import os
 import json
+
+import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+
+import matplotlib.pyplot as plt
+from io import BytesIO
 
 # スプレッドシートの設定とアクセス
 file_name = 'NITA'
@@ -164,6 +168,7 @@ def show_sub_records(
 	for i in range(2, len(times)):
 		if times[i] == '':
 			continue
+
 		diff = calc_time_diff(times[i], wr_times[i])
 		sub_time_sec = float(sub_time)
 		if sub_time_sec -1 < float(diff) <= sub_time_sec:
@@ -181,7 +186,7 @@ def show_sub_records(
 			))
 		
 		embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR +{diff})', inline=False)
-  
+
 	return embed_list
 
 
@@ -202,6 +207,7 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 		)]
 	
 	cnt = 0
+	sub_tracks = [0]*5
 	for i in range(2, len(records)):
 		if records[i] == '':
 			continue
@@ -214,6 +220,10 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 			))
 
 		diff = calc_time_diff(records[i], wr_times[i])
+		diff_int = int(diff[0])
+		if diff_int < 5:
+			sub_tracks[diff_int] += 1
+
 		avg_diff += float(diff)
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt = cnt + 1
@@ -229,7 +239,21 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 		avg_diff = '{:.3f}'.format(avg_diff / cnt)
 		embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
 	
-	return embed_list
+	# グラフの描画
+	left = [1, 2, 3, 4, 5]
+	plt.bar(left, sub_tracks, alpha=0.8)
+	plt.xlabel('Sub Time')
+	plt.ylabel('Tracks')
+	plt.grid(linestyle='--', axis='y')
+	buffer = BytesIO()
+	plt.savefig(buffer, format='png', bbox_inches='tight')
+	buffer.seek(0)
+	plt.clf()
+	plt.close()
+	file = discord.File(buffer, filename='subGraph.png')
+	embed_list[-1].set_image(url='attachment://subGraph.png')
+
+	return embed_list, file
 
 
 def show_wr(track: str, row: int):
