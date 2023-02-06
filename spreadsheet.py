@@ -244,7 +244,7 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 	plt.bar(left, sub_tracks, alpha=0.8)
 	plt.xlabel('Sub Time')
 	plt.ylabel('Tracks')
-	plt.grid(linestyle='--', axis='y')
+	plt.grid(linestyle='--', axis='y', which='major')
 	buffer = BytesIO()
 	plt.savefig(buffer, format='png', bbox_inches='tight')
 	buffer.seek(0)
