@@ -28,7 +28,7 @@ PLAYER_COL = 2
 WR_COL = 4
 VIDEO_COL = 5
 
-# userをIDで探して列番号を返す
+# userをIDで検索し列番号を返す
 def search_user(author: discord.member.Member, server: str) -> int:
 	wks = sh.worksheet(server)
 	id_list = wks.row_values(ID_ROW)
@@ -39,7 +39,7 @@ def search_user(author: discord.member.Member, server: str) -> int:
 	if id in id_list:
 		col = id_list.index(id) + 1
 	else:
-		# userが見つからなかったので登録する
+		# userが見つからなかった場合
 		wks.update_cell(ID_ROW, col, id)
 		
 	# ユーザ名の更新
@@ -244,7 +244,7 @@ def show_all_records(author: discord.member.Member, server: str) -> list[discord
 	plt.bar(left, sub_tracks, alpha=0.8)
 	plt.xlabel('Sub Time')
 	plt.ylabel('Tracks')
-	plt.grid(linestyle='--', axis='y', which='major')
+	plt.grid(linestyle='--', axis='y')
 	buffer = BytesIO()
 	plt.savefig(buffer, format='png', bbox_inches='tight')
 	buffer.seek(0)

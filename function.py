@@ -56,12 +56,16 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     elif len(args) == 1:
         sub_list = ['1', '2', '3', '4', '5']
         track_info = track.search(args[0]) # [track, track_number]
+        member = ctx.guild.get_member_named(args[0])
 
+        # 引数が数字, コース名, ユーザ名で処理を変える
         if args[0] in sub_list:
             sub_time = args[0] + '.000'
             embed_list = spreadsheet.show_sub_records(ctx.author, server, sub_time)
         elif track_info is not None:
             embed_list = [spreadsheet.show_record(ctx.author, server, track_info[0], track_info[1])]
+        elif member is not None:
+            embed_list, file = spreadsheet.show_all_records(member, server)
 
     return embed_list, file
 
