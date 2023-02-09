@@ -64,10 +64,20 @@ async def on_ready():
     await update_activity()
 
 
-# サーバーに追加されたとき
+# サーバーに追加時
 @bot.event
 async def on_guild_join(guild):
     print(f'join "{guild}"')
+
+
+@bot.command(aliases=['g', 'G'], hidden=True)
+@commands.is_owner()
+async def guilds(ctx):
+    guild_list = bot.guilds
+    msg = 'Servers:\n'
+    for g in guild_list:
+        msg = msg + g.name + '\n'
+    await ctx.send(msg)
 
 
 # コマンドのエラー
