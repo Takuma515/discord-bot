@@ -42,8 +42,8 @@ def search_user(author: discord.member.Member) -> int:
 		col = id_list.index(id) + 1
 	else:
 		# userが見つからなかった場合
-		wks.update_cell(ID_ROW, col, id)
 		wks.add_cols(1)
+		wks.update_cell(ID_ROW, col, id)
 		
 	# ユーザ名の更新
 	wks.update_cell(USER_ROW, col, user_name)
