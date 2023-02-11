@@ -1,6 +1,6 @@
 from typing import Optional
 
-OFFSET = 3
+OFFSET = 4
 
 def search(name: str) -> Optional[list]:
     name = str.lower(name)
@@ -88,7 +88,7 @@ def search(name: str) -> Optional[list]:
     bLL = {'bll', 'll', 'ロンドンアベニュー', 'ロンドン'}
     bBL = {'bbl', 'bl', 'テレサレイク', 'テレサ', 'レイク'}
     bRRM = {'brrm', 'rrm', 'ロックロックマウンテン', 'ロック', 'ロクマ'}
-    bMT = {'bmt', 'mt','メイプルツリーハウス', 'メイプル'}
+    bMT = {'bmt', 'mt','メイプルツリーハウス', 'メイプル', 'メープル'}
 
     bBB = {'bbb', 'ベルリンシュトラーセ', 'ベルリン'}
     bPG = {'bpg', 'pg', 'ピーチガーデン', 'ピチガ'}
