@@ -42,7 +42,6 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
         color = err_color
     )
 
-    server = ctx.guild.name
     embed_list = [embed_err]
     file = None
     
@@ -109,6 +108,24 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
     return spreadsheet.track_records(members_id_list, track_info[0], track_info[1])
 
 
+
+def tier_time(args: list[str]) -> discord.Embed:
+    embed_err = discord.Embed(
+        title = "Input Error",
+        description = "**Ex.** `_d ttc`",
+        color = err_color
+    )
+
+    if len(args) != 1:
+        return embed_err
+
+    track_info = track.search(args[0]) # [track_name, track_number]
+    if track_info is None:
+        return embed_err
+    
+    return spreadsheet.show_tier_time(track_info[0], track_info[1])
+
+
 # 記録の削除
 def delete_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
@@ -123,8 +140,6 @@ def delete_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     track_info = track.search(args[0]) # [track_name, track_number]
     if track_info is None:
         return embed_err
-    
-    server = ctx.guild.name
 
     return spreadsheet.delete_record(ctx.author, track_info[0], track_info[1])
 

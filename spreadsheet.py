@@ -51,9 +51,17 @@ def search_user(author: discord.member.Member) -> int:
 	return col
 
 
-# タイムを秒に変換
+# タイムを秒に変換: 120000 -> 80sec
 def convert_time_into_seconds(time: str) -> float:
 	return float(time[0])*60 + float(time[1])*10 + float(time[2]) + float(time[3:]) / 1000
+
+
+# 秒をタイムに変換: 120.000 -> 200000
+def convert_seconds_into_time(seconds: float) -> str:
+    m = int(seconds // 60)
+    s = int(seconds - m*60)
+    decimal = '{:.3f}'.format(seconds - int(seconds))[2:]
+    return f'{m}{str(s).zfill(2)}{decimal}'
 
 
 # タイム差を計算
@@ -326,6 +334,55 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 
 	return embed
 
+
+def show_tier_time(track: str, row: int) -> discord.Embed:
+	mmr_list = wks.row_values(MMR_ROW)
+	time_list = wks.row_values(row)
+	wr_time = wks.cell(row, WR_COL).value
+
+	embed = discord.Embed(
+		title = f'tier time of {track}',
+		color = green
+	)
+	embed.set_thumbnail(url=get_thumbnail_url(row))
+
+	tier_name = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
+		'Ruby', 'Diamond', 'Master', 'Grandmaster']
+	tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10*5]
+	tier_time = [[0] * 2 for _ in range(10)]	# [cnt, sum_time]
+
+	# mmrごとにタイムを集計
+	for i in range(min(len(mmr_list), len(time_list))):
+		mmr = mmr_list[i]
+		time = time_list[i]
+
+		if mmr == '' or time == '':
+			continue
+
+		for j in range(len(tier_name)):
+			min_mmr, max_mmr = tier_range[j], tier_range[j+1]
+
+			if min_mmr <= int(mmr) < max_mmr:
+				tier_time[j][0] += 1
+				tier_time[j][1] += convert_time_into_seconds(time)
+				break
+	
+	# embedの処理
+	for i in range(len(tier_name)):
+		cnt, sum_time = tier_time[i][0], tier_time[i][1]
+
+		# tierの人数が0人だった場合
+		if cnt == 0:
+			embed.add_field(name=f'{tier_name[i]} (n={cnt})', value='No time', inline=False)
+			continue
+
+		avg_time = convert_seconds_into_time(sum_time / cnt)
+		diff = calc_time_diff(avg_time, wr_time)
+		embed.add_field(name=f'{tier_name[i]} (n={cnt})', value=f'> {format_time(avg_time)} (WR +{diff})', inline=False)
+
+
+	return embed
+	
 
 def delete_record(
     author: discord.member.Member,

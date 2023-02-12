@@ -45,6 +45,12 @@ async def track(ctx, *args):
     await ctx.send(embed=function.track_records(ctx, args))
 
 
+# tier別平均タイムを表示
+@bot.command(aliases=['tt', 'TT'])
+async def tier_time(ctx, *args):
+    await ctx.send(embed=function.tier_time(args))
+
+
 # 記録の削除
 @bot.command(aliases=['d', 'D'])
 async def delete(ctx, *args):
@@ -57,7 +63,7 @@ async def video(ctx, *args):
     await ctx.send(function.send_video_url(args))
 
 
-# bot起動時に動作
+# bot起動時
 @bot.event
 async def on_ready():
     print('ログインしました')
@@ -69,7 +75,7 @@ async def on_ready():
 async def on_guild_join(guild):
     print(f'join "{guild}"')
 
-
+ 
 @bot.command(aliases=['g', 'G'], hidden=True)
 @commands.is_owner()
 async def guilds(ctx):
@@ -80,16 +86,15 @@ async def guilds(ctx):
     await ctx.send(msg)
 
 
-# コマンドのエラー
+# コマンドのエラー処理
 @bot.event
 async def on_command_error(ctx, error):
     print(f'{error} ({ctx.guild})')
     err_msg = "error"
     if isinstance(error, commands.errors.CommandNotFound):
-        err_msg = "コマンドが存在しません"
+        err_msg = "command not found"
     elif isinstance(error, commands.errors.CommandInvokeError):
-        err_msg = "このbotを使用するにはチームを登録する必要があります。" \
-            "botの作成者 (taku#3173) までご連絡ください。"
+        err_msg = "bot error"
     
     await ctx.send(err_msg)
 
