@@ -19,6 +19,7 @@ sh = gc.open(file_name)
 wks = sh.worksheet('Data')
 
 # 色の設定
+err_color = 0xff3333
 green = 0x00ff00
 light_blue = 0x00ffff
 
@@ -98,8 +99,17 @@ def set_record(
     row: int) -> discord.Embed:
 	col = search_user(author)
 	wr_time = wks.cell(row, WR_COL).value
-	diff = calc_time_diff(time, wr_time)
 	prev_time = wks.cell(row, col).value
+	diff = calc_time_diff(time, wr_time)
+
+	if float(diff) <= 0 or 10 < float(diff):
+		embed_err = discord.Embed(
+			title = 'Input Error',
+			description = 'Invalid value',
+			color = err_color,
+		)
+
+		return embed_err
 
 	embed = discord.Embed(
 		title = track,
