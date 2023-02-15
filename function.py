@@ -22,7 +22,6 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     if args[1][0] == '0':
         return embed_err
 
-
     time = args[1]
     track_info = track.search(args[0]) # [track_name, track_number]
 
@@ -109,7 +108,7 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
 
 
 
-def tier_time(args: list[str]) -> discord.Embed:
+def tier_time(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = "Input Error",
         description = "**Ex.** `_d ttc`",
@@ -123,7 +122,7 @@ def tier_time(args: list[str]) -> discord.Embed:
     if track_info is None:
         return embed_err
     
-    return spreadsheet.show_tier_time(track_info[0], track_info[1])
+    return spreadsheet.show_tier_time(ctx.author, track_info[0], track_info[1])
 
 
 # 記録の削除

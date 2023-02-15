@@ -345,11 +345,13 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 	return embed
 
 
-def show_tier_time(track: str, row: int) -> discord.Embed:
+def show_tier_time(author: discord.member.Member, track: str, row: int) -> discord.Embed:
 	mmr_list = wks.row_values(MMR_ROW)
 	time_list = wks.row_values(row)
 	wr_time = wks.cell(row, WR_COL).value
-
+	col = search_user(author)
+	user_time = wks.cell(row, col).value
+	
 	embed = discord.Embed(
 		title = f'tier time of {track}',
 		color = green
@@ -378,6 +380,12 @@ def show_tier_time(track: str, row: int) -> discord.Embed:
 				break
 	
 	# embedの処理
+	if user_time == '':
+		embed.add_field(name='your time', value='-')
+	else:
+		embed.add_field(name='your time', value=f'> {format_time(user_time)} (WR +{calc_time_diff(user_time, wr_time)})')
+		user_time = format_time(user_time)
+	
 	for i in range(len(tier_name)):
 		cnt, sum_time = tier_time[i][0], tier_time[i][1]
 

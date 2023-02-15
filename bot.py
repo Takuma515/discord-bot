@@ -48,7 +48,7 @@ async def track(ctx, *args):
 # tier別平均タイムを表示
 @bot.command(aliases=['tt', 'TT'])
 async def tier_time(ctx, *args):
-    await ctx.send(embed=function.tier_time(args))
+    await ctx.send(embed=function.tier_time(ctx, args))
 
 
 # 記録の削除
@@ -74,15 +74,18 @@ async def on_ready():
 @bot.event
 async def on_guild_join(guild):
     print(f'join "{guild}"')
+    await update_activity()
 
  
 @bot.command(aliases=['g', 'G'], hidden=True)
 @commands.is_owner()
 async def guilds(ctx):
-    guild_list = bot.guilds
+    guild_list = list(map(lambda g: g.name, bot.guilds))
+    guild_list.sort()
     msg = 'Servers:\n'
     for g in guild_list:
-        msg = msg + g.name + '\n'
+        msg = msg + g + '\n'
+
     await ctx.send(msg)
 
 
