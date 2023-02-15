@@ -92,7 +92,10 @@ async def guilds(ctx):
 # コマンドのエラー処理
 @bot.event
 async def on_command_error(ctx, error):
-    print(f'{error} ({ctx.guild})')
+    if ctx.guild is None:
+        print(f'{error} ({ctx.author})')
+    else:
+        print(f'{error} ({ctx.guild})')
     err_msg = "error"
     if isinstance(error, commands.errors.CommandNotFound):
         err_msg = "command not found"
