@@ -380,7 +380,7 @@ def show_tier_time(author: discord.member.Member, track: str, row: int) -> disco
 				break
 	
 	# embedの処理
-	if user_time == '':
+	if user_time is None:
 		embed.add_field(name='your time', value='-')
 	else:
 		embed.add_field(name='your time', value=f'> {format_time(user_time)} (WR +{calc_time_diff(user_time, wr_time)})')
