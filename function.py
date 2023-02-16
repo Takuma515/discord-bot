@@ -95,6 +95,10 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
 
     if len(args) != 1:
         return embed_err
+    elif ctx.guild is None:
+        embed_err.title = "No server"
+        embed_err.description = "このコマンドはDMでは使用できません"
+        return embed_err
     
     track_info = track.search(args[0]) # [track_name, track_number]
     if track_info is None:
