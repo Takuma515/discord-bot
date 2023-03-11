@@ -102,6 +102,7 @@ def set_record(
 	prev_time = wks.cell(row, col).value
 	diff = calc_time_diff(time, wr_time)
 
+	# WR以下 or WR+10秒以上の記録は弾く
 	if float(diff) <= 0 or 10 < float(diff):
 		embed_err = discord.Embed(
 			title = 'Input Error',

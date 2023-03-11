@@ -5,9 +5,9 @@ OFFSET = 4
 def search(name: str) -> Optional[list]:
     name = str.lower(name)
     MKS = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
-    WP = {'wp', 'ウォーターパーク','うぉーたーぱーく','うぉたぱ', 'ウォタパ'}
+    WP = {'wp', 'ウォーターパーク','うぉーたーぱーく', 'ウォタパ', 'うぉたぱ'}
     SSC = {'ssc', 'スイーツキャニオン', 'すいーつきゃにおん', 'スイキャニ', 'すいきゃに'}
-    TR = {'tr', 'ドッスン遺跡', 'どっすんいせき', 'ドッスンいせき', 'ドッスンイセキ', 'ドッスン', 'どっすん', 'いせき', '遺跡', 'イセキ'}
+    TR = {'tr', 'ドッスン遺跡', 'どっすんいせき', 'ドッスンいせき', 'ドッスンイセキ', 'ドッスン', 'どっすん', 'イセキ', 'いせき', '遺跡'}
 
     MC = {'mc', 'マリオサーキット', 'マリサ', 'まりおさーきっと', 'まりさ', '新マリサ', 'しんまりさ', 'シンマリサ', '新まりさ'}
     TH = {'th', 'キノピオハーバー', 'きのぴおはーばー', 'はーばー', 'ハーバー'}
@@ -64,7 +64,7 @@ def search(name: str) -> Optional[list]:
     dSBS = {'dsbs', 'sbs', 'リンリンメトロ', 'りんりんめとろ', 'りんめと', 'リンメト', 'リンリン', 'りんりん', 'リン', 'りん'}
     dBB = {'dbb', 'bb', 'ビッグブルー', 'びっぐぶるー'}
 
-    # 追加コース
+    # 追加コース第１弾
     bPP = {'bpp', 'pp', 'paris', 'ぱり', 'パリ', 'パリプロムナード', 'ぱりぷろむなーど'}
     bTC = {'btc', 'tc', 'キノピオサーキット', 'キノサ', 'きのぴおさーきっと', 'きのさ'}
     bCMo = {'bcmo', 'cmo', 'bchm', 'chm', 'bcm64', 'cm64', 'チョコマウンテン', 'チョコ', 'チョコマ', 'ちょこまうんてん', 'ちょこま', 'ちょこ', 'チョコ山', 'チョコやま'}
@@ -75,6 +75,7 @@ def search(name: str) -> Optional[list]:
     bSG = {'bsg', 'sg', 'gbaスカイガーデン',  'gbaすかいがーでん', 'gbaスカガ', 'gbaすかが', 'グバスカ', 'ぐばすか', 'グバガ', 'ぐばが'}
     bNH = {'bnh', 'nh', 'ninja', 'ニンニンドージョー', 'にんにんどーじょー', 'ニンニン', 'にんにん', 'にんじょー', 'ニンジョー', 'ドージョー', 'どうじょう'}
 
+    # 追加コース第２弾
     bNYM = {'bnym', 'nym', 'ニューヨークドリーム', 'ニューヨーク', 'ニューヨーク', 'にゅーよーく', 'ニュードリ', 'にゅーどり'}
     bMC3 = {'bmc3', 'mc3', 'sfcマリサ', 'sfcまりさ', 'マリサ3', 'まりさ3'}
     bKD = {'bkd', 'kd', '64カラカラさばく', '64カラサバ', '64からさば'}
@@ -85,15 +86,27 @@ def search(name: str) -> Optional[list]:
     bMG = {'bmg', 'mg', 'キノコキャニオン', 'キノキャニ', 'きのキャニ', 'きのきゃに'}
     bSHS = {'bshs', 'shs', 'アイスビルディング', 'アイス', 'あいす'}
 
-    bLL = {'bll', 'll', 'ロンドンアベニュー', 'ロンドン'}
-    bBL = {'bbl', 'bl', 'テレサレイク', 'テレサ', 'レイク'}
-    bRRM = {'brrm', 'rrm', 'ロックロックマウンテン', 'ロック', 'ロクマ'}
-    bMT = {'bmt', 'mt','メイプルツリーハウス', 'メイプル', 'メープル'}
+    # 追加コース第３弾
+    bLL = {'bll', 'll', 'ロンドンアベニュー', 'ロンドン', 'ろんどん'}
+    bBL = {'bbl', 'bl', 'テレサレイク', 'テレサ', 'レイク', 'てれされいく', 'てれさ'}
+    bRRM = {'brrm', 'rrm', 'ロックロックマウンテン', 'ロック', 'ロクマ', 'ろくま'}
+    bMT = {'bmt', 'mt','メイプルツリーハウス', 'メイプル', 'メープル', 'めいぷる', 'めーぷる'}
 
-    bBB = {'bbb', 'ベルリンシュトラーセ', 'ベルリン'}
-    bPG = {'bpg', 'pg', 'ピーチガーデン', 'ピチガ'}
-    bMM = {'bmm', 'mm', 'メリーメリーマウンテン', 'メリマ', 'メリー'}
+    bBB = {'bbb', 'ベルリンシュトラーセ', 'ベルリン', 'べるりん'}
+    bPG = {'bpg', 'pg', 'ピーチガーデン', 'ピチガ', 'ぴちが'}
+    bMM = {'bmm', 'mm', 'メリーメリーマウンテン', 'メリマ', 'メリー', 'めりま'}
     bRR7 = {'brr7', 'brr', 'rr7', '3dsレインボーロード', '3ds虹', '3dsにじ'}
+
+    # 追加コース第４弾
+    bAD = {'bad', 'ad', 'アムステルダムブルーム', 'アムステルダム', 'あむすてるだむ'}
+    bRP = {'brp', 'rp', 'リバーサイドパーク', 'リバパ', 'りばぱ'}
+    bDKS = {'bdks', 'dks', 'スノーボードクロス', 'スノボ', 'クロス', 'すのぼ', 'くろす'}
+    bYI = {'byi', 'yi', 'ヨッシーアイランド', 'アイランド', 'あいらんど'}
+
+    bBR = {'bbr', 'br', 'バンコクラッシュ', 'バンコク', 'ばんこく'}
+    bMC = {'bmc', 'dsマリオサーキット', 'dsマリサ', 'dsまりさ'}
+    bWS = {'bws', 'ワルイージスタジアム', 'ワルスタ', 'わるすた'}
+    bSSy = {'bssy', 'ssy', 'シンガポールスプラッシュ', 'シンガポール', 'しんがぽーる', 'シンスプ', 'しんすぷ'}
 
     tracks = [ \
         [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
@@ -113,14 +126,17 @@ def search(name: str) -> Optional[list]:
         [['Tour New York Minute', bNYM], ['SNES Mario Circuit 3', bMC3], ['N64 Kalimari Desert', bKD], ['DS Waluigi Pinball', bWP]], \
         [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]], \
         [['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT]], \
-        [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]]]
+        [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]], \
+        [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
+        [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]]]
     
-    for i in range(18):
+    
+    for i in range(20):
         for j in range(4):
             if name in tracks[i][j][1]:
                 n = i*4 + j
 
-                # コース名, 番号(0~71)を返す 
+                # コース名, 番号(0~79)を返す 
                 return [tracks[i][j][0], n+OFFSET]
     
     return None
