@@ -103,8 +103,7 @@ def set_record(
 	diff = calc_time_diff(time, wr_time)
 
 	# WR以下 or WR+10秒以上の記録は弾く
-	# if float(diff) <= 0 or 10 < float(diff):	# DLC4弾のために一時的にコメントアウト
-	if float(diff) <= 0:
+	if float(diff) <= 0 or 10 < float(diff):
 		embed_err = discord.Embed(
 			title = 'Input Error',
 			description = 'Invalid value',
