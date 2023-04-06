@@ -82,11 +82,22 @@ async def on_guild_join(guild):
 async def guilds(ctx):
     guild_list = list(map(lambda g: g.name, bot.guilds))
     guild_list.sort()
-    msg = 'Servers:\n'
+    guilds = ""
     for g in guild_list:
-        msg = msg + g + '\n'
+        guilds = guilds + g + '\n'
 
-    await ctx.send(msg)
+    embed = discord.Embed(
+        title = "Servers",
+        description = guilds
+    )
+    await ctx.send(embed = embed)
+
+
+@bot.command(aliases=['ud'], hidden=True)
+@commands.is_owner()
+async def user_data(ctx):
+    
+    await ctx.send(embed = function.user_data())
 
 
 # コマンドのエラー処理

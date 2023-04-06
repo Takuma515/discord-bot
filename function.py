@@ -156,3 +156,7 @@ def send_video_url(args: list[str]) -> str:
         return "No track"
 
     return spreadsheet.video_url(track_info[1])
+
+
+def user_data() -> discord.Embed:
+    return spreadsheet.user_data()

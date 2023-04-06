@@ -424,3 +424,36 @@ def delete_record(
 
 def video_url(row: int) -> str:
 	return wks.cell(row, VIDEO_COL).value
+
+
+def user_data() -> discord.Embed:
+	mmr_list = wks.row_values(3)
+	tier_name = ['Unrated', 'Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
+		'Ruby', 'Diamond', 'Master', 'Grandmaster']
+	tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10*5]
+	user_num_list = [0] * 11
+
+	# mmrごとにユーザ数を集計
+	for i in range(6, len(mmr_list)):
+		mmr = mmr_list[i]
+
+		if mmr == '':
+			user_num_list[0] += 1
+			continue
+
+		for j in range(len(tier_name)):
+			min_mmr, max_mmr = tier_range[j], tier_range[j+1]
+
+			if min_mmr <= int(mmr) < max_mmr:
+				user_num_list[j+1] += 1
+				break
+	
+	description = ''
+	for i in range(len(user_num_list)):
+		description = description + f'{tier_name[i]}: {user_num_list[i]}\n'
+
+	embed = discord.Embed(
+		title = 'User Data',
+		description = description
+	)
+	return embed
