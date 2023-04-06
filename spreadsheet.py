@@ -452,6 +452,7 @@ def user_data() -> discord.Embed:
 	for i in range(len(user_num_list)):
 		description = description + f'{tier_name[i]}: {user_num_list[i]}\n'
 
+	description = description + f'Total: {sum(user_num_list)}'
 	embed = discord.Embed(
 		title = 'User Data',
 		description = description
