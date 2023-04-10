@@ -13,13 +13,9 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
         description = "**Ex.** `_s ttc 150123`",
         color = err_color
     )
-    if len(args) != 2:
-        return embed_err
-    if not args[1].isdecimal():
-        return embed_err
-    if len(args[1]) != 6:
-        return embed_err
-    if args[1][0] == '0':
+
+    # 入力のエラー処理
+    if len(args) != 2 or not args[1].isdecimal() or len(args[1]) != 6 or args[1][0] == '0':
         return embed_err
 
     time = args[1]
@@ -33,8 +29,6 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
 
 # 記録の表示
 def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
-    embed_list = []
-
     embed_err = discord.Embed(
         title = "Input Error",
         description = "**Ex.** `_r ttc`",
@@ -45,7 +39,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     file = None
     
     if len(args) == 0:
-        embed_list, file = spreadsheet.show_all_records(ctx.author)
+        embed_list, file = spreadsheet.show_user_records(ctx.author)
     elif len(args) == 1:
         sub_list = ['1', '2', '3', '4', '5']
         track_info = track.search(args[0]) # [track, track_number]
@@ -57,9 +51,10 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
         elif track_info is not None:
             embed_list = [spreadsheet.show_record(ctx.author, track_info[0], track_info[1])]
         elif ctx.guild is not None:
-            embed_list, file = spreadsheet.show_all_records(ctx.guild.get_member_named(args[0]))
+            embed_list, file = spreadsheet.show_user_records(ctx.guild.get_member_named(args[0]))
 
     return embed_list, file
+
 
 
 # WRの表示
@@ -95,8 +90,9 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
 
     if len(args) != 1:
         return embed_err
-    elif ctx.guild is None:
-        embed_err.title = "No server"
+    
+    if ctx.guild is None:
+        embed_err.title = "Not server"
         embed_err.description = "このコマンドはDMでは使用できません"
         return embed_err
     

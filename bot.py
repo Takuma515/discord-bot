@@ -80,40 +80,39 @@ async def on_guild_join(guild):
 @bot.command(aliases=['g', 'G'], hidden=True)
 @commands.is_owner()
 async def guilds(ctx):
-    guild_list = list(map(lambda g: g.name, bot.guilds))
-    guild_list.sort()
-    guilds = ""
-    for g in guild_list:
-        guilds = guilds + g + '\n'
+    guild_names = sorted(g.name for g in bot.guilds)
+    guilds = "\n".join(guild_names)
 
     embed = discord.Embed(
-        title = "Servers",
-        description = guilds
+        title="Servers",
+        description=guilds
     )
-    await ctx.send(embed = embed)
+    await ctx.send(embed=embed)
 
 
 @bot.command(aliases=['ud'], hidden=True)
 @commands.is_owner()
 async def user_data(ctx):
-    
     await ctx.send(embed = function.user_data())
 
 
 # コマンドのエラー処理
 @bot.event
 async def on_command_error(ctx, error):
-    log = ''
-    if ctx.guild is None:
-        log = f'{error} ({ctx.author})\n'
+    if not ctx.guild:
+        location = str(ctx.author)
     else:
-        log = f'{error} ({ctx.guild})\n'
-    print(log + f'message: "{ctx.message.content}"')
-    err_msg = "error"
+        location = str(ctx.guild)
+    
+    log_message = f"{error} ({location})\nmessage: \"{ctx.message.content}\""
+    print(log_message)
+
     if isinstance(error, commands.errors.CommandNotFound):
         err_msg = "command not found"
     elif isinstance(error, commands.errors.CommandInvokeError):
         err_msg = "bot error"
+    else:
+        err_msg = "error"
     
     await ctx.send(err_msg)
 

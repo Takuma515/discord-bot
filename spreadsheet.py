@@ -54,7 +54,8 @@ def search_user(author: discord.member.Member) -> int:
 
 # タイムを秒に変換: 120000 -> 80sec
 def convert_time_into_seconds(time: str) -> float:
-	return float(time[0])*60 + float(time[1])*10 + float(time[2]) + float(time[3:]) / 1000
+    minutes, seconds, milliseconds = map(int, (time[0], time[1:3], time[3:]))
+    return minutes * 60 + seconds + milliseconds / 1000
 
 
 # 秒をタイムに変換: 120.000 -> 200000
@@ -103,20 +104,10 @@ def set_record(
 	diff = calc_time_diff(time, wr_time)
 
 	# WR以下 or WR+10秒以上の記録は弾く
-	if float(diff) <= 0 or 10 < float(diff):
-		embed_err = discord.Embed(
-			title = 'Input Error',
-			description = 'Invalid value',
-			color = err_color,
-		)
+	if not 0 < float(diff) <= 10:
+		return discord.Embed(title='Input Error', description='Invalid value', color=err_color)
 
-		return embed_err
-
-	embed = discord.Embed(
-		title = track,
-		color = green,
-	)
-
+	embed = discord.Embed(title = track, color = green)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
@@ -147,11 +138,7 @@ def show_record(
 	wr_time = wks.cell(row, WR_COL).value
 	wrecorder = wks.cell(row, PLAYER_COL).value
 
-	embed = discord.Embed(
-		title = track,
-		color = green,
-	)
-
+	embed = discord.Embed(title = track, color = green,)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
 	if time is None:
@@ -206,7 +193,7 @@ def show_sub_records(
 	return embed_list
 
 
-def show_all_records(author: discord.member.Member) -> list[discord.Embed]:
+def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	col = search_user(author)
 	user_name = str(author).split('#')[0]
 	tracks = wks.col_values(TRACK_COL)
@@ -241,7 +228,7 @@ def show_all_records(author: discord.member.Member) -> list[discord.Embed]:
 
 		avg_diff += float(diff)
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
-		cnt = cnt + 1
+		cnt += 1
 	
 	if cnt == 25 or cnt == 50:
 		embed_list.append(discord.Embed(
@@ -409,11 +396,7 @@ def delete_record(
     row: int
     ) -> discord.Embed:
 
-	embed = discord.Embed(
-		title = track,
-		color = light_blue,
-	)
-
+	embed = discord.Embed(title = track, color = light_blue,)
 	col = search_user(author)
 	wks.update_cell(row, col, '')
 	embed.set_thumbnail(url=get_thumbnail_url(row))
@@ -434,10 +417,8 @@ def user_data() -> discord.Embed:
 	user_num_list = [0] * 11
 
 	# mmrごとにユーザ数を集計
-	for i in range(6, len(mmr_list)):
-		mmr = mmr_list[i]
-
-		if mmr == '':
+	for mmr in mmr_list[6:]:
+		if not mmr:
 			user_num_list[0] += 1
 			continue
 
@@ -448,13 +429,7 @@ def user_data() -> discord.Embed:
 				user_num_list[j+1] += 1
 				break
 	
-	description = ''
-	for i in range(len(user_num_list)):
-		description = description + f'{tier_name[i]}: {user_num_list[i]}\n'
-
-	description = description + f'Total: {sum(user_num_list)}'
-	embed = discord.Embed(
-		title = 'User Data',
-		description = description
-	)
+	description = '\n'.join(f'{tier_name[i]}: {user_num_list[i]}' for i in range(len(user_num_list)))
+	description += f'\nTotal: {sum(user_num_list)}'
+	embed = discord.Embed(title = 'User Data', description = description)
 	return embed
