@@ -63,6 +63,22 @@ async def video(ctx, *args):
     await ctx.send(function.send_video_url(args))
 
 
+# リンクの送信
+@bot.command(aliases=['l', 'L'])
+async def link(ctx):
+    embed = discord.Embed(
+        title = "NITA Links",
+        description = '[NITA ALL](https://docs.google.com/spreadsheets/u/1/d/e/'\
+                        '2PACX-1vRDdedRm18RtIu2hB9l5WrbaClaIPnZAVh_Xf7IeGzmsOVHcNdjoD3VWo8EdMxJ7JKdtcbFnebLjCcV/pubhtml#)\n' \
+                      '[ワルハナNITA](https://docs.google.com/spreadsheets/d/e/' \
+						'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)\n' \
+                      '[中量トルネードNITA](https://docs.google.com/spreadsheets/d/e/' \
+                        '2PACX-1vRz9qxcj06seMvQcOf7m49x_2yxeynIb5Q72UrVOEc-vJNtmUH8YomPMTDuHXAH5py_xyDn3RcPdUzo/pubhtml?gid=1908866215&single=true)\n' \
+                      '[150cc NITA リーダーボード](https://docs.google.com/spreadsheets/d/e/' \
+                        '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true)'
+    )
+    await ctx.send(embed=embed)
+
 # bot起動時
 @bot.event
 async def on_ready():

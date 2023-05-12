@@ -16,7 +16,7 @@ key = os.environ['API_KEY']
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(key), scope)
 gc = gspread.authorize(credentials)
 sh = gc.open(file_name)
-wks = sh.worksheet('Data')
+wks = sh.worksheet('UserData')
 
 # 色の設定
 err_color = 0xff3333
@@ -203,7 +203,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	avg_diff = 0
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
-			description = '[ワルハナNITA WR](https://docs.google.com/spreadsheets/d/e/' \
+			description = '[ワルハナNITA](https://docs.google.com/spreadsheets/d/e/' \
 							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
 			color = green
 		)]
