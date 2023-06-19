@@ -137,6 +137,7 @@ def show_record(
 	time = wks.cell(row, col).value
 	wr_time = wks.cell(row, WR_COL).value
 	wrecorder = wks.cell(row, PLAYER_COL).value
+	time_list = sorted([x for x in wks.row_values(row)[6:] if x != ''])
 
 	embed = discord.Embed(title = track, color = green,)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
@@ -148,6 +149,16 @@ def show_record(
 		embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})')
 	
 	embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
+	rank = time_list.index(time) + 1
+	if rank == 1:
+		rank = '🥇 1st'
+	elif rank == 2:
+		rank = '🥈 2nd'
+	elif rank == 3:
+		rank = '🥉 3rd'
+	else:
+		rank = f'{rank}th'	
+	embed.add_field(name='Rank', value=f'> {rank} ({len(time_list)} players)', inline=False)
 	return embed
 
 
