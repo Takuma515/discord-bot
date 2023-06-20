@@ -144,11 +144,14 @@ def show_record(
 
 	if time is None:
 		embed.add_field(name='time', value='-', inline=False)
-	else:
-		diff = calc_time_diff(time, wr_time)
-		embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})')
+		embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
+		return [embed], None
 	
+	diff = calc_time_diff(time, wr_time)
+	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})')
 	embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
+
+	# ランクの表示
 	rank = time_list.index(time) + 1
 	if rank == 1:
 		rank = '🥇 1st'
@@ -159,7 +162,37 @@ def show_record(
 	else:
 		rank = f'{rank}th'	
 	embed.add_field(name='Rank', value=f'> {rank} ({len(time_list)} players)', inline=False)
-	return embed
+
+	# タイムの分布を表示
+	diff_records_count = [0]*6
+	diff_time_list = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+	for t in time_list:
+		diff = float(calc_time_diff(t, wr_time))
+		for i in range(6):
+			if diff <= diff_time_list[i]:
+				diff_records_count[i] += 1
+				break
+
+	# グラフの作成
+	color_list = ['#005AFF']*6
+	diff = float(calc_time_diff(time, wr_time))
+	for i in range(6):
+		if diff <= diff_time_list[i]:
+			color_list[i] = '#FF4B00'
+
+	plt.bar(diff_time_list, diff_records_count, width=0.35, color=color_list, alpha=0.9)
+	plt.xlabel('Time Diff from WR')
+	plt.ylabel('Players')
+	plt.grid(linestyle='--', axis='y')
+	buffer = BytesIO()
+	plt.savefig(buffer, format='png', bbox_inches='tight')
+	buffer.seek(0)
+	plt.clf()
+	plt.close()
+	file = discord.File(buffer, filename='subGraph.png')
+	embed.set_image(url='attachment://subGraph.png')
+
+	return [embed], file
 
 
 def show_sub_records(
@@ -252,9 +285,9 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 		avg_diff = '{:.3f}'.format(avg_diff / cnt)
 		embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
 	
-	# グラフの描画
+	# グラフの作成
 	left = [1, 2, 3, 4, 5]
-	plt.bar(left, sub_tracks, alpha=0.8)
+	plt.bar(left, sub_tracks)
 	plt.xlabel('Sub Time')
 	plt.ylabel('Tracks')
 	plt.grid(linestyle='--', axis='y')

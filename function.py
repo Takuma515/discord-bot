@@ -49,7 +49,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
             sub_time = args[0] + '.000'
             embed_list = spreadsheet.show_sub_records(ctx.author, sub_time)
         elif track_info is not None:
-            embed_list = [spreadsheet.show_record(ctx.author, track_info[0], track_info[1])]
+            embed_list, file = spreadsheet.show_record(ctx.author, track_info[0], track_info[1])
         elif ctx.guild is not None:
             embed_list, file = spreadsheet.show_user_records(ctx.guild.get_member_named(args[0]))
 
