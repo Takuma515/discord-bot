@@ -179,6 +179,7 @@ def show_record(
 	for i in range(6):
 		if diff <= diff_time_list[i]:
 			color_list[i] = '#FF4B00'
+			break
 
 	plt.bar(diff_time_list, diff_records_count, width=0.35, color=color_list, alpha=0.9)
 	plt.xlabel('Time Diff from WR')
