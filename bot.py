@@ -100,7 +100,7 @@ async def guilds(ctx):
     guilds = "\n".join(guild_names)
 
     embed = discord.Embed(
-        title="Servers",
+        title=f'{len(guild_names)} Servers',
         description=guilds
     )
     await ctx.send(embed=embed)

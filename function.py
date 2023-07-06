@@ -110,7 +110,7 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
 def tier_time(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_d ttc`",
+        description = "**Ex.** `_tt ttc`",
         color = err_color
     )
 
