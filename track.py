@@ -108,6 +108,18 @@ def search(name: str) -> Optional[list]:
     bWS = {'bws', 'ワルイージスタジアム', 'ワルスタ', 'わるすた'}
     bSSy = {'bssy', 'ssy', 'シンガポールスプラッシュ', 'シンガポール', 'しんがぽーる', 'シンスプ', 'しんすぷ'}
 
+    # 追加コース第５弾
+    bADa = {'bada', 'ada','アテネポリス', 'アテネ'}
+    bDC = {'bdc', 'dc', 'デイジークルーザー', 'デイジー', 'クルーザー'}
+    bMH = {'bmh', 'mh', 'ムーンリッジ', 'ムーン'}
+    bSCS = {'bscs', 'scs', 'シャボンロード', 'シャボン'}
+
+    bLAL = {'blal', 'lal', 'ロサンゼルスコースト', 'ロサンゼルス', 'ロス'}
+    bSW = {'bsw', 'sw', 'サンセットこうや', 'サンセット', 'こうや'}
+    bKC = {'bkc', 'kc', 'ノコノコみさき', 'ノコノコ'}
+    bVV = {'bvv', 'vv', 'バンクーバーバレー', 'バンクーバー'}
+
+
     tracks = [ \
         [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
         [['Mario Circuit', MC], ['Toad Harbor', TH], ['Twisted Mansion', TM], ['Shy Guy Falls', SGF]], \
@@ -128,10 +140,12 @@ def search(name: str) -> Optional[list]:
         [['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT]], \
         [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]], \
         [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
-        [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]]]
+        [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]], \
+        [['Tour Athens Dash', bADa], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
+        [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]]]
     
     
-    for i in range(20):
+    for i in range(22):
         for j in range(4):
             if name in tracks[i][j][1]:
                 n = i*4 + j

@@ -104,7 +104,8 @@ def set_record(
 	diff = calc_time_diff(time, wr_time)
 
 	# WR以下 or WR+10秒以上の記録は弾く
-	if not 0 < float(diff) <= 10:
+	# DLC5弾対応のため10秒以上の記録も許容
+	if not 0 < float(diff):
 		return discord.Embed(title='Input Error', description='Invalid value', color=err_color)
 
 	embed = discord.Embed(title = track, color = green)
@@ -318,7 +319,7 @@ def show_wr(track: str, row: int):
 	time_col = time_col_list[track_num % 4]
 	start_row = 11 + (track_num // 4) * 13
 
-	# テータの取得
+	# データの取得
 	recorders = wks.range(f'{recorder_col}{start_row}:{recorder_col}{start_row+9}')
 	times = wks.range(f'{time_col}{start_row}:{time_col}{start_row+9}')
 	
