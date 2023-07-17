@@ -123,6 +123,8 @@ async def on_command_error(ctx, error):
 
     if isinstance(error, commands.errors.CommandInvokeError):
         err_msg = "bot error"
+    elif isinstance(error, commands.CommandNotFound):
+        return
     else:
         err_msg = "error"
     
