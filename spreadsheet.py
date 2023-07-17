@@ -287,7 +287,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	
 	# グラフの作成
 	left = [1, 2, 3, 4, 5]
-	plt.bar(left, sub_tracks)
+	plt.bar(left, sub_tracks, color='#005AFF')
 	plt.xlabel('Sub Time')
 	plt.ylabel('Tracks')
 	plt.grid(linestyle='--', axis='y')
