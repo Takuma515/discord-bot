@@ -54,30 +54,6 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
             embed_list, file = spreadsheet.show_user_records(ctx.guild.get_member_named(args[0]))
 
     return embed_list, file
-
-
-
-# WRの表示
-def show_wr(args: list[str]) -> discord.Embed:
-    embed = discord.Embed(
-            color = 0x00ff00,
-    )
-
-    embed_err = discord.Embed(
-        title = "Input Error",
-        description = "**Ex.** `_s ttc 150123`",
-        color = err_color
-    )
-
-    if len(args) != 1:
-        return embed_err
-
-    track_info = track.search(args[0]) # [track_name, track_number]
-
-    if track_info is None:
-        return embed_err
-
-    return spreadsheet.show_wr(track_info[0], track_info[1])
     
 
 # コースの記録の表示
@@ -104,7 +80,6 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
     members_id_list = set(map(lambda m: str(m.id), ctx.guild.members))
 
     return spreadsheet.track_records(members_id_list, track_info[0], track_info[1])
-
 
 
 def tier_time(ctx: commands.Context, args: list[str]) -> discord.Embed:
@@ -156,3 +131,26 @@ def send_video_url(args: list[str]) -> str:
 
 def user_data() -> discord.Embed:
     return spreadsheet.user_data()
+
+
+# WRの表示 (一時停止)
+# def show_wr(args: list[str]) -> discord.Embed:
+#     embed = discord.Embed(
+#             color = 0x00ff00,
+#     )
+
+#     embed_err = discord.Embed(
+#         title = "Input Error",
+#         description = "**Ex.** `_s ttc 150123`",
+#         color = err_color
+#     )
+
+#     if len(args) != 1:
+#         return embed_err
+
+#     track_info = track.search(args[0]) # [track_name, track_number]
+
+#     if track_info is None:
+#         return embed_err
+
+#     return spreadsheet.show_wr(track_info[0], track_info[1])

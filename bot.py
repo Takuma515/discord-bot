@@ -16,15 +16,16 @@ async def update_activity():
     await bot.change_presence(activity=activity)
     
 
-# 記録の登録
+
 @bot.command(aliases=['s','S'])
 async def set(ctx, *args):
+    '''記録を登録'''
     await ctx.send(embed=function.set_record(ctx, args))
 
 
-# 個人の記録の表示
 @bot.command(aliases=['r', 'R'])
 async def record(ctx, *args):
+    '''記録を表示'''
     embed_list, file = function.show_record(ctx, args)
     for i, embed in enumerate(embed_list):
         if i == len(embed_list) -1:
@@ -33,48 +34,48 @@ async def record(ctx, *args):
             await ctx.send(embed=embed)
 
 
-# WRの表示
-@bot.command(aliases=['WR'])
-async def wr(ctx, *args):
-    await ctx.send(embed=function.show_wr(args))
-
-
-# コースの記録の表示
 @bot.command(aliases=['t', 'T'])
 async def track(ctx, *args):
+    '''指定コースの記録を表示'''
     await ctx.send(embed=function.track_records(ctx, args))
 
 
-# tier別平均タイムを表示
 @bot.command(aliases=['tt', 'TT'])
 async def tier_time(ctx, *args):
+    '''tier別の平均タイムを表示'''
     await ctx.send(embed=function.tier_time(ctx, args))
 
 
-# 記録の削除
 @bot.command(aliases=['d', 'D'])
 async def delete(ctx, *args):
+    '''記録を削除'''
     await ctx.send(embed=function.delete_record(ctx, args))
 
 
-# 解説動画URLを送信
 @bot.command(aliases=['v', 'V'])
 async def video(ctx, *args):
+    '''解説動画のURLを送信'''
     await ctx.send(function.send_video_url(args))
 
 
-# リンクの送信
 @bot.command(aliases=['l', 'L'])
 async def link(ctx):
+    '''NITAスプシのURLを送信'''
     embed = discord.Embed(
         title = "NITA Links",
         description = '[150cc NITA リーダーボード](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true)\n' \
                       '[150cc NITA VSカスタムのみ](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=406946200&single=true)'
-
     )
     await ctx.send(embed=embed)
+
+
+# 一時停止
+# @bot.command(aliases=['WR'])
+# async def wr(ctx, *args):
+#     await ctx.send(embed=function.show_wr(args))
+
 
 # bot起動時
 @bot.event
@@ -120,9 +121,7 @@ async def on_command_error(ctx, error):
     log_message = f"{error} ({location})\nmessage: \"{ctx.message.content}\""
     print(log_message)
 
-    if isinstance(error, commands.errors.CommandNotFound):
-        err_msg = "command not found"
-    elif isinstance(error, commands.errors.CommandInvokeError):
+    if isinstance(error, commands.errors.CommandInvokeError):
         err_msg = "bot error"
     else:
         err_msg = "error"
@@ -130,5 +129,5 @@ async def on_command_error(ctx, error):
     await ctx.send(err_msg)
 
 
-# Botの起動とDiscordサーバーへの接続
+
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
