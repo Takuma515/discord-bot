@@ -102,8 +102,7 @@ def set_record(
 	diff = calc_time_diff(time, wr_time)
 
 	# WR以下 or WR+10秒以上の記録は弾く
-	# DLC5弾対応のため10秒以上の記録も許容
-	if not 0 < float(diff):
+	if not 0 < float(diff) <= 10:
 		return discord.Embed(title='Input Error', description='Invalid value', color=err_color)
 
 	embed = discord.Embed(title = track, color = green)
