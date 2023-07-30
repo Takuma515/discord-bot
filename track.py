@@ -25,7 +25,7 @@ def search(name: str) -> Optional[list]:
     RR = {'rr', '新虹', '新にじ', 'しんにじ', 'レインボーロード', 'シンニジ', 'れいんぼーろーど'}
 
     rMMM = {'rmmm', 'mmm', 'モモカン', 'もーもーカントリー', 'モーモーカントリー', 'ももかん', 'もーもーかんとりー', '牛', 'うし'}
-    rMC = {'rmc', 'gba', 'ぐば', 'グバ', 'gbaまりさ', 'gbaマリサ', 'gbaマリオサーキット', 'gbaまりおさーきっと', 'ジービーエー', 'じーびーえー'}
+    rMC = {'rmc', 'gba', 'ぐばまり', 'グバマリ', 'ぐば', 'グバ', 'gbaまりさ', 'gbaマリサ', 'gbaマリオサーキット', 'gbaまりおさーきっと'}
     rCCB = {'rccb', 'ccb', 'プクプクビーチ', 'プクプク', 'プクビ', 'ぷくぷくびーち', 'ぷくぷく', 'ぷくび', 'びーち', 'ビーチ'}
     rTT = {'rtt', 'tt', 'キノピオハイウェイ', '高速道路', '高速', 'こうそくどうろ', 'こうそく', 'はいうぇい', 'ハイウェイ', 'きのぴおはいうぇい'}
 
@@ -109,7 +109,7 @@ def search(name: str) -> Optional[list]:
     bSSy = {'bssy', 'ssy', 'シンガポールスプラッシュ', 'シンガポール', 'しんがぽーる', 'シンスプ', 'しんすぷ'}
 
     # 追加コース第５弾
-    bADa = {'bada', 'ada','アテネポリス', 'アテネ', 'あてね'}
+    bAtD = {'batd', 'atd', 'アテネポリス', 'アテネ', 'あてね'}
     bDC = {'bdc', 'dc', 'デイジークルーザー', 'デイクル', 'でいくる','デイジー', 'クルーザー', 'でいじー', 'くるーざー'}
     bMH = {'bmh', 'mh', 'ムーンリッジ', 'ムーン', 'むーん'}
     bSCS = {'bscs', 'scs', 'シャボンロード', 'シャボン', 'しゃぼん'}
@@ -141,7 +141,7 @@ def search(name: str) -> Optional[list]:
         [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]], \
         [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
         [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]], \
-        [['Tour Athens Dash', bADa], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
+        [['Tour Athens Dash', bAtD], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
         [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]]]
     
     
