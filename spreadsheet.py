@@ -78,19 +78,7 @@ def format_time(time: str) -> str:
 
 # サムネイルのURLを取得
 def get_thumbnail_url(row: int) -> str:
-	# return f'https://raw.githubusercontent.com/Takuma515/discord-bot/main/images/{row-4}.png'
-
-	if row < 52:
-		# 旧コース
-		track_id1 = (row-4) // 4 + 1
-		track_id2 = (row-3) - (track_id1-1) * 4
-		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/course/thumbnail/{track_id1}-{track_id2}.jpg'
-	else:
-		# 新コース
-		vol = (row - 52) // 8 + 1
-		cup = ((row - 4) % 8) // 4 + 1
-		cover = (row - 4) % 4 + 1
-		return f'https://www.nintendo.co.jp/switch/aabpa/assets/images/coursepack/lineup/vol0{vol}/vol0{vol}_cup0{cup}_cover0{cover}.jpg'
+	return f'https://raw.githubusercontent.com/Takuma515/discord-bot/main/images/{row-4}.png'
 
 
 def set_record(
