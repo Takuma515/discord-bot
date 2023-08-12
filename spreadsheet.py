@@ -78,6 +78,8 @@ def format_time(time: str) -> str:
 
 # サムネイルのURLを取得
 def get_thumbnail_url(row: int) -> str:
+	# return f'https://raw.githubusercontent.com/Takuma515/discord-bot/main/images/{row-4}.png'
+
 	if row < 52:
 		# 旧コース
 		track_id1 = (row-4) // 4 + 1
@@ -246,8 +248,8 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	avg_diff = 0
 	embed_list = [discord.Embed(
 			title = f"{user_name}'s records",
-			description = '[ワルハナNITA](https://docs.google.com/spreadsheets/d/e/' \
-							'2PACX-1vTOT3PJwMcMrOE--rBPV3Vz1SUegmpmpCtP8NzMQoxHljks2JDaYQ8H1pj4Pi0i5xOmnnS3eDAxc4zY/pubhtml)',
+			description = '[150cc NITA Leaderboard](https://docs.google.com/spreadsheets/d/e ' \
+			'/2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true',
 			color = green
 		)]
 	
