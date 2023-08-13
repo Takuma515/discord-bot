@@ -35,7 +35,7 @@ def search_user(author: discord.member.Member) -> int:
 	id_list = wks.row_values(ID_ROW)
 	col = len(id_list) + 1
 	id = str(author.id)
-	user_name = str(author)
+	user_name = str(author).split('#')[0]
 
 	if id in id_list:
 		col = id_list.index(id) + 1
@@ -317,7 +317,7 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 	avg_diff = 0
 	records.sort()
 	for i in range(len(records)):
-		time, username = records[i]
+		time, user_name = records[i]
 		diff = calc_time_diff(time, wr_time)
 		avg_diff += float(diff)
 
@@ -330,7 +330,7 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 		else:
 			user_name = f'{i+1}. {user_name}'
 
-		embed.add_field(name=username, value=f'> {format_time(time)} (WR +{diff})', inline=False)
+		embed.add_field(name=user_name, value=f'> {format_time(time)} (WR +{diff})', inline=False)
 	
 	# 記録が0件の場合を除く
 	if len(records) != 0:
