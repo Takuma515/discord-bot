@@ -190,7 +190,7 @@ def show_sub_records(
     ) -> list[discord.Embed]:
 	
 	col = search_user(author)
-	user_name = str(author).split('#')[0]
+	user_name = str(author)
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = wks.col_values(WR_COL)
 	user_times = wks.col_values(col)
@@ -228,7 +228,7 @@ def show_sub_records(
 
 def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	col = search_user(author)
-	user_name = str(author).split('#')[0]
+	user_name = str(author)
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = wks.col_values(WR_COL)
 	records = wks.col_values(col)
@@ -318,7 +318,7 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 	records.sort()
 	for i in range(len(records)):
 		time, user = records[i]
-		user_name = user.split('#')[0]
+		user_name = user
 		diff = calc_time_diff(time, wr_time)
 		avg_diff += float(diff)
 
