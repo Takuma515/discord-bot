@@ -35,7 +35,6 @@ def search_user(author: discord.member.Member) -> int:
 	id_list = wks.row_values(ID_ROW)
 	col = len(id_list) + 1
 	id = str(author.id)
-	user_name = str(author).split('#')[0]
 
 	if id in id_list:
 		col = id_list.index(id) + 1
@@ -45,7 +44,7 @@ def search_user(author: discord.member.Member) -> int:
 		wks.update_cell(ID_ROW, col, id)
 		
 	# ユーザ名の更新
-	wks.update_cell(USER_ROW, col, user_name)
+	wks.update_cell(USER_ROW, col, author.name)
 
 	return col
 
@@ -97,17 +96,17 @@ def set_record(
 
 	embed = discord.Embed(title = track, color = green)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
-	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})', inline=False)
+	embed.add_field(name='Input Time', value=f'> {format_time(time)} (WR +{diff})', inline=False)
 
 	# 記録が未登録の場合
 	if prev_time is None:
 		wks.update_cell(row, col, time)
-		embed.add_field(name='your record', value='-')
+		embed.add_field(name='Your Record', value='-')
 		embed.set_footer(text='☑️ Update')
 		return embed
 
 	diff = calc_time_diff(prev_time, wr_time)
-	embed.add_field(name='your record', value=f'> {format_time(prev_time)} (WR +{diff})', inline=False)
+	embed.add_field(name='Your Record', value=f'> {format_time(prev_time)} (WR +{diff})', inline=False)
 
 	if time < prev_time:
 		wks.update_cell(row, col, time)
@@ -131,12 +130,12 @@ def show_record(
 	embed.set_thumbnail(url=get_thumbnail_url(row))
 
 	if time is None:
-		embed.add_field(name='time', value='-', inline=False)
+		embed.add_field(name='Your Time', value='-', inline=False)
 		embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
 		return [embed], None
 	
 	diff = calc_time_diff(time, wr_time)
-	embed.add_field(name='time', value=f'> {format_time(time)} (WR +{diff})')
+	embed.add_field(name='Your Time', value=f'> {format_time(time)} (WR +{diff})')
 	embed.add_field(name='WR', value=f'> {format_time(wr_time)} (By {wrecorder})', inline=False)
 
 	# ランクの表示
@@ -190,13 +189,13 @@ def show_sub_records(
     ) -> list[discord.Embed]:
 	
 	col = search_user(author)
-	user_name = str(author)
+	user_name = author.name
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = wks.col_values(WR_COL)
 	user_times = wks.col_values(col)
 	
 	embed_list = [discord.Embed(
-			title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
+			title = f"{user_name}'s Records (sub: {sub_time[:3]}s)",
 			color = green
 		)]
 
@@ -217,7 +216,7 @@ def show_sub_records(
 		# embedのfield数は最大25個
 		if i == 25 or i == 50:
 			embed_list.append(discord.Embed(
-				title = f"{user_name}'s records (sub: {sub_time[:3]}s)",
+				title = f"{user_name}'s Records (sub: {sub_time[:3]}s)",
 			color = green
 			))
 		
@@ -228,16 +227,16 @@ def show_sub_records(
 
 def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	col = search_user(author)
-	user_name = str(author)
+	user_name = author.name
 	tracks = wks.col_values(TRACK_COL)
 	wr_times = wks.col_values(WR_COL)
 	records = wks.col_values(col)
 	
 	avg_diff = 0
 	embed_list = [discord.Embed(
-			title = f"{user_name}'s records",
-			description = '[150cc NITA Leaderboard](https://docs.google.com/spreadsheets/d/e ' \
-			'/2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true',
+			title = f"{user_name}'s Records",
+			description = '[150cc NITA Leaderboard](https://docs.google.com/spreadsheets/d/e' \
+			'/2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true)',
 			color = green
 		)]
 	
@@ -250,7 +249,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 		# embedのfield数は最大25個
 		if cnt == 25 or cnt == 50:
 			embed_list.append(discord.Embed(
-				title = f"{user_name}'s records",
+				title = f"{user_name}'s Records",
 				color = green
 			))
 
@@ -265,7 +264,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 	
 	if cnt == 25 or cnt == 50:
 		embed_list.append(discord.Embed(
-			title = f"{user_name}'s records",
+			title = f"{user_name}'s Records",
 			color = green
 		))
 
@@ -348,7 +347,7 @@ def show_tier_time(author: discord.member.Member, track: str, row: int) -> disco
 	user_time = wks.cell(row, col).value
 	
 	embed = discord.Embed(
-		title = f'tier time of {track}',
+		title = f'Tier Time of {track}',
 		color = green
 	)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
@@ -376,9 +375,9 @@ def show_tier_time(author: discord.member.Member, track: str, row: int) -> disco
 	
 	# embedの処理
 	if user_time is None:
-		embed.add_field(name='your time', value='-')
+		embed.add_field(name='Your Time', value='-')
 	else:
-		embed.add_field(name='your time', value=f'> {format_time(user_time)} (WR +{calc_time_diff(user_time, wr_time)})')
+		embed.add_field(name='Your Time', value=f'> {format_time(user_time)} (WR +{calc_time_diff(user_time, wr_time)})')
 		user_time = format_time(user_time)
 	
 	for i in range(len(tier_name)):
@@ -386,7 +385,7 @@ def show_tier_time(author: discord.member.Member, track: str, row: int) -> disco
 
 		# tierの人数が0人だった場合
 		if cnt == 0:
-			embed.add_field(name=f'{tier_name[i]} (n={cnt})', value='No time', inline=False)
+			embed.add_field(name=f'{tier_name[i]} (n={cnt})', value='-', inline=False)
 			continue
 
 		avg_time = convert_seconds_into_time(sum_time / cnt)
