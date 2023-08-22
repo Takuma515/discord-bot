@@ -21,9 +21,12 @@ err_color = 0xff3333
 green = 0x00ff00
 light_blue = 0x00ffff
 
+# 行番号の設定
 USER_ROW = 1
 ID_ROW = 2
 MMR_ROW = 3
+
+# 列番号の設定
 TRACK_COL = 1
 PLAYER_COL = 2
 WR_COL = 4
@@ -415,6 +418,40 @@ def video_url(row: int) -> str:
 	return wks.cell(row, VIDEO_COL).value
 
 
+# 一時停止
+def show_wr(track: str, row: int):
+	wks = sh.worksheet('WR List')
+	track_num = row - 4
+	embed = discord.Embed(
+		title = f'WRs of {track}',
+		color = green
+	)
+	embed.set_thumbnail(url=get_thumbnail_url(row))
+
+	col_list = [['B', 'C', 'D'], ['E', 'F', 'G'], ['H', 'I', 'J'], ['K', 'L', 'M']]
+	start = (track_num//4)*17 + 8
+	end = start + 14
+	l, m, r = col_list[track_num%4]
+
+	# データの取得
+	recorders = wks.range(f'{l}{start}:{l}{end}')
+	times = wks.range(f'{m}{start}:{m}{end}')
+	urls = wks.range(f'{r}{start}:{r}{end}')
+
+	for i in range(len(recorders)):
+		recorder = recorders[i].value
+		time = times[i].value
+		url = urls[i].value
+
+		if recorder == '' or time == '' or url == '':
+			continue
+
+		embed.add_field(name=f'{i+1}. {recorder}', value=f'> [{time}]({url})', inline=False)
+	
+	
+	return embed
+
+
 def user_data() -> discord.Embed:
 	mmr_list = wks.row_values(3)
 	tier_name = ['Unrated', 'Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
@@ -439,29 +476,3 @@ def user_data() -> discord.Embed:
 	description += f'\nTotal: {sum(user_num_list)}'
 	embed = discord.Embed(title = 'User Data', description = description)
 	return embed
-
-
-# 一時停止
-# def show_wr(track: str, row: int):
-# 	wks = sh.worksheet('RefSheet')
-# 	track_num = row - 4
-# 	embed = discord.Embed(
-# 		title = f'WRs of {track}',
-# 		color = green
-# 	)
-# 	embed.set_thumbnail(url=get_thumbnail_url(row))
-
-# 	recorder_col_list = ['E', 'J', 'O', 'T']
-# 	time_col_list = ['F', 'K', 'P', 'U']
-# 	recorder_col = recorder_col_list[track_num % 4]
-# 	time_col = time_col_list[track_num % 4]
-# 	start_row = 11 + (track_num // 4) * 13
-
-# 	# データの取得
-# 	recorders = wks.range(f'{recorder_col}{start_row}:{recorder_col}{start_row+9}')
-# 	times = wks.range(f'{time_col}{start_row}:{time_col}{start_row+9}')
-	
-# 	for i in range(10):
-# 		embed.add_field(name=f'{i+1}. {recorders[i].value}', value=f'> {times[i].value}', inline=False)
-
-# 	return embed

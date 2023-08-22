@@ -71,10 +71,10 @@ async def link(ctx):
     await ctx.send(embed=embed)
 
 
-# 一時停止
-# @bot.command(aliases=['WR'])
-# async def wr(ctx, *args):
-#     await ctx.send(embed=function.show_wr(args))
+@bot.command(aliases=['w', 'W'])
+async def wr(ctx, *args):
+    '''WRを表示'''
+    await ctx.send(embed=function.show_wr(args))
 
 
 # bot起動時
