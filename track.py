@@ -119,6 +119,17 @@ def search(name: str) -> Optional[list]:
     bKC = {'bkc', 'kc', 'ノコノコみさき', 'のこのこみさき', 'ノコノコ', 'のこのこ', 'ノコみ', 'のこみ'}
     bVV = {'bvv', 'vv', 'バンクーバーバレー', 'バンクーバー', 'ばんくーばー'}
 
+    # 追加コース第６弾
+    bRA = {'bra', 'ra', 'ローマアーバンティ', 'ローマ', 'ろーま'} 
+    bDKM = {'bdkm', 'dkm', 'DKマウンテン'}
+    bDCt = {'bdc', 'dct', 'デイジーサーキット', 'デイサ', 'でいさ'}
+    bPPC = {'bppc', 'ppc', 'パックンしんでん', 'しんでん'}
+
+    bMD = {'bmd', 'md', 'マドリード', 'まどりーど', 'マドリー', 'まどりー', 'マリグラ', 'まりぐら'}
+    bRIW = {'briw', 'riw', 'ロゼッタプラネット', 'ロゼッタ', 'ろぜった', 'ロゼプラ', 'ろぜぷら', 'ロゼ', 'ろぜ'}
+    bBC3 = {'bbc3', 'bc3', 'クッパ城', 'クッパじょう', 'くっぱじょう'}
+    bRRw = {'brrw', 'rrw', 'wii虹', 'wiiにじ'}
+
 
     tracks = [ \
         [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
@@ -142,7 +153,9 @@ def search(name: str) -> Optional[list]:
         [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
         [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]], \
         [['Tour Athens Dash', bAtD], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
-        [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]]]
+        [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]], \
+        [['Tour Rome Avanti', bRA], ['GCN DK Mountain', bDKM], ['Wii Daisy Circuit', bDCt], ['Tour Piranha Plant Cove', bPPC]], \
+        [['Tour Madrid Drive', bMD], ["3DS Rosalina's Ice World", bRIW], ['SNES Bowser Castle 3', bBC3], ['Wii Rainbow Road', bRRw]]]
     
     
     for i in range(22):
