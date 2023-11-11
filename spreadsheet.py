@@ -250,7 +250,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 			continue
 
 		# embedのfield数は最大25個
-		if cnt == 25 or cnt == 50:
+		if cnt == 25 or cnt == 50 or cnt == 75:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s Records",
 				color = green
@@ -418,7 +418,6 @@ def video_url(row: int) -> str:
 	return wks.cell(row, VIDEO_COL).value
 
 
-# 一時停止
 def show_wr(track: str, row: int):
 	wks = sh.worksheet('WR List')
 	track_num = row - 4
