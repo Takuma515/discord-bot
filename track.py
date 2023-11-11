@@ -158,12 +158,12 @@ def search(name: str) -> Optional[list]:
         [['Tour Madrid Drive', bMD], ["3DS Rosalina's Ice World", bRIW], ['SNES Bowser Castle 3', bBC3], ['Wii Rainbow Road', bRRw]]]
     
     
-    for i in range(22):
+    for i in range(24):
         for j in range(4):
             if name in tracks[i][j][1]:
                 n = i*4 + j
 
-                # コース名, 番号(0~79)を返す 
+                # コース名, 番号(0~95)を返す 
                 return [tracks[i][j][0], n+OFFSET]
     
     return None
