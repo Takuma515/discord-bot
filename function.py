@@ -31,7 +31,7 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
 def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_r ttc`",
+        description = "**Ex.** `_r track_name` or `_r @user` or `_r 1`",
         color = err_color
     )
 
@@ -60,7 +60,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
 def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_t ttc`",
+        description = "**Ex.** `_t track_name`",
         color = err_color
     )
 
@@ -85,7 +85,7 @@ def track_records(ctx: commands.Context, args: list[str]) -> discord.Embed:
 def tier_time(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_tt ttc`",
+        description = "**Ex.** `_tt track_name`",
         color = err_color
     )
 
@@ -103,7 +103,7 @@ def tier_time(ctx: commands.Context, args: list[str]) -> discord.Embed:
 def delete_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_d ttc`",
+        description = "**Ex.** `_d track_name`",
         color = err_color
     )
 
@@ -141,7 +141,7 @@ def show_wr(args: list[str]) -> discord.Embed:
 
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_wr ws`",
+        description = "**Ex.** `_wr track_name`",
         color = err_color
     )
 
