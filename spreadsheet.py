@@ -164,11 +164,11 @@ def show_record(
 				break
 
 	# グラフの作成
-	color_list = ['#005AFF']*6
+	color_list = ['cornflowerblue']*6
 	diff = float(calc_time_diff(time, wr_time))
 	for i in range(6):
 		if diff <= diff_time_list[i]:
-			color_list[i] = '#FF4B00'
+			color_list[i] = '#CC6677'
 			break
 
 	plt.bar(diff_time_list, diff_records_count, width=0.35, color=color_list, alpha=0.9)
@@ -277,8 +277,9 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 		embed_list[-1].add_field(name='Average Diff', value=f'{avg_diff}s ({cnt} tracks)')
 	
 	# グラフの作成
+	color = 'cornflowerblue'
 	left = [1, 2, 3, 4, 5]
-	plt.bar(left, sub_tracks, color='#005AFF')
+	plt.bar(left, sub_tracks, color=color, width=0.8)
 	plt.xlabel('Sub Time')
 	plt.ylabel('Tracks')
 	plt.grid(linestyle='--', axis='y')
