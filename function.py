@@ -31,7 +31,7 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
 def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     embed_err = discord.Embed(
         title = "Input Error",
-        description = "**Ex.** `_r track_name` or `_r @user` or `_r 1`",
+        description = "**Ex.** `_r track_name` or `_r username` or `_r number`",
         color = err_color
     )
 
@@ -43,6 +43,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     elif len(args) == 1:
         sub_list = ['1', '2', '3', '4', '5']
         track_info = track.search(args[0]) # [track, track_number]
+        is_user_exist = ctx.guild is not None and ctx.guild.get_member_named(args[0]) is not None
 
         # 引数が数字, コース名, ユーザ名で処理を変える
         if args[0] in sub_list:
@@ -50,7 +51,7 @@ def show_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
             embed_list = spreadsheet.show_sub_records(ctx.author, sub_time)
         elif track_info is not None:
             embed_list, file = spreadsheet.show_record(ctx.author, track_info[0], track_info[1])
-        elif ctx.guild is not None:
+        elif is_user_exist:
             embed_list, file = spreadsheet.show_user_records(ctx.guild.get_member_named(args[0]))
 
     return embed_list, file
