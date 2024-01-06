@@ -95,7 +95,7 @@ def set_record(
 
 	# WR以下 or WR+10秒以上の記録は弾く
 	if not 0 < float(diff) <= 10:
-		return discord.Embed(title='Input Error', description='Invalid value', color=err_color)
+		return discord.Embed(title='Input Error', description='Invalid value (Faster than WR or more than 10 seconds slower)', color=err_color)
 
 	embed = discord.Embed(title = track, color = green)
 	embed.set_thumbnail(url=get_thumbnail_url(row))
