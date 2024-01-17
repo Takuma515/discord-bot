@@ -321,7 +321,8 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 
 	avg_diff = 0
 	records.sort()
-	for i in range(min(len(records), EMBED_LIMIT-1)):
+	records_num = min(len(records), EMBED_LIMIT-1)
+	for i in range(records_num):
 		time, user_name = records[i]
 		diff = calc_time_diff(time, wr_time)
 		avg_diff += float(diff)
@@ -339,7 +340,7 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 	
 	# 記録が0件の場合を除く
 	if len(records) != 0:
-		avg_diff = '{:.3f}'.format(avg_diff / len(records))
+		avg_diff = '{:.3f}'.format(avg_diff / records_num)
 		embed.add_field(name='Average Diff', value=f'{avg_diff}s')
 
 	return embed
