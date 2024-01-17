@@ -32,6 +32,8 @@ PLAYER_COL = 2
 WR_COL = 4
 VIDEO_COL = 5
 
+# 定数
+EMBED_LIMIT = 25
 
 # userをIDで検索し列番号を返す
 def search_user(author: discord.member.Member) -> int:
@@ -319,7 +321,7 @@ def track_records(members_id_list: set, track: str, row: int) -> discord.Embed:
 
 	avg_diff = 0
 	records.sort()
-	for i in range(len(records)):
+	for i in range(min(len(records), EMBED_LIMIT-1)):
 		time, user_name = records[i]
 		diff = calc_time_diff(time, wr_time)
 		avg_diff += float(diff)
