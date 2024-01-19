@@ -252,7 +252,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 			continue
 
 		# embedのfield数は最大25個
-		if cnt == 25 or cnt == 50 or cnt == 75:
+		if cnt != 0 and cnt % 25 == 0:
 			embed_list.append(discord.Embed(
 				title = f"{user_name}'s Records",
 				color = green
@@ -267,7 +267,7 @@ def show_user_records(author: discord.member.Member) -> list[discord.Embed]:
 		embed_list[-1].add_field(name=tracks[i], value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
 		cnt += 1
 	
-	if cnt == 25 or cnt == 50:
+	if cnt != 0 and cnt % 25 == 0:
 		embed_list.append(discord.Embed(
 			title = f"{user_name}'s Records",
 			color = green
