@@ -131,31 +131,60 @@ def search(name: str) -> Optional[list]:
     bRRw = {'brrw', 'rrw', 'wii虹', 'wiiにじ', 'wにじ', 'w虹', 'wiiレインボーロード', 'wiiれいんぼーろーど'}
 
 
+    # 英語
+    # tracks = [ \
+    #     [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
+    #     [['Mario Circuit', MC], ['Toad Harbor', TH], ['Twisted Mansion', TM], ['Shy Guy Falls', SGF]], \
+    #     [['Sunshine Airport', SA], ['Dolphin Shoals', DS], ['Electrodrome', Ed], ['Mount Wario', MW]], \
+    #     [['Cloudtop Cruise', CC], ['Bone-Dry Dunes', BDD], ["Bowser's Castle", BC], ['Rainbow Road', RR]], \
+    #     [['Wii Moo Moo Meadows', rMMM], ['GBA Mario Circuit', rMC], ['DS Cheep Cheep Beach', rCCB], ["N64 Toad's Turnpike", rTT]], \
+    #     [['GCN Dry Dry Desert', rDDD], ['SNES Donut Plains 3', rDP3], ['N64 Royal Raceway', rRRy], ['3DS DK Jungle', rDKJ]], \
+    #     [['DS Wario Stadium', rWS], ['GCN Sherbet Land', rSL], ['3DS Music Park', rMP], ['N64 Yoshi Valley', rYV]], \
+    #     [['DS Tick-Tock Clock', rTTC], ['3DS Piranha Plant Slide', rPPS], ['Wii Grumble Volcano', rGV], ['N64 Rainbow Road', rRRd]], \
+    #     [['GCN Yoshi Circuit', dYC], ['Excitebike Arena', dEA], ['Dragon Driftway', dDD], ['Mute City', dMC]], \
+    #     [["Wii Wario's Gold Mine", dWGM], ['SNES Rainbow Road', dRR], ['Ice Ice Outpost', dIIO], ['Hyrule Circuit', dHC]], \
+    #     [['GCN Baby Park', dBP], ['GBA Cheese Land', dCL], ['Wild Woods', dWW], ['Animal Crossing', dAC]], \
+    #     [['3DS Neo Bowser City', dNBC], ['GBA Ribbon Road', dRiR], ['Super Bell Subway', dSBS], ['Big Blue', dBB]], \
+    #     [['Tour Paris Promenade', bPP], ['3DS Toad Circuit', bTC], ['N64 Choco Mountain', bCMo], ['Wii Coconut Mall', bCMa]], \
+    #     [['Tour Tokyo Blur', bTB], ['DS Shroom Ridge', bSR], ['GBA Sky Garden', bSG], ['Ninja Hideaway', bNH]], \
+    #     [['Tour New York Minute', bNYM], ['SNES Mario Circuit 3', bMC3], ['N64 Kalimari Desert', bKD], ['DS Waluigi Pinball', bWP]], \
+    #     [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]], \
+    #     [['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT]], \
+    #     [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]], \
+    #     [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
+    #     [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]], \
+    #     [['Tour Athens Dash', bAtD], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
+    #     [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]], \
+    #     [['Tour Rome Avanti', bRA], ['GCN DK Mountain', bDKM], ['Wii Daisy Circuit', bDCt], ['Piranha Plant Cove', bPPC]], \
+    #     [['Tour Madrid Drive', bMD], ["3DS Rosalina's Ice World", bRIW], ['SNES Bowser Castle 3', bBC3], ['Wii Rainbow Road', bRRw]]]
+    
+    # 日本語
     tracks = [ \
-        [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR]], \
-        [['Mario Circuit', MC], ['Toad Harbor', TH], ['Twisted Mansion', TM], ['Shy Guy Falls', SGF]], \
-        [['Sunshine Airport', SA], ['Dolphin Shoals', DS], ['Electrodrome', Ed], ['Mount Wario', MW]], \
-        [['Cloudtop Cruise', CC], ['Bone-Dry Dunes', BDD], ["Bowser's Castle", BC], ['Rainbow Road', RR]], \
-        [['Wii Moo Moo Meadows', rMMM], ['GBA Mario Circuit', rMC], ['DS Cheep Cheep Beach', rCCB], ["N64 Toad's Turnpike", rTT]], \
-        [['GCN Dry Dry Desert', rDDD], ['SNES Donut Plains 3', rDP3], ['N64 Royal Raceway', rRRy], ['3DS DK Jungle', rDKJ]], \
-        [['DS Wario Stadium', rWS], ['GCN Sherbet Land', rSL], ['3DS Music Park', rMP], ['N64 Yoshi Valley', rYV]], \
-        [['DS Tick-Tock Clock', rTTC], ['3DS Piranha Plant Slide', rPPS], ['Wii Grumble Volcano', rGV], ['N64 Rainbow Road', rRRd]], \
-        [['GCN Yoshi Circuit', dYC], ['Excitebike Arena', dEA], ['Dragon Driftway', dDD], ['Mute City', dMC]], \
-        [["Wii Wario's Gold Mine", dWGM], ['SNES Rainbow Road', dRR], ['Ice Ice Outpost', dIIO], ['Hyrule Circuit', dHC]], \
-        [['GCN Baby Park', dBP], ['GBA Cheese Land', dCL], ['Wild Woods', dWW], ['Animal Crossing', dAC]], \
-        [['3DS Neo Bowser City', dNBC], ['GBA Ribbon Road', dRiR], ['Super Bell Subway', dSBS], ['Big Blue', dBB]], \
-        [['Tour Paris Promenade', bPP], ['3DS Toad Circuit', bTC], ['N64 Choco Mountain', bCMo], ['Wii Coconut Mall', bCMa]], \
-        [['Tour Tokyo Blur', bTB], ['DS Shroom Ridge', bSR], ['GBA Sky Garden', bSG], ['Tour Ninja Hideaway', bNH]], \
-        [['Tour New York Minute', bNYM], ['SNES Mario Circuit 3', bMC3], ['N64 Kalimari Desert', bKD], ['DS Waluigi Pinball', bWP]], \
-        [['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS]], \
-        [['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT]], \
-        [['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]], \
-        [['Tour Amsterdam Drift', bAD], ['GBA Riverside Park', bRP], ['Wii DK Summit', bDKS], ['Yoshi Island', bYI]], \
-        [['Tour Bangkok Rush', bBR], ['DS Mario Circuit', bMC], ['GCN Waluigi Stadium', bWS], ['Tour Singapore Speedway', bSSy]], \
-        [['Tour Athens Dash', bAtD], ['GCN Daisy Cruiser', bDC], ['Wii Moonview Highway', bMH], ['Squeaky Clean Sprint', bSCS]], \
-        [['Tour Los Angeles Laps', bLAL], ['GBA Sunset Wilds', bSW], ['Wii Koopa Cape', bKC], ['Tour Vancouver Velocity', bVV]], \
-        [['Tour Rome Avanti', bRA], ['GCN DK Mountain', bDKM], ['Wii Daisy Circuit', bDCt], ['Tour Piranha Plant Cove', bPPC]], \
-        [['Tour Madrid Drive', bMD], ["3DS Rosalina's Ice World", bRIW], ['SNES Bowser Castle 3', bBC3], ['Wii Rainbow Road', bRRw]]]
+        [['マリオカートスタジアム', MKS], ['ウォーターパーク', WP], ['スイーツキャニオン', SSC], ['ドッスンいせき', TR]], \
+        [['マリオサーキット', MC], ['キノピオハーバー', TH], ['ねじれマンション', TM], ['ヘイホーこうざん', SGF]], \
+        [['サンシャインくうこう', SA], ['ドルフィンみさき', DS], ['エレクトロドリーム', Ed], ['ワリオスノーマウンテン', MW]], \
+        [['スカイガーデン', CC], ['ホネホネさばく', BDD], ['クッパキャッスル', BC], ['レインボーロード', RR]], \
+        [['Wii モーモーカントリー', rMMM], ['GBA マリオサーキット', rMC], ['DS プクプクビーチ', rCCB], ["N64 キノピオハイウェイ", rTT]], \
+        [['GC カラカラさばく', rDDD], ['SFC ドーナツへいや3', rDP3], ['N64 ピーチサーキット', rRRy], ['3DS DKジャングル', rDKJ]], \
+        [['DS ワリオスタジアム', rWS], ['GC シャーベットランド', rSL], ['3DS ミュージックパーク', rMP], ['N64 ヨッシーバレー', rYV]], \
+        [['DS チクタクロック', rTTC], ['3DS パックンスライダー', rPPS], ['Wii グラグラかざん', rGV], ['N64 レインボーロード', rRRd]], \
+        [['GC ヨッシーサーキット', dYC], ['エキサイトバイク', dEA], ['ドラゴンロード', dDD], ['ミュートシティ', dMC]], \
+        [["Wii ワリオこうざん", dWGM], ['SFC レインボーロード', dRR], ['ツルツルツイスター', dIIO], ['ハイラルサーキット', dHC]], \
+        [['GC ベビィパーク', dBP], ['GBA チーズランド', dCL], ['ネイチャーロード', dWW], ['どうぶつの森', dAC]], \
+        [['3DS ネオクッパシティ', dNBC], ['GBA リボンロード', dRiR], ['リンリンメトロ', dSBS], ['ビッグブルー', dBB]], \
+        [['Tour パリプロムナード', bPP], ['3DS キノピオサーキット', bTC], ['N64 チョコマウンテン', bCMo], ['Wii ココナッツモール', bCMa]], \
+        [['Tour トーキョースクランブル', bTB], ['DS キノコリッジウェイ', bSR], ['GBA スカイガーデン', bSG], ['ニンニンドージョー', bNH]], \
+        [['Tour ニューヨークドリーム', bNYM], ['SFC マリオサーキット3', bMC3], ['N64 カラカラさばく', bKD], ['DS ワルイージピンボール', bWP]], \
+        [['Tour シドニーサンシャイン', bSS], ['GBA スノーランド', bSL], ['Wii キノコキャニオン', bMG], ['アイスビルディング', bSHS]], \
+        [['Tour ロンドンアベニュー', bLL], ['GBA テレサレイク', bBL], ['3DS ロックロックマウンテン', bRRM], ['Wii メイプルツリーハウス', bMT]], \
+        [['Tour ベルリンシュトラーゼ', bBB], ['DS ピーチガーデン', bPG], ['メリーメリーマウンテン', bMM], ['3DS レインボーロード', bRR7]], \
+        [['Tour アムステルダムブルーム', bAD], ['GBA リバーサイドパーク', bRP], ['Wii DKスノーボードクロス', bDKS], ['ヨッシーアイランド', bYI]], \
+        [['Tour バンコクラッシュ', bBR], ['DS マリオサーキット', bMC], ['GCN ワルイージスタジアム', bWS], ['Tour シンガポールスプラッシュ', bSSy]], \
+        [['Tour アテネポリス', bAtD], ['GC デイジークルーザー', bDC], ['Wii ムーンリッジ&ハイウェイ', bMH], ['シャボンロード', bSCS]], \
+        [['Tour ロサンゼルスコースト', bLAL], ['GBA サンセットこうや', bSW], ['Wii ノコノコみさき', bKC], ['Tour バンクーバーバレー', bVV]], \
+        [['Tour ローマアバンティ', bRA], ['GC DKマウンテン', bDKM], ['Wii デイジーサーキット', bDCt], ['パックンしんでん', bPPC]], \
+        [['Tour マドリードグランデ', bMD], ["3DS ロゼッタプラネット", bRIW], ['SFC クッパじょう3', bBC3], ['Wii レインボーロード', bRRw]]]
+
     
     
     for i in range(24):

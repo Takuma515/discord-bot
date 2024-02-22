@@ -65,7 +65,7 @@ async def link(ctx):
         title = "NITA Links",
         description = '[150cc NITA リーダーボード](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true)\n' \
-                      '[150cc NITA VSカスタムのみ](https://docs.google.com/spreadsheets/d/e/' \
+                        '[150cc NITA VSカスタムのみ](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=406946200&single=true)'
     )
     await ctx.send(embed=embed)
@@ -90,7 +90,7 @@ async def on_guild_join(guild):
     print(f'join "{guild}"')
     await update_activity()
 
- 
+
 @bot.command(aliases=['g', 'G'], hidden=True)
 @commands.is_owner()
 async def guilds(ctx):
