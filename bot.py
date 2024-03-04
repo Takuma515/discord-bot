@@ -24,6 +24,13 @@ bot = NitaBot(intents=intents)
 @bot.event
 async def on_ready():
     print('ログインしました')
+    await bot.change_presence(
+        activity=discord.Activity(
+            status=discord.Status.online,
+            type=discord.ActivityType.watching,
+            name=f"{len(bot.guilds)} servers"
+        )
+    )
 
 
 @bot.hybrid_command(
