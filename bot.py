@@ -1,32 +1,65 @@
-import os
-import function
 import discord
 from discord.ext import commands
+from discord import app_commands
+import os
+from controllers import deletes, submits, wrs, videos, records, tracks, tier_times, users_data
 
 
 # 接続に必要なオブジェクトを生成
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-bot = commands.Bot(command_prefix='_', intents=intents)
+
+class NitaBot(commands.AutoShardedBot):
+    def __init__(self, command_prefix=commands.when_mentioned_or("_"), *, intents: discord.Intents = intents) -> None:
+        super().__init__(command_prefix, intents=intents)
+
+    async def setup_hook(self) -> None:
+        await bot.tree.sync()
 
 
-async def update_activity():
-    activity = discord.Activity(name=f'{len(bot.guilds)} servers', type=discord.ActivityType.watching)
-    await bot.change_presence(activity=activity)
-    
+bot = NitaBot(intents=intents)
 
 
-@bot.command(aliases=['s','S'])
-async def set(ctx, *args):
-    '''記録を登録'''
-    await ctx.send(embed=function.set_record(ctx, args))
+@bot.event
+async def on_ready():
+    print('ログインしました')
 
 
-@bot.command(aliases=['r', 'R'])
-async def record(ctx, *args):
-    '''記録を表示'''
-    embed_list, file = function.show_record(ctx, args)
+@bot.hybrid_command(
+    aliases=['s', 'S'],
+    description='記録を登録する'
+)
+@app_commands.describe(
+    track='例: マリカス',
+    time='例: 140123'
+)
+async def submit(
+    ctx: commands.Context,
+    track: str,
+    time: str
+) -> None:
+    '''記録を登録する'''
+
+    await ctx.defer()
+    await ctx.send(embed=submits.submit_record(ctx, track, time))
+
+
+@bot.hybrid_command(
+    aliases=['r', 'R'],
+    description='記録を表示する'
+)
+@app_commands.describe(arg='コース名、ユーザー名、数字のいずれかを指定する')
+async def record(
+    ctx: commands.Context,
+    *,
+    arg: str = None
+) -> None:
+    '''記録を表示する'''
+
+    await ctx.defer()
+
+    embed_list, file = records.show_record(ctx, arg)
     for i, embed in enumerate(embed_list):
         if i == len(embed_list) -1:
             await ctx.send(embed=embed, file=file)
@@ -34,61 +67,102 @@ async def record(ctx, *args):
             await ctx.send(embed=embed)
 
 
-@bot.command(aliases=['t', 'T'])
-async def track(ctx, *args):
-    '''指定コースの記録を表示'''
-    await ctx.send(embed=function.track_records(ctx, args))
+@bot.hybrid_command(
+    aliases=['d', 'D'],
+    description='記録を削除する'
+)
+@app_commands.describe(track='例: マリカス')
+async def delete(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''記録を削除する'''
+
+    await ctx.defer()
+    await ctx.send(embed=deletes.delete_record(ctx, track))
 
 
-@bot.command(aliases=['tt', 'TT'])
-async def tier_time(ctx, *args):
-    '''tier別の平均タイムを表示'''
-    await ctx.send(embed=function.tier_time(ctx, args))
+@bot.hybrid_command(
+    aliases=['t', 'T'],
+    description='指定コースの記録を表示する'
+)
+@app_commands.describe(track='例: マリカス')
+async def track(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''指定コースの記録を表示する'''
+
+    await ctx.defer()
+    await ctx.send(embed=tracks.show_track_records(ctx, track))
 
 
-@bot.command(aliases=['d', 'D'])
-async def delete(ctx, *args):
-    '''記録を削除'''
-    await ctx.send(embed=function.delete_record(ctx, args))
+@bot.hybrid_command(
+    aliases=['tt', 'TT'],
+    description='tierごとの平均タイムを表示する'
+)
+@app_commands.describe(track='例: マリカス')
+async def tier_time(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''tierごとの平均タイムを表示する'''
+
+    await ctx.defer()
+    await ctx.send(embed=tier_times.show_tier_time(ctx, track)
+)
 
 
-@bot.command(aliases=['v', 'V'])
-async def video(ctx, *args):
-    '''解説動画のURLを送信'''
-    await ctx.send(function.send_video_url(args))
+
+@bot.hybrid_command(
+    aliases=['w', 'W', 'WR'],
+    description='WRを表示する'
+)
+@app_commands.describe(track='例: マリカス')
+async def wr(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''WRを表示する'''
+
+    await ctx.defer()
+    await ctx.send(embed=wrs.show_wr(track))
 
 
-@bot.command(aliases=['l', 'L'])
-async def link(ctx):
-    '''NITAスプシのURLを送信'''
+@bot.hybrid_command(
+    aliases=['v', 'V'],
+    description='解説動画のリンクを送信する'
+)
+@app_commands.describe(track='例: マリカス')
+async def video(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''解説動画のリンクを送信する'''
+
+    await ctx.defer()
+    await ctx.send(videos.send_video_url(track))
+
+
+@bot.hybrid_command(
+    aliases=['l', 'L'],
+    description='NITAのリーダーボードのリンクを送信する'
+)
+async def leaderboard(
+    ctx: commands.Context
+) -> None:
+    '''NITAのリーダーボードのリンクを送信する'''
+
     embed = discord.Embed(
-        title = "NITA Links",
-        description = '[150cc NITA リーダーボード](https://docs.google.com/spreadsheets/d/e/' \
+        title = "150cc NITA Links",
+        description = '[リーダーボード (Leaderboard)](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=0&single=true)\n' \
-                        '[150cc NITA VSカスタムのみ](https://docs.google.com/spreadsheets/d/e/' \
+                        '[全てのカスタム (All Combinations)](https://docs.google.com/spreadsheets/d/e' \
+                            '/2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=228689205&single=true)\n' \
+                        '[VSカスタムのみ (Meta Only)](https://docs.google.com/spreadsheets/d/e/' \
                             '2PACX-1vRBXBdqpurvBmR--bzj9RJmgr7HxAoWVZmlwmhaBK-LYf_BbXn8iAPdH-ogBtXiAwxlTkQgn45PkeRW/pubhtml?gid=406946200&single=true)'
     )
     await ctx.send(embed=embed)
-
-
-@bot.command(aliases=['w', 'W'])
-async def wr(ctx, *args):
-    '''WRを表示'''
-    await ctx.send(embed=function.show_wr(args))
-
-
-# bot起動時
-@bot.event
-async def on_ready():
-    print('ログインしました')
-    await update_activity()
-
-
-# サーバーに追加時
-@bot.event
-async def on_guild_join(guild):
-    print(f'join "{guild}"')
-    await update_activity()
 
 
 @bot.command(aliases=['g', 'G'], hidden=True)
@@ -107,7 +181,7 @@ async def guilds(ctx):
 @bot.command(aliases=['ud'], hidden=True)
 @commands.is_owner()
 async def user_data(ctx):
-    await ctx.send(embed = function.user_data())
+    await ctx.send(embed = users_data.show_user_data())
 
 
 # コマンドのエラー処理
@@ -129,7 +203,6 @@ async def on_command_error(ctx, error):
         err_msg = "error"
     
     await ctx.send(err_msg)
-
 
 
 bot.run(os.environ['DISCORD_BOT_TOKEN'])

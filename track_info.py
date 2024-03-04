@@ -1,8 +1,6 @@
-from typing import Optional
-
 OFFSET = 4
 
-def search(name: str) -> Optional[list]:
+def search(name: str) -> list:
     name = str.lower(name)
     MKS = {'mks', 'マリオカートスタジアム', 'まりおかーとすたじあむ', 'マリカス', 'まりかす'}
     WP = {'wp', 'ウォーターパーク','うぉーたーぱーく', 'ウォタパ', 'うぉたぱ'}
@@ -195,4 +193,4 @@ def search(name: str) -> Optional[list]:
                 # コース名, 番号(0~95)を返す 
                 return [tracks[i][j][0], n+OFFSET]
     
-    return None
+    return[None, None]
