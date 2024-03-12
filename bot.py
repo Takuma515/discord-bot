@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import logging
 import os
 from controllers import deletes, submits, wrs, videos, records, tracks, tier_times, users_data
 
@@ -212,4 +213,4 @@ async def on_command_error(ctx, error):
     await ctx.send(err_msg)
 
 
-bot.run(os.environ['DISCORD_BOT_TOKEN'])
+bot.run(token=os.environ['DISCORD_BOT_TOKEN'], log_level=logging.WARNING)
