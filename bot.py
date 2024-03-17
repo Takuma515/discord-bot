@@ -201,7 +201,9 @@ async def on_command_error(ctx, error):
         location = str(ctx.guild)
     
     log_message = f"{error} ({location})\nmessage: \"{ctx.message.content}\""
+    args = ctx.args
     print(log_message)
+    print(f"args: {args}")
 
     if isinstance(error, commands.errors.CommandInvokeError):
         err_msg = "bot error"
