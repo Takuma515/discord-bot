@@ -13,7 +13,11 @@ intents = discord.Intents.default()
 
 class NitaBot(commands.AutoShardedBot):
     def __init__(self, command_prefix=commands.when_mentioned_or("_"), *, intents: discord.Intents = intents) -> None:
-        super().__init__(command_prefix, intents=intents)
+        super().__init__(
+            command_prefix,
+            intents=intents,
+            help_command=None
+        )
 
     async def setup_hook(self) -> None:
         await bot.tree.sync()
