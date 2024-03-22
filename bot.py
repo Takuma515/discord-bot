@@ -35,7 +35,7 @@ async def on_ready():
 
 
 @bot.event
-async def on_guild_join():
+async def on_guild_join(guild: discord.Guild):
     await bot.change_presence(
         activity=discord.Activity(
             status=discord.Status.online,
