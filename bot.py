@@ -173,7 +173,10 @@ async def leaderboard(
     await ctx.send(embed=embed)
 
 
-@bot.command(aliases=['g', 'G'], hidden=True)
+@bot.hybrid_command(
+    aliases=['g', 'G'],
+    hidden=True
+)
 @commands.is_owner()
 async def guilds(ctx):
     guild_names = sorted(g.name for g in bot.guilds)
@@ -186,7 +189,10 @@ async def guilds(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(aliases=['ud'], hidden=True)
+@bot.hybrid_command(
+    aliases=['ud'],
+    hidden=True
+)
 @commands.is_owner()
 async def user_data(ctx):
     await ctx.send(embed = users_data.show_user_data())
