@@ -34,6 +34,17 @@ async def on_ready():
     )
 
 
+@bot.event
+async def on_guild_join():
+    await bot.change_presence(
+        activity=discord.Activity(
+            status=discord.Status.online,
+            type=discord.ActivityType.watching,
+            name=f"{len(bot.guilds)} servers"
+        )
+    )
+
+
 @bot.hybrid_command(
     aliases=['s', 'S'],
     description='記録を登録する'
