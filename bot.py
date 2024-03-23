@@ -224,14 +224,17 @@ async def on_command_error(ctx, error):
     print(log_message)
     print(f"args: {args}")
 
-    if isinstance(error, commands.errors.CommandInvokeError):
-        err_msg = "bot error"
-    elif isinstance(error, commands.CommandNotFound):
+    if isinstance(error, commands.CommandNotFound):
         return
+    elif isinstance(error, commands.errors.MissingRequiredArgument):
+        await ctx.send("Missing required argument")
+    elif isinstance(error, commands.errors.BadArgument):
+        await ctx.send("Bad argument")
+    elif isinstance(error, commands.errors.CommandInvokeError):
+        await ctx.send("bot error")
     else:
-        err_msg = "error"
-    
-    await ctx.send(err_msg)
+        await ctx.send("error")
+    raise error
 
 
 bot.run(token=os.environ['DISCORD_BOT_TOKEN'], log_level=logging.WARNING)
