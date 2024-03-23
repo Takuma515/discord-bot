@@ -213,7 +213,9 @@ async def user_data(ctx):
 #     await ctx.send(embed=embed)
 
 
-@bot.hybrid_command()
+@bot.hybrid_command(
+    description='helpを表示する'
+)
 async def help(ctx):
     '''helpを表示する'''
     await ctx.send(embed=my_help.my_help(bot))
