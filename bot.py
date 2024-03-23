@@ -204,11 +204,7 @@ async def guilds(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.hybrid_command(
-    aliases=['ud'],
-    hidden=True
-)
-@commands.is_owner()
+@bot.hybrid_command(aliases=['ud'])
 async def user_data(ctx):
     await ctx.send(embed = users_data.show_user_data())
 
