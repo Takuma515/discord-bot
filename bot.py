@@ -189,6 +189,13 @@ async def leaderboard(
 
 
 @bot.hybrid_command(
+    aliases=['ud'],
+    description='ユーザーのmmr分布を表示する')
+async def user_data(ctx):
+    await ctx.send(embed = users_data.show_user_data())
+
+
+@bot.hybrid_command(
     aliases=['g', 'G'],
     hidden=True
 )
@@ -202,11 +209,6 @@ async def guilds(ctx):
         description=guilds
     )
     await ctx.send(embed=embed)
-
-
-@bot.hybrid_command(aliases=['ud'])
-async def user_data(ctx):
-    await ctx.send(embed = users_data.show_user_data())
 
 
 # コマンドのエラー処理
