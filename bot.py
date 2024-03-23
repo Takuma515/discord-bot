@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import logging
 import os
+import my_help
 from controllers import deletes, submits, wrs, videos, records, tracks, tier_times, users_data
 
 
@@ -192,6 +193,7 @@ async def leaderboard(
     aliases=['ud'],
     description='ユーザーのmmr分布を表示する')
 async def user_data(ctx):
+    '''ユーザーのmmr分布を表示する'''
     await ctx.send(embed = users_data.show_user_data())
 
 
@@ -209,6 +211,12 @@ async def user_data(ctx):
 #         description=guilds
 #     )
 #     await ctx.send(embed=embed)
+
+
+@bot.hybrid_command()
+async def help(ctx):
+    '''helpを表示する'''
+    await ctx.send(embed=my_help.my_help(bot))
 
 
 # コマンドのエラー処理
