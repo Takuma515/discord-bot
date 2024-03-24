@@ -9,7 +9,7 @@ from controllers import deletes, submits, wrs, videos, records, tracks, tier_tim
 
 # 接続に必要なオブジェクトを生成
 intents = discord.Intents.default()
-# intents.members = True
+intents.members = True
 # intents.message_content = True
 
 class NitaBot(commands.AutoShardedBot):
@@ -106,19 +106,19 @@ async def delete(
     await ctx.send(embed=deletes.delete_record(ctx, track))
 
 
-# @bot.hybrid_command(
-#     aliases=['t', 'T'],
-#     description='指定コースの記録を表示する'
-# )
-# @app_commands.describe(track='例: マリカス')
-# async def track(
-#     ctx: commands.Context,
-#     track: str
-# ) -> None:
-#     '''指定コースの記録を表示する'''
+@bot.hybrid_command(
+    aliases=['t', 'T'],
+    description='指定コースの記録を表示する'
+)
+@app_commands.describe(track='例: マリカス')
+async def track(
+    ctx: commands.Context,
+    track: str
+) -> None:
+    '''指定コースの記録を表示する'''
 
-#     await ctx.defer()
-#     await ctx.send(embed=tracks.show_track_records(ctx, track))
+    await ctx.defer()
+    await ctx.send(embed=tracks.show_track_records(ctx, track))
 
 
 @bot.hybrid_command(
