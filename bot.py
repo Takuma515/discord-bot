@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 from discord import app_commands
+from discord.app_commands import Choice
+from googletrans import Translator
 import logging
 import os
 import my_help
@@ -219,6 +222,86 @@ async def user_data(ctx):
 async def help(ctx):
     '''helpを表示する'''
     await ctx.send(embed=my_help.my_help(bot))
+
+
+# 翻訳機能
+@bot.event
+async def on_message(message):
+    if message.author.bot:
+        return
+
+    if message.content.startswith('_'):
+        await bot.process_commands(message)
+        return
+
+    translator = Translator()
+
+    roles = []
+    for role in message.author.roles:
+        roles.append(role.name)
+
+    translated = "翻訳できませんでした"
+    if "日本語翻訳" in roles:
+        translated = translator.translate(message.content, dest='ja').text
+    if "英語翻訳" in roles:
+        translated = translator.translate(message.content, dest='en').text
+
+    await message.channel.send(translated)
+
+
+@bot.tree.command(
+    description='言語を選択して翻訳ロールを付与する'
+)
+@app_commands.describe(languages='languages to choose from')
+@app_commands.choices(languages=[
+    Choice(name='日本語', value=0),
+    Choice(name='English', value=1),
+])
+async def translate_start(
+    interaction: discord.Interaction,
+    languages: Choice[int]
+) -> None:
+
+    role_names = [
+        "日本語翻訳",
+        "英語翻訳"
+    ]
+    role_name = role_names[languages.value]
+
+    # roleをサーバーから取得
+    # 日本語翻訳(or 英語翻訳)という名前のroleを探す
+    # ref: https://discordpy.readthedocs.io/ja/latest/api.html?highlight=discord%20utils%20get#discord.utils.get
+    guild = interaction.guild
+    role = get(guild.roles, name=role_name)
+
+    # roleが存在しない場合は作成する
+    if role is None:
+        role = await guild.create_role(name=role_name)
+    
+    await interaction.user.add_roles(role)
+
+    msg = "ロールを付与できませんでした"
+    if languages.value == 0:
+        msg = "日本語翻訳ロールを付与しました"
+    if languages.value == 1:
+        msg = "英語翻訳ロールを付与しました"
+
+    await interaction.response.send_message(msg)
+
+
+@bot.tree.command(
+    description='翻訳ロールを削除する'
+)
+async def translate_end(interaction: discord.Interaction) -> None:
+
+    msg = "ロールが見つかりませんでした"
+    for role in interaction.user.roles:
+        if role.name == "日本語翻訳" or role.name == "英語翻訳":
+            await interaction.user.remove_roles(role)
+            msg = "翻訳ロールを削除しました"
+            break
+    
+    await interaction.response.send_message(msg)
 
 
 # コマンドのエラー処理
