@@ -10,7 +10,7 @@ from controllers import deletes, submits, wrs, videos, records, tracks, tier_tim
 # 接続に必要なオブジェクトを生成
 intents = discord.Intents.default()
 intents.members = True
-# intents.message_content = True
+intents.message_content = True
 
 class NitaBot(commands.AutoShardedBot):
     def __init__(self, command_prefix=commands.when_mentioned_or("_"), *, intents: discord.Intents = intents) -> None:
