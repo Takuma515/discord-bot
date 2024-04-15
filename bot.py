@@ -246,7 +246,7 @@ async def on_message(message):
     if "英語翻訳" in roles:
         translated = translator.translate(message.content, dest='en').text
 
-    if translated is None:
+    if translated == "":
         return
     
     await message.channel.send(translated)
