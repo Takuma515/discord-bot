@@ -240,12 +240,15 @@ async def on_message(message):
     for role in message.author.roles:
         roles.append(role.name)
 
-    translated = "翻訳できませんでした"
+    translated = ""
     if "日本語翻訳" in roles:
         translated = translator.translate(message.content, dest='ja').text
     if "英語翻訳" in roles:
         translated = translator.translate(message.content, dest='en').text
 
+    if translated is None:
+        return
+    
     await message.channel.send(translated)
 
 
