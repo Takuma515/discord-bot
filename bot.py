@@ -200,20 +200,20 @@ async def user_data(ctx):
     await ctx.send(embed = users_data.show_user_data())
 
 
-# @bot.hybrid_command(
-#     aliases=['g', 'G'],
-#     hidden=True
-# )
-# @commands.is_owner()
-# async def guilds(ctx):
-#     guild_names = sorted(g.name for g in bot.guilds)
-#     guilds = "\n".join(guild_names)
+@bot.command(
+    aliases=['g', 'G'],
+    hidden=True
+)
+@commands.is_owner()
+async def guilds(ctx):
+    guild_names = sorted(g.name for g in bot.guilds)
+    guilds = "\n".join(guild_names)
 
-#     embed = discord.Embed(
-#         title=f'{len(guild_names)} Servers',
-#         description=guilds
-#     )
-#     await ctx.send(embed=embed)
+    embed = discord.Embed(
+        title=f'{len(guild_names)} Servers',
+        description=guilds
+    )
+    await ctx.send(embed=embed)
 
 
 @bot.hybrid_command(
