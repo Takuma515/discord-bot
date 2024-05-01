@@ -28,7 +28,12 @@ def format_time(time: str) -> str:
 def unformat_time(time: str) -> str:
     return time.replace(':', '').replace('.', '')
 
+# タイム差のフォーマット
+def format_diff(diff: str) -> str:
+    if diff[0] == '-':
+        return diff
+    return '+' + diff
+
 # サムネイルのURLを取得
 def get_thumbnail_url(row: int) -> str:
 	return f'https://raw.githubusercontent.com/Takuma515/discord-bot/main/images/{row-4}.png'
-

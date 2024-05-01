@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import track_info
 import models.sheet as sheet
-from controllers.utils import calc_time_diff, format_time, get_thumbnail_url
+from controllers.utils import calc_time_diff, format_time, format_diff, get_thumbnail_url
 
 
 color_error = 0xff3333
@@ -77,7 +77,7 @@ def show_track_record(
         return [embed], None
     
     diff = calc_time_diff(user_time, wr_time)
-    embed.add_field(name='Your Record', value=f'> {format_time(user_time)} (WR +{diff})')
+    embed.add_field(name='Your Record', value=f'> {format_time(user_time)} (WR {format_diff(diff)})', inline=False)
     embed.add_field(name='WR', value=f'> [{format_time(wr_time)} (By {wr_player})]({wr_link})', inline=False)
     embed.set_footer(text=f"{user_name}'s Record")
 
@@ -158,11 +158,12 @@ def show_user_records(
             ))
         
         diff = calc_time_diff(records[i], wr_times[i])
-        diff_int = int(diff[0])
-        if diff_int < 5:
-            sub_tracks[diff_int] += 1
+        for j in range(1, 6):
+            if float(diff) <= j:
+                sub_tracks[j-1] += 1
+                break
         
-        embed_list[-1].add_field(name=f'{tracks[i]}', value=f'> {format_time(records[i])} (WR +{diff})', inline=False)
+        embed_list[-1].add_field(name=f'{tracks[i]}', value=f'> {format_time(records[i])} (WR {format_diff(diff)})', inline=False)
 
         avg_diff += float(diff)
         records_cnt += 1
@@ -224,7 +225,10 @@ def show_sub_records(
             continue
 
         diff = calc_time_diff(records[i], wr_times[i])
+
         if int(sub_time) -1 < float(diff) <= int(sub_time):
+            sub_records.append([diff, records[i], tracks[i]])
+        elif sub_time == '1' and float(diff) <= 0:
             sub_records.append([diff, records[i], tracks[i]])
     
     sub_records.sort()
@@ -234,10 +238,10 @@ def show_sub_records(
         # embedのfield数は25個まで
         if i != 0 and i % 25 == 0:
             embed_list.append(discord.Embed(
-                title = f"{user_name}'s Records (sub: {sub_time}.000s)",
+                title = f"{user_name}'s Records (sub: {sub_time}.0s)",
                 color = color_green
             ))
         
-        embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR +{diff})', inline=False)
+        embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR {format_diff(diff)})', inline=False)
     
     return embed_list

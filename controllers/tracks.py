@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import track_info
 import models.sheet as sheet
-from controllers.utils import calc_time_diff, format_time, get_thumbnail_url, convert_time_into_seconds, convert_seconds_into_time
+from controllers.utils import calc_time_diff, format_time, format_diff, get_thumbnail_url, convert_time_into_seconds, convert_seconds_into_time
 
 
 color_error = 0xff3333
@@ -80,10 +80,10 @@ def show_track_records(
         else:
             user_name = f'{i+1}. {user_name}'
 
-        embed.add_field(name=user_name, value=f'> {format_time(time)} (WR +{diff})', inline=False)
+        embed.add_field(name=user_name, value=f'> {format_time(time)} (WR {format_diff(diff)})', inline=False)
     
     avg_time = convert_seconds_into_time(avg_time / records_num)
     diff = calc_time_diff(avg_time, wr_time)
-    embed.add_field(name='Avg. Time', value=f'> {format_time(avg_time)} (WR +{diff})')
+    embed.add_field(name='Avg. Time', value=f'> {format_time(avg_time)} (WR {format_diff(diff)})', inline=False)
     
     return embed
