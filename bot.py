@@ -207,8 +207,12 @@ async def user_data(ctx):
 @commands.is_owner()
 async def guilds(ctx):
     guild_names = sorted(g.name for g in bot.guilds)
-    guilds = '```' + "\n".join(guild_names) + '```'
-    await ctx.send(guilds)
+    guilds = []
+    guilds.append('```' + "\n".join(guild_names[0:400]) + '```')
+    guilds.append('```' + "\n".join(guild_names[400:]) + '```')
+
+    for guild in guilds:
+        await ctx.send(guild)
 
 
 @bot.hybrid_command(
