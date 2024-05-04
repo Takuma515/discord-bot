@@ -207,13 +207,8 @@ async def user_data(ctx):
 @commands.is_owner()
 async def guilds(ctx):
     guild_names = sorted(g.name for g in bot.guilds)
-    guilds = "\n".join(guild_names)
-
-    embed = discord.Embed(
-        title=f'{len(guild_names)} Servers',
-        description=guilds
-    )
-    await ctx.send(embed=embed)
+    guilds = '```' + "\n".join(guild_names) + '```'
+    await ctx.send(guilds)
 
 
 @bot.hybrid_command(
