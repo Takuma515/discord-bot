@@ -115,17 +115,18 @@ def fetch_wr_list(track_id: int) -> list:
 	wks = sh.worksheet('WR List')
 	track_id = track_id - 4
 
-	col_list = [['B', 'C', 'D'], ['E', 'F', 'G'], ['H', 'I', 'J'], ['K', 'L', 'M']]
-	start = (track_id//4)*17 + 8
+	start = track_id*21 + 20
 	end = start + 14
-	l, m, r = col_list[track_id%4]
 
 	# データの取得
-	players = wks.range(f'{l}{start}:{l}{end}')
-	times = wks.range(f'{m}{start}:{m}{end}')
-	urls = wks.range(f'{r}{start}:{r}{end}')
+	players = wks.range(f'L{start}:L{end}')
+	times = wks.range(f'M{start}:M{end}')
 
-	return [players, times, urls]
+	# データの整形
+	players = [player.value for player in players]
+	times = [time.value[0:8] for time in times]
+
+	return [players, times]
 
 
 # 解説動画のリンクを取得

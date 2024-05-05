@@ -22,7 +22,8 @@ def show_wr(
     if track_name is None:
         return embed_err
     
-    players, times, urls = sheet.fetch_wr_list(track_id)
+    # players, times, urls = sheet.fetch_wr_list(track_id)
+    players, times = sheet.fetch_wr_list(track_id)
 
     embed = discord.Embed(
         title = f'WR of {track_name}',
@@ -30,14 +31,13 @@ def show_wr(
     )
     embed.set_thumbnail(url = get_thumbnail_url(track_id))
 
-    wr_time = times[0].value.replace(':', '').replace('.', '')
+    wr_time = times[0].replace(':', '').replace('.', '')
     for i in range(len(players)):
-        player = players[i].value
+        player = players[i]
         if player == '':
             break
-        time = times[i].value
-        url = urls[i].value
+        time = times[i]
         diff = calc_time_diff(time.replace(':', '').replace('.', ''), wr_time)
-        embed.add_field(name=f'{i+1}. {player}', value=f'> [{time} (WR +{diff})]({url})', inline=False)
+        embed.add_field(name=f'{i+1}. {player}', value=f'> {time} (WR +{diff})', inline=False)
 
     return embed
