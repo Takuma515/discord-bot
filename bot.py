@@ -126,7 +126,7 @@ async def track(
 
 @bot.hybrid_command(
     aliases=['tt', 'TT'],
-    description='tierごとの平均タイムを表示する'
+    description='tierごとの中央値のタイムを表示する'
 )
 @app_commands.describe(track='例: マリカス')
 async def tier_time(
