@@ -33,7 +33,7 @@ def show_tier_time(
 
     tier_name = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
         'Ruby', 'Diamond', 'Master', 'Grandmaster']
-    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10*5]
+    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10**5]
     tier_times = [[] for _ in range(len(tier_name))]
 
     

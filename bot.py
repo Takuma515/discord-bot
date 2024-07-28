@@ -43,7 +43,7 @@ async def on_ready():
 
 
 @bot.event
-async def on_guild_join(guild: discord.Guild):
+async def on_guild_join():
     await bot.change_presence(
         activity=discord.Activity(
             status=discord.Status.online,
@@ -138,7 +138,6 @@ async def tier_time(
     await ctx.defer()
     await ctx.send(embed=tier_times.show_tier_time(ctx, track)
 )
-
 
 
 @bot.hybrid_command(
