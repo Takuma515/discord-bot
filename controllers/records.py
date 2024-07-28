@@ -264,7 +264,7 @@ def show_rank_records(
     rank_color = rank_info.rank_color(rank_id)
 
     embed_list = [discord.Embed(
-        title = f'{user_name}\'s Records (rank: {rank_info.rank_name(rank_id)})',
+        title = f'{user_name}\'s Records (tier: {rank_info.rank_name(rank_id)})',
         color = rank_color
     )]
 
@@ -278,7 +278,7 @@ def show_rank_records(
         # embedのfield数は25個まで
         if records_cnt != 0 and records_cnt % 25 == 0:
             embed_list.append(discord.Embed(
-                title = f'{user_name}\'s Records (rank: {rank_info.rank_name(rank_id)})',
+                title = f'{user_name}\'s Records (tier: {rank_info.rank_name(rank_id)})',
                 color = rank_color
             ))
 
@@ -295,7 +295,7 @@ def show_rank_records(
     # embedのfield数は25個まで
     if records_cnt % 25 == 0:
         embed_list.append(discord.Embed(
-            title = f"{user_name}'s Records (rank: {rank_info.rank_name(rank_id)})",
+            title = f"{user_name}'s Records (tier: {rank_info.rank_name(rank_id)})",
             color = rank_color
         ))
     
