@@ -50,13 +50,13 @@ def search_user(author: discord.member.Member) -> int:
 	return col
 
 
-# ユーザの記録を取得
-def fetch_user_record(track_id: int, col_id: int) -> str:
+# ユーザの指定コースの記録を取得
+def fetch_record_by_user(track_id: int, col_id: int) -> str:
 	return wks.cell(track_id, col_id).value
 
 
 # ユーザの全ての記録を取得
-def fetch_all_user_records(col_id: int) -> list:
+def fetch_records_by_user(col_id: int) -> list:
 	return wks.col_values(col_id)
 
 
@@ -92,6 +92,12 @@ def fetch_track_records(track_id: int) -> list:
 # コース名一覧を取得
 def fetch_track_name() -> list:
 	return wks.col_values(TRACK_COL)
+
+
+# 指定ランクの中央値を取得
+def fetch_rank_times(rank_id: int) -> list:
+	wks_rank = sh.worksheet('RankTimes')
+	return wks_rank.col_values(rank_id+2)
 
 
 # WRのプレイヤー名、タイム、リンクを取得

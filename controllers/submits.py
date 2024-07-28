@@ -32,7 +32,7 @@ def submit_record(
 
     # データの取得
     col_id = sheet.search_user(ctx.author)
-    prev_time = sheet.fetch_user_record(track_id, col_id)
+    prev_time = sheet.fetch_record_by_user(track_id, col_id)
     _, wr_time, _ = sheet.fetch_wr_info(track_id)
 
     diff = calc_time_diff(time, wr_time)

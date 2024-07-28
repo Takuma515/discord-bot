@@ -31,10 +31,9 @@ def show_tier_time(
     embed = discord.Embed(title = f'Tier Time of {track_name} (Median time)', color = color_green)
     embed.set_thumbnail(url = get_thumbnail_url(track_id))
 
-    tier_name = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
-        'Ruby', 'Diamond', 'Master', 'Grandmaster']
-    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10**5]
-    tier_times = [[] for _ in range(len(tier_name))]
+    tier_names = ['Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', 'Ruby']
+    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 10**5]
+    tier_times = [[] for _ in range(len(tier_names))]
 
     
     # tierごとにタイムを分けてリストに格納
@@ -45,7 +44,7 @@ def show_tier_time(
             continue
 
         
-        for j in range(len(tier_name)):
+        for j in range(len(tier_names)):
             min_mmr, max_mmr = tier_range[j], tier_range[j+1]
             
             if min_mmr <= int(mmr) < max_mmr:
@@ -54,7 +53,7 @@ def show_tier_time(
 
 
     col_id = sheet.search_user(ctx.author)
-    user_time = sheet.fetch_user_record(track_id, col_id)
+    user_time = sheet.fetch_record_by_user(track_id, col_id)
 
     # embedに追加
     if user_time is None:
@@ -65,16 +64,16 @@ def show_tier_time(
 
     
     # 中央値をembedに追加
-    for i in range(len(tier_name)):
+    for i in range(len(tier_names)):
         times = tier_times[i]
         if len(times) == 0:
-            embed.add_field(name=f'{tier_name[i]} / N = 0', value='-', inline=False)
+            embed.add_field(name=f'{tier_names[i]} / N = 0', value='-', inline=False)
             continue
 
         times.sort()
         median_time = times[len(times) // 2]
         diff = calc_time_diff(median_time, wr_time)
-        embed.add_field(name=f'{tier_name[i]} / N = {len(times)}', value=f'> {format_time(median_time)} (WR {format_diff(diff)})', inline=False)
+        embed.add_field(name=f'{tier_names[i]} / N = {len(times)}', value=f'> {format_time(median_time)} (WR {format_diff(diff)})', inline=False)
     
     
     return embed

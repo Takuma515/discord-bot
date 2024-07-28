@@ -3,6 +3,7 @@ from discord.ext import commands
 import matplotlib.pyplot as plt
 from io import BytesIO
 import track_info
+import rank_info
 import models.sheet as sheet
 from controllers.utils import calc_time_diff, format_time, format_diff, get_thumbnail_url
 
@@ -41,6 +42,7 @@ def show_record(
     sub_list = ['1', '2', '3', '4', '5']
     track_name, track_id = track_info.search(arg)
     is_user_exist = ctx.guild is not None and ctx.guild.get_member_named(arg) is not None
+    rank_id = rank_info.search(arg)
 
     if arg in sub_list:
         embed_list = show_sub_records(ctx.author, arg)
@@ -50,6 +52,8 @@ def show_record(
         if ctx.guild.id == IGNORE_SERVER:
             return [embed_ignore], None
         embed_list, file = show_user_records(ctx.guild.get_member_named(arg))
+    elif rank_id != -1:
+        embed_list = show_rank_records(ctx.author, rank_id)
 
     return embed_list, file
 
@@ -63,7 +67,7 @@ def show_track_record(
     
     col_id = sheet.search_user(author)
     user_name = author.name
-    user_time = sheet.fetch_user_record(track_id, col_id)
+    user_time = sheet.fetch_record_by_user(track_id, col_id)
     wr_player, wr_time, wr_link = sheet.fetch_wr_info(track_id)
     track_records = sheet.fetch_track_records(track_id)
     track_records = sorted([record for record in track_records[7:] if record != ''])
@@ -134,7 +138,7 @@ def show_user_records(
 
     user_name = author.name
     tracks = sheet.fetch_track_name()
-    records = sheet.fetch_all_user_records(sheet.search_user(author))
+    records = sheet.fetch_records_by_user(sheet.search_user(author))
     _, wr_times, _ = sheet.fetch_all_wr_info()
 
     embed_list = [discord.Embed(
@@ -211,7 +215,7 @@ def show_sub_records(
     user_name = author.name
     tracks = sheet.fetch_track_name()
     _, wr_times, _ = sheet.fetch_all_wr_info()
-    records = sheet.fetch_all_user_records(col_id)
+    records = sheet.fetch_records_by_user(col_id)
 
     embed_list = [discord.Embed(
 			title = f"{user_name}'s Records (sub: {sub_time}.0s)",
@@ -244,4 +248,59 @@ def show_sub_records(
         
         embed_list[-1].add_field(name=f'{i+1}. {track}', value=f'> {format_time(time)} (WR {format_diff(diff)})', inline=False)
     
+    return embed_list
+
+
+# ユーザの指定ランクの中央値との差を表示
+def show_rank_records(
+    author: discord.member.Member,
+    rank_id: int
+) -> list[discord.Embed]:
+    
+    user_name = author.name
+    tracks = sheet.fetch_track_name()
+    records = sheet.fetch_records_by_user(sheet.search_user(author))
+    rank_times = sheet.fetch_rank_times(rank_id)
+    rank_color = rank_info.rank_color(rank_id)
+
+    embed_list = [discord.Embed(
+        title = f'{user_name}\'s Records (rank: {rank_info.rank_name(rank_id)})',
+        color = rank_color
+    )]
+
+    # embedの処理
+    avg_diff = 0
+    records_cnt = 0
+    for i in range(3, min(len(records), len(rank_times))):
+        if records[i] == '' or rank_times[i] == '':
+            continue
+        
+        # embedのfield数は25個まで
+        if records_cnt != 0 and records_cnt % 25 == 0:
+            embed_list.append(discord.Embed(
+                title = f'{user_name}\'s Records (rank: {rank_info.rank_name(rank_id)})',
+                color = rank_color
+            ))
+
+        diff = calc_time_diff(records[i], rank_times[i])
+        embed_list[-1].add_field(name=f'{tracks[i]}', value=f'> {format_time(records[i])} (tier med {format_diff(diff)})', inline=False)
+        
+        avg_diff += float(diff)
+        records_cnt += 1
+    
+    # 記録が未登録の場合
+    if records_cnt == 0:
+        return embed_list
+    
+    # embedのfield数は25個まで
+    if records_cnt % 25 == 0:
+        embed_list.append(discord.Embed(
+            title = f"{user_name}'s Records (rank: {rank_info.rank_name(rank_id)})",
+            color = rank_color
+        ))
+    
+    # 平均タイム差
+    avg_diff = '{:.3f}'.format(avg_diff / records_cnt)
+    embed_list[-1].add_field(name='Avg. Diff.', value=f'> {avg_diff}s ({records_cnt} tracks)')
+
     return embed_list
