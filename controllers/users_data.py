@@ -13,7 +13,7 @@ def show_user_data() -> discord.Embed:
     mmr_list = sheet.fetch_mmr_list()
     tier_name = ['Unrated', 'Iron', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Sapphire', \
 		'Ruby', 'Diamond', 'Master', 'Grandmaster']
-    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10*5]
+    tier_range = [0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 17000, 10**5]
     user_num_list = [0] * 11
 
     # tierごとの人数をカウント
