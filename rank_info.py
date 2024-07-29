@@ -2,11 +2,11 @@
 def search(name) -> str:
     name = str.lower(name)
 
-    IRON = ['iron', '鉄', 'てつ']
-    BRONZE = ['bronze', '銅', 'どう']
-    SILVER = ['silver', '銀', 'ぎん']
-    GOLD = ['gold', '金', 'きん']
-    PLATINUM = ['platinum', 'plat', '白金', 'はっきん', 'プラチナ', 'ぷらちな', 'プラット', 'ぷらっと']
+    IRON = ['iron', 'アイアン', 'あいあん', '鉄', 'てつ']
+    BRONZE = ['bronze', 'ブロンズ', 'ぶろんず', '銅', 'どう']
+    SILVER = ['silver', 'シルバー', 'しるばー', '銀', 'ぎん']
+    GOLD = ['gold', 'ゴールド', 'ごーるど', '金', 'きん']
+    PLATINUM = ['platinum', 'plat', 'プラチナ', 'ぷらちな', 'プラット', 'ぷらっと', '白金', 'はっきん', '水', 'みず']
     SAPPHIRE = ['sapphire', 'サファイア', 'さふぁいあ', 'サファ', 'さふぁ', '青', 'あお']
     RUBY = ['ruby', 'ルビー', 'るびー', '赤', 'あか']
 
