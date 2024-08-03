@@ -209,7 +209,7 @@ async def guilds(ctx):
     embeds = []
     for i in range(0, len(guild_names), 300):
         embed = discord.Embed(
-            title = 'Guilds',
+            f'Guilds: {len(guild_names)}',
             description = "\n".join(guild_names[i:i+300])
         )
         embeds.append(embed)
