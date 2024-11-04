@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import track_info
 import models.sheet as sheet
-from controllers.utils import calc_time_diff, format_time, format_diff, get_thumbnail_url
+from controllers.utils import calc_time_diff, format_time, format_diff, get_thumbnail_url, convert_full_to_half
 
 
 color_error = 0xFF3333
@@ -29,6 +29,8 @@ def submit_record(
     
     if len(time) != 6 or time[0] == '0' or not time.isdecimal():
         return embed_err
+
+    time = convert_full_to_half(time)
 
     # データの取得
     col_id = sheet.search_user(ctx.author)

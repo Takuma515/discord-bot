@@ -1,3 +1,5 @@
+import pandas as pd
+
 # タイムを秒に変換: 120000 -> 80sec
 def convert_time_into_seconds(time: str) -> float:
     minutes, seconds, milliseconds = map(int, (time[0], time[1:3], time[3:]))
@@ -37,3 +39,21 @@ def format_diff(diff: str) -> str:
 # サムネイルのURLを取得
 def get_thumbnail_url(row: int) -> str:
 	return f'https://raw.githubusercontent.com/Takuma515/discord-bot/main/images/{row-4}.png'
+
+
+# 全角数字を半角数字に変換
+def convert_full_to_half(num: str) -> str:
+    zenkaku_table = str.maketrans({
+    '１': '1',
+    '２': '2',
+    '３': '3',
+    '４': '4',
+    '５': '5',
+    '６': '6',
+    '７': '7',
+    '８': '8',
+    '９': '9',
+    '０': '0',
+    })
+
+    return num.translate(zenkaku_table)
